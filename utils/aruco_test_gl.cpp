@@ -1,4 +1,4 @@
-//#define DEBUG 1
+#define DEBUG 1
 
 /*****************************
 Copyright 2011 Rafael Muñoz Salinas. All rights reserved.
@@ -122,7 +122,11 @@ int main(int argc,char **argv)
         if (readArguments (argc,argv)==false) return 0;
         //read from camera
 	//Deepak changed to 1 from 0
-        if (TheInputVideo=="live") TheVideoCapturer.open(0);
+        if (TheInputVideo=="live"){
+            TheVideoCapturer.open(1);
+            TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH,1280);
+            TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT,720);
+        }
         else TheVideoCapturer.open(TheInputVideo);
         if (!TheVideoCapturer.isOpened())
         {
@@ -139,18 +143,19 @@ int main(int argc,char **argv)
         //read camera paramters if passed
         TheCameraParams.readFromXMLFile(TheIntrinsicFile);
         TheCameraParams.resize(TheInputImage.size());
-	init();
+        
+        init();
         glutInit(&argc, argv);
         glutInitWindowPosition( 0, 0);
         glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
-        glutCreateWindow( "AruCo" );
+        glutCreateWindow( "MathMAR" );
 
         glutDisplayFunc( vDrawScene );
         glutIdleFunc( vIdle );
         glutReshapeFunc( vResize );
         //glutMouseFunc(vMouse);
-	glutKeyboardFunc(vKeyboard);
+        glutKeyboardFunc(vKeyboard);
         glClearColor( 0.0, 0.0, 0.0, 1.0 );
         glClearDepth( 1.0 );
         TheGlWindowSize=TheInputImage.size();
@@ -375,10 +380,12 @@ void drawString(char* string, int sub=0){
   for (c=string; *c != '\0'; c++) 
     {
       if (!sub) {
-      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+      // glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
       }
       else {
-      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+      //glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
       }
     }
  
@@ -390,7 +397,7 @@ void drawStringLetter(std::string sstring){
   char *string =  (char*) sstring.c_str();
   for (c=string; *c != '\0'; c++)
     {
-      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
     }
      
 //  glScalef(5.0, 5.0, 5.0);
@@ -861,9 +868,6 @@ void lineMode(vector<cv::Point2f> centers){
     //glEnd();
     
     glTranslatef(0.0f,translateDistance,0.0f);
-    at sl = calcSlope(t3,t2);
-     576   float s = calculateDistance(t3,t2);
-
     
     glBegin(GL_LINES);
     glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
@@ -1158,9 +1162,7 @@ void freeMode(vector<cv::Point2f> centers){
       drawArea(centers);  
       
     }
-    e 575   float sl = calcSlope(t3,t2);
-     576   float s = calculateDistance(t3,t2);
-     lse if (centers.size() == 3){
+    else if (centers.size() == 3){
    
       glColor3f(1,1,0);
       glPushMatrix();
