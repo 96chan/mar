@@ -64,7 +64,6 @@ void vResize( GLsizei iWidth, GLsizei iHeight );
 void vMouse(int b,int s,int x,int y);
 void vKeyboard(unsigned char key,int x,int y);
 //void lineMode(cv::<Point2f> center);
-float calculateTriangleArea(cv::Mat t0, cv::Mat t1, cv::Mat t2);
 
 //Enumeration for modes
 enum Mode{
@@ -313,11 +312,13 @@ float calculateDistance(cv::Mat t0,cv::Mat t1,bool convert=true){
     distsquared = distsquared + d[i] * d[i];   
   }
   distance = sqrt(distsquared);
+
   //metric or imperial
   if (convert) {
   convertDistance(&distance);
   }
   return distance;
+  
 }
 int calculatePerimeter() {
     int perimeter = 0;
@@ -350,15 +351,6 @@ int calculatePerimeter() {
     }
     return perimeter;
 }
-float calculateTriangleArea(cv::Mat t0, cv::Mat t1, cv::Mat t2){
-    float side1 = calculateDistance(t0,t1,false);
-    float side2 = calculateDistance(t1,t2,false);
-    float side3 = calculateDistance(t0,t2,false);
-    float perimeter = side1 + side2 + side3;
-    float s = perimeter / 2;
-    float area = sqrt(s * (s - side1) * (s - side2) * (s - side3));
-    return area;
-}
 
 float calculateArea(){
   float area = 0;
@@ -383,18 +375,29 @@ float calculateArea(){
     float p = calculateDistance(t0,t2);
     float q = calculateDistance(t1, t3);
     float s = (a + b + c + d)/2;
+    //float gamma = atan2(1+a*b, a-b);
+   // float alpha = atan2(1+c*d, c-d);
+    //float gamma = atan2(abs((a-b)/(1+a*b)));
+    //float alpha = atan2(abs((c-d)/(1+c*d)));
     area = sqrt((s-a)*(s-b)*(s-c)*(s-d) - (1/4)*(a*c + b*d + p*q)*(a*c+b*d-p*q));   
+    //area = length * width;
+    //float perimeter = 2*length + 2*width;
+    //ap[0] = area;
   }
   //The input is a triangle
   else if (TheMarkers.size() == 3){
+    
     float side1 = calculateDistance(t0,t1);
     float side2 = calculateDistance(t1,t2);
     float side3 = calculateDistance(t0,t2);
     float perimeter = side1 + side2 + side3;
     float s = perimeter / 2;
     area = sqrt(s * (s - side1) * (s - side2) * (s - side3));
+        
   }
+  
   return area;
+  
 }
 
 void drawString(char* string, int sub=0){
@@ -876,9 +879,6 @@ float getSin(cv::Mat t0, cv::Mat t1){
     float hypoten = calculateDistance(t0,t1,false);
     return rise/hypoten;
 }
-float cal_bottom_len(float hypotenuse, float height){
-     return sqrt((hypotenuse*hypotenuse)-(height*height));
-}
 
 void gridMode(vector<cv::Point2f> centers){
   if (centers.size() == 3 || centers.size() ==4){
@@ -894,51 +894,16 @@ void gridMode(vector<cv::Point2f> centers){
    float sin = getSin(t1,t0);
    float tan = sin/cos; 
    // calculate left bottom & right bottom (+-2)
-   float BC = calculateDistance(t1,t0,false);
-   float AB = calculateDistance(t1,t2,false);
-   float AC = calculateDistance(t0,t2,false);
-   float Area = calculateTriangleArea(t0,t1,t2);
-   float H = 2*Area/BC;
-   float A[2],B[2],C[2],D[2];
-   A[0]=t2.at<float>(0,0);
-   A[1]=t2.at<float>(1,0);
-   B[0]=t1.at<float>(0,0);
-   B[1]=t1.at<float>(1,0);
-   C[0]=t0.at<float>(0,0);
-   C[1]=t0.at<float>(1,0);
-   float lb[2],lu[2],rb[2],ru[2];
-   
-   // A.x < B.x
-   if (AB > H && A[0]<B[0]){
-       lu[0] = A[0];
-       lu[1] = A[1];
-       if(B[1]<C[1]){
-         cout <<"!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
-         lb[0] = B[0]+cal_bottom_len(AB,H)*cos;
-         lb[1] = B[1]+cal_bottom_len(AB,H)*sin;
-         ru[0] = A[0]+(C[0]-lb[0]);
-         ru[1] = A[1]+(C[1]-lb[1]);
-       }
-       else{
-         lb[0] = B[0]+cal_bottom_len(AB,H)*cos;
-         lb[1] = B[1]+cal_bottom_len(AB,H)*sin;
-         ru[0] = A[0]+(C[0]-lb[0]);
-         ru[1] = A[1]+(lb[1]-C[1]); 
-       }
-       rb[0] = C[0];
-       rb[1] = C[1];
-    }
-
-   int cols = floor(convertD(H)+0.5);
-   float col_unit = H/cols;
-   cout <<"A : " << A[0] <<"," <<A[1] << " B : " << B[0]<<","<<B[1]<< " C : "<< C[0]<<","<<C[1]<<endl;
-   cout <<"lu : " << lu[0] <<"," <<lu[1] <<" ru : " <<ru[0]<<","<<ru[1]<<" lb : " <<lb[0] <<","<<lb[1]<<"rb :" <<rb[0]
-   <<","<<rb[1]<<endl;
-   
-   int rows = floor(convertD(sqrt((rb[0]-lb[0])*(rb[0]-lb[0])+(rb[1]-lb[1])*(rb[1]-lb[1])))+0.5);
+   float w = calculateDistance(t1,t0,false);
+   float h = calculateDistance(t1,t2,false);
+   int cols = floor(convertD(h)+0.5);
+   int rows = floor(convertD(w)+0.5);
+   float col_unit = h/cols;
+   float row_unit = w/rows;
    // calculate left top & right top
-   cout << "col_unit : "<< col_unit  << " cols : " << cols << endl;
-   
+   cout << "w : "<< w << " rows : " << convertD(w) << endl;
+   cout << "h : "<< h  << " cols : " << convertD(h) << endl;
+
    // draw yellow area
    glColor4ub(255,255,0,200);
    glPushMatrix();
@@ -954,6 +919,17 @@ void gridMode(vector<cv::Point2f> centers){
    glEnd();
    glPopMatrix();
    
+   // draw grids
+   float lb[2],lu[2],rb[2],ru[2];
+   lb[0] = t1.at<float>(0,0)+col_unit*cos; // left-bottom x value
+   lb[1] = t1.at<float>(1,0)+col_unit*sin; // left-bottom y value
+   rb[0] = t0.at<float>(0,0)-col_unit*cos; // right-bottom x value
+   rb[1] = t0.at<float>(1,0)-col_unit*sin; // right-bottom y value 
+   lu[0] = t1.at<float>(0,0)+col_unit*cos+h*cos*sin;   // left-up x value
+   lu[1] = t1.at<float>(1,0)+col_unit*sin-h+h*sin*sin; // left-up y value
+   ru[0] = t0.at<float>(0,0)-col_unit*cos+h*cos*sin;   // right-up x value
+   ru[1] = t0.at<float>(1,0)-col_unit*sin-h+h*sin*sin; // right-up y value
+
    GLfloat grid2x2[12] = {rb[0],rb[1],-t0.at<float>(2,0),lb[0],lb[1],-t1.at<float>(2,0),ru[0],ru[1],-t0.at<float>(2,0),lu[0],lu[1],-t0.at<float>(2,0)};
 
    glPushMatrix();
@@ -974,7 +950,7 @@ void gridMode(vector<cv::Point2f> centers){
             ceil(cols), 0.0, 1.0);
         glLineWidth(2); 
         glEvalMesh2(GL_LINE,
-              0, ceil(rows),   // Starting at 0 mesh 5 steps (rows). 
+              0, ceil(rows+2),   // Starting at 0 mesh 5 steps (rows). 
               0, ceil(cols));  // Starting at 0 mesh 6 steps (columns).
     glPopMatrix();
     
