@@ -1,5 +1,4 @@
 #define DEBUG 1
-
 /*****************************
 Copyright 2011 Rafael Muñoz Salinas. All rights reserved.
 
@@ -266,31 +265,7 @@ void vMouse(int b,int s,int x,int y)
  *
  *
  *
- *
  ************************************/
-/*
-void axis(float size)
-{
-    glColor3f (1,0,0 );
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, 0.0f); // origin of the line
-    glVertex3f(size,0.0f, 0.0f); // ending point of the line
-    glEnd( );
-
-    glColor3f ( 0,1,0 );
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, 0.0f); // origin of the line
-    glVertex3f( 0.0f,size, 0.0f); // ending point of the line
-    glEnd( );
-
-
-    glColor3f (0,0,1 );
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, 0.0f); // origin of the line
-    glVertex3f(0.0f, 0.0f, size); // ending point of the line
-    glEnd( );
-}
-*/
 float convertD(float distance){
    return imperialUnitFlag?(M2IN*distance):(M2CM*distance);
 }
@@ -300,8 +275,6 @@ void convertDistance(float *distance){
 /**********************************************************
  *Calculate the distance between two points expressed as cv matrices
  *Finished by deepak
- *
- *
  **************************************************************/
 float calculateDistance(cv::Mat t0,cv::Mat t1,bool convert=true){
   
@@ -422,9 +395,6 @@ void drawStringLetter(std::string sstring){
     {
       glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
     }
-     
-//  glScalef(5.0, 5.0, 5.0);
- //   drawObject();
 }
 
 void drawX(cv::Mat t3,cv::Mat t2, char xchar){
@@ -468,10 +438,6 @@ void drawX(cv::Mat t3,cv::Mat t2, char xchar){
 */
 void drawLetter(cv::Mat currentMat, std::string letter, int black=0,float dist=0.0){
    
-  //char buffer[50];
-  //int n = sprintf(buffer,letter);
-  float xtranslateArea = -4*0.015;
-  float ytranslateArea = 2.5*0.015;
   float xcoordinate = currentMat.at<float>(0,0);// + t2.at<float>(0,0))/2;
   float ycoordinate = currentMat.at<float>(1,0);// + t2.at<float>(1,0))/2;
   float zcoordinate = -1*currentMat.at<float>(2,0);// - t2.at<float>(2,0))/2;
@@ -485,15 +451,11 @@ void drawLetter(cv::Mat currentMat, std::string letter, int black=0,float dist=0
   }
 
   glLoadIdentity();
-
-//glScalef(10.0,10.0,10.0);  
 glTranslatef(xcoordinate, ycoordinate, zcoordinate);//x_bmid,y_bmid,z_bmid);
 if (dist !=  0.0) {
 glTranslatef(0.0, dist, 0.0);
 }
-
   glRasterPos3f( 0.0f, 0.0f, 0.0f );
-  
   drawStringLetter(letter);
   
 glPopMatrix();
@@ -520,6 +482,14 @@ void drawSideText(cv::Mat t3,cv::Mat t2){
   float x_bmid = (t3.at<float>(0,0) + t2.at<float>(0,0))/2;
   float y_bmid = (t3.at<float>(1,0) + t2.at<float>(1,0))/2;
   float z_bmid = (-t3.at<float>(2,0) - t2.at<float>(2,0))/2;
+/* 
+  float x_bmid2 = (3*t3.at<float>(0,0) + t2.at<float>(0,0))/4;
+  float y_bmid2 = (3*t3.at<float>(1,0) + t2.at<float>(1,0))/4;
+  float z_bmid2 = (-3*t3.at<float>(2,0) - t2.at<float>(2,0))/4;
+  float x_bmid3 = (t3.at<float>(0,0) +3*t2.at<float>(0,0))/4;
+  float y_bmid3 = (t3.at<float>(1,0) +3*t2.at<float>(1,0))/4;
+  float z_bmid3 = (-3*t3.at<float>(2,0) - t2.at<float>(2,0))/4;
+*/   
 
   glPushMatrix();
   glColor3f(0,0,1);
@@ -527,10 +497,18 @@ void drawSideText(cv::Mat t3,cv::Mat t2){
   glTranslatef(x_bmid,y_bmid,z_bmid);
   glRasterPos3f( 0.0f, 0.0f, 0.0f );
   drawString(buffer);
+  
+/*  glLineWidth(5);
+  glBegin(GL_LINES);
+  glVertex3f(t3.at<float>(0,0),t3.at<float>(1,0),-t3.at<float>(2,0));
+  glVertex3f(x_bmid2,y_bmid2,z_bmid2);
+  glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0),-t2.at<float>(2,0));
+  glVertex3f(x_bmid3,y_bmid3,z_bmid3);
+  glEnd();
+*/
   glPopMatrix();
   
 }
-
 void drawSideTextTranslate(cv::Mat t3,cv::Mat t2, float unit){
     
   float s = calculateDistance(t2,t3);//; + calculateDistance(t25, t3);
@@ -545,7 +523,6 @@ void drawSideTextTranslate(cv::Mat t3,cv::Mat t2, float unit){
   else {
     int n = sprintf(buffer,"Z");
   }
-  
   float x_bmid = (t3.at<float>(0,0) + t2.at<float>(0,0))/2;
   float y_bmid = (t3.at<float>(1,0) + t2.at<float>(1,0))/2;
   float z_bmid = (-t3.at<float>(2,0) - t2.at<float>(2,0))/2;
@@ -556,12 +533,10 @@ void drawSideTextTranslate(cv::Mat t3,cv::Mat t2, float unit){
   glTranslatef(x_bmid,y_bmid + unit,z_bmid);
   glRasterPos3f( 0.0f, 0.0f, 0.0f );
   drawString(buffer);
-  //glColor3f(0,0,0);
   drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
   drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
   glPopMatrix();
 }
-
 void drawLetterOnXTranslate(cv::Mat tnaught, std::string letter){
 /*
   float s = calculateDistance(t3,t2);
@@ -631,10 +606,10 @@ void drawArea(vector<cv::Point2f> centers){
     cv::Mat t2 = TheMarkers[1].Tvec;//A
     cv::Mat t3;
     if(centers.size() ==4){t3= TheMarkers[3].Tvec;}//D
-    x_area = t0.at<float>(0,0) + xtranslateArea;
-    y_area = t0.at<float>(1,0) - ytranslateArea;
-    z_area = -t0.at<float>(2,0);
-    y_area2 = t0.at<float>(1,0) - 1.25*ytranslateArea;
+    x_area = t2.at<float>(0,0) + xtranslateArea;
+    y_area = t2.at<float>(1,0) - 0.75*ytranslateArea;
+    z_area = -t2.at<float>(2,0);
+    y_area2 = t2.at<float>(1,0) -1.25*ytranslateArea;
  } 
   glPushMatrix();
   glColor3f(0,0,1);
@@ -678,12 +653,6 @@ void triangleMode(vector<cv::Point2f> centers){
     glEnd();
 
     glColor3f(0,1,1);
-    /*
-    glBegin(GL_TRIANGLES);
-    glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
-    glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
-    glVertex3f(t2.at<float>(0,0) + length,t2.at<float>(1,0) - height ,-t2.at<float>(2,0));
-*/
     glEnd();
 
     glPopMatrix();
@@ -735,10 +704,7 @@ void lineMode(vector<cv::Point2f> centers){
 
     glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
     glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
-
-
     //glEnd();
-    
     glTranslatef(0.0f,translateDistance,0.0f);
     
     glBegin(GL_LINES);
@@ -862,9 +828,13 @@ if (xflag) {
   }
   
 }
-float getCos(cv::Mat t0, cv::Mat t1);
-float getSin(cv::Mat t0, cv::Mat t1);
 
+/*
+*  getCos, getSin, and cal_bottom_len
+*  are used for calculate Grids for the shape
+*  completed by  Chan Kim  
+* 
+*/
 float getCos(cv::Mat t0, cv::Mat t1){
     float run = t0.at<float>(0,0) - t1.at<float>(0,0);
     float hypoten = calculateDistance(t0,t1,false);
@@ -880,26 +850,24 @@ float cal_bottom_len(float hypotenuse, float height){
      return sqrt((hypotenuse*hypotenuse)-(height*height));
 }
 
+// available mode only for triangle and quadranglie
 void gridMode(vector<cv::Point2f> centers){
-  if (centers.size() == 3 || centers.size() ==4){
-    int size = centers.size(); 
+  //triangle
+  if (centers.size() == 3){
     cv::Mat t0 = TheMarkers[0].Tvec; //C
     cv::Mat t1 = TheMarkers[2].Tvec; //B
     cv::Mat t2 = TheMarkers[1].Tvec; //A
-    cv::Mat t3;
-    if(size ==4){t3= TheMarkers[3].Tvec;} //D
 
    // Bottom line (B-C)
    float cos = getCos(t1,t0);
    float sin = getSin(t1,t0);
-   float tan = sin/cos; 
    // calculate left bottom & right bottom (+-2)
    float BC = calculateDistance(t1,t0,false);
    float AB = calculateDistance(t1,t2,false);
    float AC = calculateDistance(t0,t2,false);
    float Area = calculateTriangleArea(t0,t1,t2);
    float H = 2*Area/BC;
-   float A[2],B[2],C[2],D[2];
+   float A[2],B[2],C[2];
    A[0]=t2.at<float>(0,0);
    A[1]=t2.at<float>(1,0);
    B[0]=t1.at<float>(0,0);
@@ -908,33 +876,50 @@ void gridMode(vector<cv::Point2f> centers){
    C[1]=t0.at<float>(1,0);
    float lb[2],lu[2],rb[2],ru[2];
    
-   // A.x < B.x
-   if (AB > H && A[0]<B[0]){
+   // A
+   //   B   C
+   if (A[0]<B[0]){
        lu[0] = A[0];
        lu[1] = A[1];
-       if(B[1]<C[1]){
-         cout <<"!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
-         lb[0] = B[0]+cal_bottom_len(AB,H)*cos;
-         lb[1] = B[1]+cal_bottom_len(AB,H)*sin;
-         ru[0] = A[0]+(C[0]-lb[0]);
-         ru[1] = A[1]+(C[1]-lb[1]);
-       }
-       else{
-         lb[0] = B[0]+cal_bottom_len(AB,H)*cos;
-         lb[1] = B[1]+cal_bottom_len(AB,H)*sin;
-         ru[0] = A[0]+(C[0]-lb[0]);
-         ru[1] = A[1]+(lb[1]-C[1]); 
-       }
+       lb[0] = B[0]+cal_bottom_len(AB,H)*cos;
+       lb[1] = B[1]+cal_bottom_len(AB,H)*sin;
+       ru[0] = A[0]+(C[0]-lb[0]);
+       ru[1] = A[1]+(C[1]-lb[1]);
        rb[0] = C[0];
        rb[1] = C[1];
-    }
-
+   }
+   //        A
+   //  B   C
+   else if (A[0] > C[0]){
+       lb[0] = B[0];
+       lb[1] = B[1];
+       ru[0] = A[0];
+       ru[1] = A[1];
+       rb[0] = C[0]-cal_bottom_len(AC,H)*cos;
+       rb[1] = C[1]-cal_bottom_len(AC,H)*sin;
+       lu[0] = A[0]-(rb[0]-B[0]);
+       lu[1] = A[1]-(rb[1]-B[1]);
+   }
+   //    A
+   //  B    C
+   else{
+       lb[0] = B[0];
+       lb[1] = B[1];
+       rb[0] = C[0];
+       rb[1] = C[1];
+       lu[0] = A[0]+cal_bottom_len(AB,H)*cos;
+       lu[1] = A[1]+cal_bottom_len(AB,H)*sin;
+       ru[0] = A[0]-cal_bottom_len(AC,H)*cos;
+       ru[1] = A[1]-cal_bottom_len(AC,H)*sin;
+   } 
+       
    int cols = floor(convertD(H)+0.5);
    float col_unit = H/cols;
+   #ifdef DEBUG
    cout <<"A : " << A[0] <<"," <<A[1] << " B : " << B[0]<<","<<B[1]<< " C : "<< C[0]<<","<<C[1]<<endl;
-   cout <<"lu : " << lu[0] <<"," <<lu[1] <<" ru : " <<ru[0]<<","<<ru[1]<<" lb : " <<lb[0] <<","<<lb[1]<<"rb :" <<rb[0]
-   <<","<<rb[1]<<endl;
-   
+   cout <<"lu : " << lu[0] <<"," <<lu[1] << " lb : " << lb[0]<<","<<lb[1]<< " rb : "<< rb[0]<<","<<rb[1]<< " ru : " <<
+   ru[0] <<","<<ru[1]<<endl;
+   #endif
    int rows = floor(convertD(sqrt((rb[0]-lb[0])*(rb[0]-lb[0])+(rb[1]-lb[1])*(rb[1]-lb[1])))+0.5);
    // calculate left top & right top
    cout << "col_unit : "<< col_unit  << " cols : " << cols << endl;
@@ -943,11 +928,7 @@ void gridMode(vector<cv::Point2f> centers){
    glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
-   if (size ==4){
-    glBegin(GL_QUADS);
-    glVertex3f(t3.at<float>(0,0),t3.at<float>(1,0) ,-t3.at<float>(2,0));
-   }
-   else if (size ==3){glBegin(GL_TRIANGLES);}
+   glBegin(GL_TRIANGLES);
    glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
    glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
    glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
@@ -970,7 +951,7 @@ void gridMode(vector<cv::Point2f> centers){
             grid2x2);  // control points 
    std::cout << rows << " rows" << std::endl;
    std::cout << cols << " columns" << std::endl; 
-   glMapGrid2f(ceil(rows+2), 0.0, 1.0,
+   glMapGrid2f(ceil(rows), 0.0, 1.0,
             ceil(cols), 0.0, 1.0);
         glLineWidth(2); 
         glEvalMesh2(GL_LINE,
@@ -982,11 +963,213 @@ void gridMode(vector<cv::Point2f> centers){
     drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
     drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
     drawLetter(TheMarkers[2].Tvec, lettermap[TheMarkers[2].id]);
-    if(size ==4){drawLetter(TheMarkers[3].Tvec, lettermap[TheMarkers[3].id]);
+    drawSideText(t2,t0);
+    drawSideText(t0,t1);
+    drawSideText(t1,t2);
+    drawArea(centers);    
+  }
+  //quadrangle
+  else if (centers.size() == 4){
+    cv::Mat t0 = TheMarkers[0].Tvec; //C
+    cv::Mat t1 = TheMarkers[2].Tvec; //B
+    cv::Mat t2 = TheMarkers[1].Tvec; //A
+    cv::Mat t3 = TheMarkers[3].Tvec; //D
+   // Bottom line (B-C)
+   float cos = getCos(t1,t0);
+   float sin = getSin(t1,t0);
+   // length of each side
+   float BC = calculateDistance(t1,t0,false);
+   float AB = calculateDistance(t1,t2,false);
+   float AC = calculateDistance(t0,t2,false);
+   float CD = calculateDistance(t0,t3,false);
+   float Area1 = calculateTriangleArea(t0,t1,t2);
+   float Area2 = calculateTriangleArea(t0,t3,t1);
+   float H1 = 2*Area1/BC;
+   float H2 = 2*Area2/BC;
+
+   float A[2],B[2],C[2],D[2];
+   A[0]=t2.at<float>(0,0);
+   A[1]=t2.at<float>(1,0);
+   B[0]=t1.at<float>(0,0);
+   B[1]=t1.at<float>(1,0);
+   C[0]=t0.at<float>(0,0);
+   C[1]=t0.at<float>(1,0);
+   D[0]=t3.at<float>(0,0);
+   D[1]=t3.at<float>(1,0);
+
+   float lb[2],lu[2],rb[2],ru[2];
+   // A.y < D.y
+   if (A[1]<D[1]){
+       // A
+       //  (D)    D 
+       //    B      C
+       if (A[0]<B[0] && C[0]>D[0]){
+           lu[0] = A[0];
+           lu[1] = A[1];
+           lb[0] = B[0]+cal_bottom_len(AB,H1)*cos;
+           lb[1] = B[1]+cal_bottom_len(AB,H1)*sin;
+           ru[0] = A[0]+(C[0]-lb[0]);
+           ru[1] = A[1]+(C[1]-lb[1]);
+           rb[0] = C[0];
+           rb[1] = C[1];
+       }
+       // A
+       //            D
+       //    B     C
+       else if(A[0]<B[0] && C[0]<D[0]){
+           lu[0] = A[0];
+           lu[1] = A[1];
+           lb[0] = B[0]+cal_bottom_len(AB,H1)*cos;
+           lb[1] = B[1]+cal_bottom_len(AB,H1)*sin;
+           rb[0] = C[0]-cal_bottom_len(CD,H2)*cos;
+           rb[1] = C[1]-cal_bottom_len(CD,H2)*sin;
+           ru[0] = lu[0]+(rb[0]-lb[0]);
+           ru[1] = lu[1]+(rb[1]-lb[1]);
+      }
+      //      A   D
+      //  B           C
+      else if (A[0]>B[0] && C[0]>D[0] && A[0] <C[0]){
+           rb[0] = C[0];
+           rb[1] = C[1];
+           lb[0] = B[0];
+           lb[1] = B[1];
+           lu[0] = A[0]+cal_bottom_len(AB,H1)*cos;
+           lu[1] = A[1]+cal_bottom_len(AB,H1)*sin;
+           ru[0] = A[0]-cal_bottom_len(AC,H1)*cos;
+           ru[1] = A[1]-cal_bottom_len(AC,H1)*sin;
+      }
+      //     A        D
+      //  B     C
+      else if (A[0]>B[0] && C[0]<D[0] && A[0] <C[0]){
+           lu[0] = A[0]+cal_bottom_len(AB,H1)*cos;
+           lu[1] = A[1]+cal_bottom_len(AB,H1)*sin;
+           lb[0] = B[0];
+           lb[1] = B[1];
+           rb[0] = C[0]-cal_bottom_len(CD,H2)*cos;
+           rb[1] = C[1]-cal_bottom_len(CD,H2)*sin;
+           ru[0] = lu[0]-(lb[0]-rb[0]);
+           ru[1] = lu[1]-(lb[1]-rb[1]);
+      }
+      //             A D
+      //  B     C
+     else if (A[0] > C[0]){
+           lb[0] = B[0];
+           lb[1] = B[1];
+           lu[0] = A[0]+cal_bottom_len(AB,H1)*cos;
+           lu[1] = A[1]+cal_bottom_len(AB,H1)*sin;
+           rb[0] = C[0]-cal_bottom_len(CD,H2)*cos;
+           rb[1] = C[1]-cal_bottom_len(CD,H2)*sin;
+           ru[0] = lu[0]+(rb[0]-lb[0]);
+           ru[1] = lu[1]+(rb[1]-lb[1]);
+      }
+   }
+   else if (A[1]>D[1]){
+       //  (D)    D 
+       // A    
+       //    B      C
+       if (A[0]<B[0] && C[0]>D[0]){
+           rb[0] = C[0];
+           rb[1] = C[1];
+           lb[0] = B[0]+cal_bottom_len(AB,H1)*cos;
+           lb[1] = B[1]+cal_bottom_len(AB,H1)*sin;
+           ru[0] = D[0]-cal_bottom_len(CD,H2)*cos;
+           ru[1] = D[1]-cal_bottom_len(CD,H2)*sin;
+           lu[0] = ru[0]-(C[0]-lb[0]);
+           lu[1] = ru[1]-(C[1]-lb[1]);
+       }
+       //            D
+       // A
+       //    B     C
+       else if(A[0]<B[0] && C[0]<D[0]){
+           ru[0] = D[0];
+           ru[1] = D[1];
+           rb[0] = C[0]-cal_bottom_len(CD,H2)*cos;
+           rb[1] = C[1]-cal_bottom_len(CD,H2)*sin;
+           lb[0] = B[0]+cal_bottom_len(AB,H1)*cos;
+           lb[1] = B[1]+cal_bottom_len(AB,H1)*sin;
+           lu[0] = ru[0]-(rb[0]-lb[0]);
+           lu[1] = ru[1]-(rb[1]-lb[1]);
+     }
+      //      A   D
+      //  B           C
+      else if (A[0]>B[0] && C[0]>D[0] && A[0] <C[0]){
+           rb[0] = C[0];
+           rb[1] = C[1];
+           lb[0] = B[0];
+           lb[1] = B[1];
+           ru[0] = D[0]-cal_bottom_len(CD,H2)*cos;
+           ru[1] = D[1]-cal_bottom_len(CD,H2)*sin;
+           lu[0] = ru[0]-(rb[0]-lb[0]);
+           lu[1] = ru[1]-(rb[1]-lb[1]);
+      }
+      //             D
+      //    A     (A)
+      //  B     C
+      else if (A[0]>B[0] && C[0]<D[0]){
+           ru[0] = D[0];
+           ru[1] = D[1];
+           lb[0] = B[0];
+           lb[1] = B[1];
+           rb[0] = C[0]-cal_bottom_len(CD,H2)*cos;
+           rb[1] = C[1]-cal_bottom_len(CD,H2)*sin;
+           lu[0] = ru[0]-(rb[0]-lb[0]);
+           lu[1] = ru[1]-(rb[1]-lb[1]);
+      } 
+   }
+   int cols= floor(convertD(H1)+0.5);
+   float col_unit = H1/cols;
+   #ifdef DEBUG
+   cout <<"A : " << A[0] <<"," <<A[1] << " B : " << B[0]<<","<<B[1]<< " C : "<< C[0]<<","<<C[1]<<endl;
+   cout <<"lu : " << lu[0] <<"," <<lu[1] << " lb : " << lb[0]<<","<<lb[1]<< " rb : "<< rb[0]<<","<<rb[1]<< " ru : " <<
+   ru[0] <<","<<ru[1]<<endl;
+   // calculate left top & right top
+   cout << "col_unit : "<< col_unit  << " cols : " << cols << endl;
+  #endif
+   int rows = floor(convertD(sqrt((rb[0]-lb[0])*(rb[0]-lb[0])+(rb[1]-lb[1])*(rb[1]-lb[1])))+0.5);
+  
+   // draw yellow area
+   glColor4ub(255,255,0,200);
+   glPushMatrix();
+   glLoadIdentity();
+   glBegin(GL_QUADS);
+   glVertex3f(t3.at<float>(0,0),t3.at<float>(1,0) ,-t3.at<float>(2,0));
+   glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
+   glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
+   glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
+   glEnd();
+   glPopMatrix();
+   
+   GLfloat grid2x2[12] = {rb[0],rb[1],-t0.at<float>(2,0),lb[0],lb[1],-t1.at<float>(2,0),ru[0],ru[1],-t0.at<float>(2,0),lu[0],lu[1],-t0.at<float>(2,0)};
+
+   glPushMatrix();
+   glLoadIdentity();
+   glColor4ub(255,0,0,128);
+   glEnable(GL_MAP2_VERTEX_3);
+   glMap2f(GL_MAP2_VERTEX_3,
+            0.0, 1.0,  // U ranges 0..1 
+            3,         // U stride, 3 floats per coord 
+            2,         // U is 2nd order, ie. linear 
+            0.0, 1.0,  // V ranges 0..1 
+           2 * 3,      // V stride, row is 2 coords, 3 floats per coord
+            2,         // V is 2nd order, ie linear 
+            grid2x2);  // control points 
+   std::cout << rows << " rows" << std::endl;
+   std::cout << cols << " columns" << std::endl; 
+   glMapGrid2f(ceil(rows), 0.0, 1.0,
+            ceil(cols), 0.0, 1.0);
+        glLineWidth(2); 
+        glEvalMesh2(GL_LINE,
+              0, ceil(rows),   // Starting at 0 mesh 5 steps (rows). 
+              0, ceil(cols));  // Starting at 0 mesh 6 steps (columns).
+    glPopMatrix();
+    
+    //Draw Text 
+    drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
+    drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
+    drawLetter(TheMarkers[2].Tvec, lettermap[TheMarkers[2].id]);
+    drawLetter(TheMarkers[3].Tvec, lettermap[TheMarkers[3].id]);
     drawSideText(t3,t2);
     drawSideText(t0,t3);
-    }
-    else if (size ==3){drawSideText(t2,t0);}
     drawSideText(t0,t1);
     drawSideText(t1,t2);
     drawArea(centers);    
@@ -1050,18 +1233,18 @@ void freeMode(vector<cv::Point2f> centers){
       glColor4ub(255,255,0,200);
       glPushMatrix();
       glLoadIdentity();
-       glBegin(GL_TRIANGLES);
-       cv::Mat t0 = TheMarkers[0].Tvec;
-       cv::Mat t1 = TheMarkers[1].Tvec;
-       cv::Mat t2 = TheMarkers[2].Tvec;
-       glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
-       glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
-       glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
-       glEnd();
-       glPopMatrix();
-       drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
-       drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
-       drawLetter(TheMarkers[2].Tvec, lettermap[TheMarkers[2].id]);
+      glBegin(GL_TRIANGLES);
+      cv::Mat t0 = TheMarkers[0].Tvec;
+      cv::Mat t1 = TheMarkers[1].Tvec;
+      cv::Mat t2 = TheMarkers[2].Tvec;
+      glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
+      glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
+      glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
+      glEnd();
+      glPopMatrix();
+      drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
+      drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
+      drawLetter(TheMarkers[2].Tvec, lettermap[TheMarkers[2].id]);
  
        drawSideText(t0,t1);
        drawSideText(t1,t2);
@@ -1171,17 +1354,19 @@ void vDrawScene()
         glDisable(GL_LINE_SMOOTH);
         glDisable(GL_POLYGON_SMOOTH);
       }
+    
+   //// cout << "!!!!!!!!!!!!!!!!!" << TheMarkers[0].id <<endl;
 
-    if (centers.size() > 0){
-      cv::Mat t0 = TheMarkers[0].Tvec;
+    if (centers.size() > 1){
+      cv::Mat t0=TheMarkers[1].Tvec;
       float xtranslateArea = -4*0.015;
       float ytranslateArea = 2.5*0.015;
       float x_area = t0.at<float>(0,0) + xtranslateArea;
-      float y_area = t0.at<float>(1,0) - 1.5*ytranslateArea;
+      float y_area = t0.at<float>(1,0) - 1.75*ytranslateArea;
       float z_area = -t0.at<float>(2,0);
       glPushMatrix();
       glLoadIdentity();
-      glColor4f(1.0f,0.0f,0.0f,0.5f);
+      glColor4f(1.0f,0.0f,0.0f,0.6f);
       glTranslatef(x_area,y_area,z_area);
       glRasterPos3f( 0.0f, 0.0f, 0.0f);
       char buffer[100];

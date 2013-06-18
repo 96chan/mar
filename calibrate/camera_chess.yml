@@ -8,7 +8,7 @@ board_height: 11
 square_size: 12.
 fixaspectratio: 1.
 # flags:  +fix_aspectRatio +fix_principal_point +zero_tangent_dist
-flag: 14
+flags: 14
 camera_matrix: !!opencv-matrix
    rows: 3
    cols: 3
