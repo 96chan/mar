@@ -139,6 +139,12 @@ int main(int argc,char **argv)
         lettermap[923] = "B";
         lettermap[771] = "C";
         lettermap[939] = "D";
+        lettermap[819] = "E";
+        lettermap[816] = "F";
+        lettermap[787] = "G";
+        lettermap[666] = "H";
+        lettermap[509] = "I";
+
         //read first image
         TheVideoCapturer>>TheInputImage;
         //read camera paramters if passed
@@ -1355,8 +1361,9 @@ void vDrawScene()
         glDisable(GL_POLYGON_SMOOTH);
       }
     
-   //// cout << "!!!!!!!!!!!!!!!!!" << TheMarkers[0].id <<endl;
-
+    if (centers.size() > 0){
+      cout << "!!!" << TheMarkers[0].id <<endl;
+    }
     if (centers.size() > 1){
       cv::Mat t0=TheMarkers[1].Tvec;
       float xtranslateArea = -4*0.015;
