@@ -10,6 +10,7 @@ utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: ../src/exports.h
 utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: ../src/marker.h
 utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: ../src/markerdetector.h
 utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: ../utils/aruco_test_gl.cpp
+utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: ../utils/functions.h
 utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: /usr/local/include/opencv2/calib3d/calib3d.hpp
 utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: /usr/local/include/opencv2/contrib/contrib.hpp
 utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o: /usr/local/include/opencv2/contrib/openfabmap.hpp

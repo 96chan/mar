@@ -11,6 +11,7 @@ utils/CMakeFiles/aruco_test_gl.dir/aruco_test_gl.cpp.o
  ../src/marker.h
  ../src/markerdetector.h
  /home/ischool/Documents/MathMAR/utils/aruco_test_gl.cpp
+ /home/ischool/Documents/MathMAR/utils/functions.h
  /usr/local/include/opencv2/calib3d/calib3d.hpp
  /usr/local/include/opencv2/contrib/contrib.hpp
  /usr/local/include/opencv2/contrib/openfabmap.hpp

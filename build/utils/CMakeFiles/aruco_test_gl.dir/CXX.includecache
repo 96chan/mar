@@ -99,6 +99,10 @@ GL/glut.h
 -
 aruco.h
 /home/ischool/Documents/MathMAR/utils/aruco.h
+functions.h
+/home/ischool/Documents/MathMAR/utils/functions.h
+
+/home/ischool/Documents/MathMAR/utils/functions.h
 
 /usr/local/include/opencv2/calib3d/calib3d.hpp
 opencv2/core/core.hpp
