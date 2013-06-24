@@ -22,7 +22,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDI
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-he views and conclusions contained in the software and documentation are those of the
+The views and conclusions contained in the software and documentation are those of the
 authors and should not be interpreted as representing official policies, either expressed
 or implied, of Rafael Muñoz Salinas.
 ********************************/
@@ -105,9 +105,8 @@ int main(int argc,char **argv)
     {//parse arguments
         if (readArguments (argc,argv)==false) return 0;
         //read from camera
-	//Deepak changed to 1 from 0
         if (TheInputVideo=="live"){
-            TheVideoCapturer.open(0);
+            TheVideoCapturer.open(0); // change number 0 or 1
             TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH,1280);
             TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT,720);
         }
@@ -555,30 +554,25 @@ void lineMode(vector<cv::Point2f> centers){
   float lineWidth = 2;
   
   if (centers.size() == 3){
-    cv::Mat t0 = TheMarkers[0].Tvec;
-    cv::Mat t1 = TheMarkers[1].Tvec;
-    cv::Mat t2 = TheMarkers[2].Tvec;
-
     glPushMatrix();
     glLoadIdentity();
     glColor3f(1,1,0);
     glLineWidth(lineWidth);
     glBegin(GL_LINES);
-     
-    glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
-    glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
-
-    glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
-    glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
+    glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+    glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+    glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+    glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
     //glEnd();
     glTranslatef(0.0f,translateDistance,0.0f);
     
     glBegin(GL_LINES);
-    glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
-    glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
+    glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+    glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
     glEnd();
     
     glPopMatrix();
+    /*
     for (int i = 0; i < 3; i++) {
        if (TheMarkers[i].id == 922) {
            drawLetter(TheMarkers[i].Tvec, "A");
@@ -593,15 +587,14 @@ void lineMode(vector<cv::Point2f> centers){
            drawLetter(TheMarkers[i].Tvec, "D"); 
        }
      }
-//    drawLetter(TheMarkers[0].Tvec, "A");
-//    drawLetter(TheMarkers[1].Tvec, "B");
-//    drawLetter(TheMarkers[2].Tvec, "C");
-    drawSideText(t0,t1);
-    drawSideText(t1,t2);
-    drawSideTextTranslate(t0,t2,translateDistance);
-    
+     */
+    drawLetter(mA, "A");
+    drawLetter(mB, "B");
+    drawLetter(mC, "C");
+    drawSideText(mC,mB);
+    drawSideText(mB,mA);
+    drawSideTextTranslate(mC,mB,translateDistance);
   }
-  
 }
 
 void lineMode2(vector<cv::Point2f> centers){
@@ -609,31 +602,22 @@ void lineMode2(vector<cv::Point2f> centers){
   float translateDistance = -0.055;
   float translateLetterDifference = -0.1;
   float lineWidth = 2;
-  
-  if (centers.size() == 3){
-    cv::Mat t0 = TheMarkers[0].Tvec;
-    cv::Mat t1 = TheMarkers[2].Tvec;
-    cv::Mat t2 = TheMarkers[1].Tvec;
 
+ if (centers.size() == 3){
     glPushMatrix();
     glLoadIdentity();
     glColor3f(1,1,0);
     glLineWidth(lineWidth);
     glBegin(GL_LINES);
-    
-    glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
-    glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
-
-    glVertex3f(t1.at<float>(0,0),t1.at<float>(1,0) ,-t1.at<float>(2,0));
-    glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
-    
+    glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+    glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+    glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+    glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
     glEnd();
-    
     glTranslatef(0.0f,translateDistance,0.0f);
-    
     glBegin(GL_LINES);
-    glVertex3f(t0.at<float>(0,0),t0.at<float>(1,0) ,-t0.at<float>(2,0));
-    glVertex3f(t2.at<float>(0,0),t2.at<float>(1,0) ,-t2.at<float>(2,0));
+    glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+    glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
     glEnd();
     glBegin(GL_LINES);
     glTranslatef(0.0f,translateDistance,0.0f);
@@ -641,24 +625,24 @@ void lineMode2(vector<cv::Point2f> centers){
     glEnd();
     glPopMatrix();
    if (xflag){
-      drawX(t1,t2, 'X');
+      drawX(mB,mA, 'X');
     }
     else {
-      drawSideText(t1, t2);
+      drawSideText(mB, mA);
     }
     if (yflag) {
-      drawX(t0,t1,'Y');
+      drawX(mC,mB,'Y');
     }
     else {
-      drawSideText(t0,t1);
+      drawSideText(mC,mB);
     }
-    drawSideTextTranslate(t0,t2,translateDistance);
-    drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
-    drawLetter(TheMarkers[2].Tvec, lettermap[TheMarkers[2].id]);
-    drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
+    drawSideTextTranslate(mC,mA,translateDistance);
+    drawLetter(mA,"A");
+    drawLetter(mB,"B");
+    drawLetter(mC,"C");
 if (xflag) {
-    drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id], 1, translateDistance);
-    drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id], 1, translateDistance);
+    drawLetter(mB,"B", 1, translateDistance);
+    drawLetter(mC,"C", 1, translateDistance);
 }
   } 
 }
@@ -746,6 +730,7 @@ void gridMode(vector<cv::Point2f> centers){
            ru[0] = A[0]-cal_bottom_len(AC,H1)*cos;
            ru[1] = A[1]-cal_bottom_len(AC,H1)*sin;
        } 
+       break;
     //quadrangle
     case 4:
        // Bottom line (B-C)
@@ -886,6 +871,8 @@ void gridMode(vector<cv::Point2f> centers){
                lu[1] = ru[1]-(rb[1]-lb[1]);
           } 
        }
+       break;
+       default: break;
    }
    // calculate a number of cols and rows
    cols= floor(convertD(H1)+0.5);
