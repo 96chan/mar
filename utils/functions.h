@@ -16,11 +16,11 @@ void vMouse(int b,int s,int x,int y);
 void vKeyboard(unsigned char key,int x,int y);
 
 // Mode Func.
-void freeMode(vector<cv::Point2f> centers);
+void freeMode(vector<cv::Point2f> centers,bool outline_flag);
 void gridMode(vector<cv::Point2f> centers);
 void lineMode(vector<cv::Point2f> centers);
 void lineMode2(vector<cv::Point2f> centers);
-
+void ScreenCapture();
 // Marker Func.
 void detectMarker(vector<cv::Point2f> centers);
 void assignMarker(vector<cv::Point2f> centers);
@@ -28,6 +28,7 @@ void assignMarker(vector<cv::Point2f> centers);
 // Calculate Func.
 float convertD(float distance); // convert UNIT from meter to inch or centimeter
 void convertDistance(float *distance);
+string convertInt(int);
 float calculateDistance(cv::Mat t0,cv::Mat t1,bool convert);
 float calculateTriangleArea(cv::Mat t0, cv::Mat t1, cv::Mat t2);
 int calculatePerimeter(vector<cv::Point2f> centers);

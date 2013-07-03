@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/ischool/Documents/MathMAR/src/aruco.h
-markerdetector.h
-/home/ischool/Documents/MathMAR/src/markerdetector.h
-boarddetector.h
-/home/ischool/Documents/MathMAR/src/boarddetector.h
-cvdrawingutils.h
-/home/ischool/Documents/MathMAR/src/cvdrawingutils.h
-
-/home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp
-arucofidmarkers.h
-/home/ischool/Documents/MathMAR/src/arucofidmarkers.h
-opencv2/imgproc/imgproc.hpp
--
-
 /home/ischool/Documents/MathMAR/src/arucofidmarkers.h
 opencv2/core/core.hpp
 -
@@ -29,12 +15,6 @@ marker.h
 /home/ischool/Documents/MathMAR/src/marker.h
 board.h
 /home/ischool/Documents/MathMAR/src/board.h
-
-/home/ischool/Documents/MathMAR/src/board.cpp
-board.h
-/home/ischool/Documents/MathMAR/src/board.h
-fstream
--
 
 /home/ischool/Documents/MathMAR/src/board.h
 opencv2/opencv.hpp
@@ -48,42 +28,6 @@ exports.h
 marker.h
 /home/ischool/Documents/MathMAR/src/marker.h
 
-/home/ischool/Documents/MathMAR/src/boarddetector.cpp
-boarddetector.h
-/home/ischool/Documents/MathMAR/src/boarddetector.h
-math.h
--
-cstdlib
--
-ctime
--
-cassert
--
-fstream
--
-
-/home/ischool/Documents/MathMAR/src/boarddetector.h
-opencv2/opencv.hpp
--
-exports.h
-/home/ischool/Documents/MathMAR/src/exports.h
-board.h
-/home/ischool/Documents/MathMAR/src/board.h
-cameraparameters.h
-/home/ischool/Documents/MathMAR/src/cameraparameters.h
-markerdetector.h
-/home/ischool/Documents/MathMAR/src/markerdetector.h
-
-/home/ischool/Documents/MathMAR/src/cameraparameters.cpp
-cameraparameters.h
-/home/ischool/Documents/MathMAR/src/cameraparameters.h
-fstream
--
-iostream
--
-opencv/cv.h
--
-
 /home/ischool/Documents/MathMAR/src/cameraparameters.h
 exports.h
 /home/ischool/Documents/MathMAR/src/exports.h
@@ -92,25 +36,7 @@ opencv2/opencv.hpp
 string
 -
 
-/home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp
-cvdrawingutils.h
-/home/ischool/Documents/MathMAR/src/cvdrawingutils.h
-
-/home/ischool/Documents/MathMAR/src/cvdrawingutils.h
-exports.h
 /home/ischool/Documents/MathMAR/src/exports.h
-aruco.h
-/home/ischool/Documents/MathMAR/src/aruco.h
-
-/home/ischool/Documents/MathMAR/src/exports.h
-
-/home/ischool/Documents/MathMAR/src/marker.cpp
-marker.h
-/home/ischool/Documents/MathMAR/src/marker.h
-math.h
--
-cstdio
--
 
 /home/ischool/Documents/MathMAR/src/marker.h
 vector

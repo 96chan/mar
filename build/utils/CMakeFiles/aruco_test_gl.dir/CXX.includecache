@@ -89,6 +89,10 @@ fstream
 -
 sstream
 -
+vector
+-
+algorithm
+-
 gl.h
 -
 GLUT/glut.h

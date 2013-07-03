@@ -30,6 +30,8 @@ or implied, of Rafael Muñoz Salinas.
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include <algorithm>
 #ifdef __APPLE__
 #include <gl.h>
 #include <GLUT/glut.h>
@@ -50,6 +52,7 @@ enum Mode{
   Line,
   Line2
 };
+
 // Global Variables 
 std::map<int, std::string> lettermap;
 string TheInputVideo;
@@ -65,11 +68,15 @@ Size TheGlWindowSize;
 bool TheCaptureFlag=true;
 bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat &TheDistorsionCameraParams,Size size);
 Mat mA, mB, mC, mD, mE, mF, mG, mH, mI; // Marker Types
+int file_id = 0; //screen capture numbering
+
 // flags
 bool imperialUnitFlag = false;
 bool xflag = false;
 bool yflag = false;
 bool zflag = false;
+bool outline_flag = false;
+bool capture_flag = false;
 bool alias_flag = false;
 float M2CM = 100.0f;
 float M2IN = 39.3700787f;
@@ -117,7 +124,7 @@ int main(int argc,char **argv)
             return -1;
 
         }
-        lettermap[225] = "I";
+ /*       lettermap[225] = "I";
         lettermap[666] = "H";
         lettermap[771] = "C";
         lettermap[787] = "G";
@@ -126,6 +133,7 @@ int main(int argc,char **argv)
         lettermap[922] = "A";
         lettermap[923] = "B";
         lettermap[939] = "D";
+*/
         //read first image
         TheVideoCapturer>>TheInputImage;
         //read camera paramters if passed
@@ -138,16 +146,26 @@ int main(int argc,char **argv)
         glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
         glutCreateWindow( "MathMAR" );
+        //glutFullScreen();
         
         // Main Menu by Chan
-        glutCreateMenu( vMenu );
+        int submenu = glutCreateMenu( vMenu );
         glutAddMenuEntry("Free Mode",1);
         glutAddMenuEntry("Grid Mode",2);
         glutAddMenuEntry("Line Mode",3);
-        glutAddMenuEntry("Change Unit",4);
-        glutAddMenuEntry("Change Alias",5);
+        glutAddMenuEntry("X-line Mode",4);
+        glutAddMenuEntry("Y-line Mode",5);
+        glutAddMenuEntry("Z-line Mode",6);
+        int submenu2 = glutCreateMenu( vMenu );
+        glutAddMenuEntry("Show Outline",7);
+        glutAddMenuEntry("Change Unit",8);
+        glutAddMenuEntry("Change Alias",9);
+        int menu = glutCreateMenu( vMenu );
+        // Sub Menu 
+        glutAddSubMenu("Modes",submenu);
+        glutAddSubMenu("Setting",submenu2);
+        glutAddMenuEntry("ScreenShot",10);
         glutAttachMenu(GLUT_LEFT_BUTTON);
-
 
         glutDisplayFunc( vDrawScene );
         glutIdleFunc( vIdle );
@@ -177,18 +195,43 @@ void vMenu(int value){
             break;
         case 2:
             mode = Grid;
-            cout << "I am in the default free mode" << endl;
+            cout << "I am in the grid mode" << endl;
             break;
         case 3:
-            mode = Line2;
-            xflag = !xflag;
-            cout << "I am in the default free mode" << endl;
+            mode = Line;
+            cout << "I am in the line mode" << endl;
             break;
         case 4:
-            imperialUnitFlag = !imperialUnitFlag;
+            mode = Line2;
+            xflag = !xflag;
+            cout << "I am in the x-variable mode" << endl;
             break;
         case 5:
+            mode = Line2;
+            yflag = !yflag;
+            cout << "I am in the y-variable mode" << endl;
+            break;
+        case 6:
+            mode = Line2;
+            zflag = !zflag;
+            cout << "I am in the z-variable mode" << endl;
+            break;
+        case 7:
+            mode = Free;
+            outline_flag = !outline_flag;
+            break;
+         case 8:
+            imperialUnitFlag = !imperialUnitFlag;
+            break;
+        case 9:
             alias_flag = !alias_flag;
+            break;
+       case 10:
+            capture_flag = true;
+            ScreenCapture();
+            cout << "Screen Capture" <<endl;
+            break;
+        default: break;
         }
     glutPostRedisplay();
 }
@@ -223,8 +266,26 @@ void vKeyboard(unsigned char key,int x,int y){
     mode = Free;
     cout << "I am in the default free mode" << endl;
   }
-
 }
+void ScreenCapture(){
+ 
+ std::string filename = "./image/capture" + convertInt(file_id) + ".png";
+ cv::Mat img(720,1280,CV_8UC3);
+ glPixelStorei(GL_PACK_ALIGNMENT,(img.step &3)?1:4);
+ glPixelStorei(GL_PACK_ROW_LENGTH,img.step/img.elemSize());
+ glReadPixels(0,0,img.cols,img.rows,GL_BGR_EXT,GL_UNSIGNED_BYTE,img.data);
+ cv::Mat flipped(img);
+ cv::flip(img,flipped,0);
+ file_id ++;
+ cv::imwrite(filename,img);
+/*
+ IplImage *srcimg_R = new IplImage(TheInputImage);
+ char file_name[20];
+ sprintf(file_name,"capture.bmp");
+ cvSaveImage(file_name,srcimg_R);
+*/
+}
+
 /************************************
  *
  ************************************/
@@ -242,6 +303,12 @@ float convertD(float distance){
 void convertDistance(float *distance){
   *distance = imperialUnitFlag?(M2IN**distance):(M2CM**distance);
 }
+string convertInt(int number){
+  stringstream ss;
+  ss << number;
+  return ss.str();
+}
+
 /**********************************************************
  *Calculate the distance between two points expressed as cv matrices
  *Finished by deepak
@@ -593,7 +660,7 @@ void lineMode(vector<cv::Point2f> centers){
     drawLetter(mC, "C");
     drawSideText(mC,mB);
     drawSideText(mB,mA);
-    drawSideTextTranslate(mC,mB,translateDistance);
+//    drawSideTextTranslate(mC,mB,translateDistance);
   }
 }
 
@@ -624,7 +691,7 @@ void lineMode2(vector<cv::Point2f> centers){
     glTranslatef(0.0f,translateDistance,0.0f);
     glEnd();
     glPopMatrix();
-   if (xflag){
+    if (xflag){
       drawX(mB,mA, 'X');
     }
     else {
@@ -640,10 +707,8 @@ void lineMode2(vector<cv::Point2f> centers){
     drawLetter(mA,"A");
     drawLetter(mB,"B");
     drawLetter(mC,"C");
-if (xflag) {
-    drawLetter(mB,"B", 1, translateDistance);
+    drawLetter(mA,"A", 1, translateDistance);
     drawLetter(mC,"C", 1, translateDistance);
-}
   } 
 }
 
@@ -874,13 +939,14 @@ void gridMode(vector<cv::Point2f> centers){
        break;
        default: break;
    }
+   if(centers.size()>2){
    // calculate a number of cols and rows
    cols= floor(convertD(H1)+0.5);
    col_unit = H1/cols;
    rows = floor(convertD(sqrt((rb[0]-lb[0])*(rb[0]-lb[0])+(rb[1]-lb[1])*(rb[1]-lb[1])))+0.5);
    
    // draw yellow shape as the Free Mode
-   freeMode(centers);
+   freeMode(centers,false);
    
    // draw grids
    GLfloat grid2x2[12] = {rb[0],rb[1],-mA.at<float>(2,0),lb[0],lb[1],-mA.at<float>(2,0),ru[0],ru[1],-mA.at<float>(2,0),lu[0],lu[1],-mA.at<float>(2,0)};
@@ -903,11 +969,196 @@ void gridMode(vector<cv::Point2f> centers){
               0, ceil(rows),   // Starting at 0 mesh 5 steps (rows). 
               0, ceil(cols));  // Starting at 0 mesh 6 steps (columns).
   glPopMatrix();
+  }
 }
+
+struct Points{
+    float x, y;
+    int idx;
+};
+bool Sort_x(const Points& a, const Points& b){
+    return a.x < b.x;
+}
+bool Sort_y(const Points& a, const Points& b){
+    return a.y < b.y;
+}
+
 // assign each marker to specific letter
 void assignMarker(vector<cv::Point2f> centers){
+  // init
+  mA.empty();
+  mB.empty();
+  mC.empty();
+  mD.empty();
+  mE.empty();
+  mF.empty();
+  mG.empty();
+  mH.empty();
+  mI.empty();
 
+ cv::Mat t[centers.size()];
+ vector<Points> vt_x; // x coordinate vectors of every marker
+ vector<Points> vt_y; // y coordinate vectors of every marker
+ vector<Points> temp;
+ 
+ // save x,y Coordinates and Index of marker
+ for(int i=0; i<centers.size(); i++){
+   t[i]= TheMarkers[i].Tvec;
+   Points p  = {t[i].at<float>(0,0),t[i].at<float>(1,0),i};
+   vt_x.push_back(p);
+ } 
+ vt_y = vt_x;
+ sort(vt_x.begin(),vt_x.end(),Sort_x); //sort by x
+ sort(vt_y.begin(),vt_y.end(),Sort_y); //sort by y
+
+ switch(centers.size()){
+  case 2:
+      mA = t[vt_x[0].idx];
+      mB = t[vt_x[1].idx];
+      break;
+  case 3:
+      mA = t[vt_y[0].idx];
+      temp.push_back(vt_y[1]);
+      temp.push_back(vt_y[2]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      temp.clear();
+      break;
+  case 4:
+      temp.push_back(vt_y[0]);
+      temp.push_back(vt_y[1]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mA = t[temp[0].idx];
+      mD = t[temp[1].idx];
+      temp.clear();
+      temp.push_back(vt_y[2]);
+      temp.push_back(vt_y[3]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      temp.clear();
+      break;
+  case 5:
+      mE = t[vt_x[4].idx];
+      //exclude E
+      for(int i=0;i<centers.size();i++){
+        if(vt_y[i].idx == vt_x[4].idx){
+            vt_y.erase(vt_y.begin()+i);
+            vt_x.erase(vt_x.begin()+4);
+            break;
+        }
+      }
+      temp.push_back(vt_y[0]);
+      temp.push_back(vt_y[1]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mA = t[temp[0].idx];
+      mD = t[temp[1].idx];
+      temp.clear();
+      temp.push_back(vt_y[2]);
+      temp.push_back(vt_y[3]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      temp.clear();
+      break;
+  case 6:
+      temp.push_back(vt_y[0]);
+      temp.push_back(vt_y[1]);
+      temp.push_back(vt_y[2]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mA = t[temp[0].idx];
+      mD = t[temp[1].idx];
+      mE = t[temp[2].idx];
+      temp.clear();
+      temp.push_back(vt_y[3]);
+      temp.push_back(vt_y[4]);
+      temp.push_back(vt_y[5]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      mF = t[temp[2].idx];
+      temp.clear();
+      break;
+   case 7:
+      mG = t[vt_y[6].idx];
+      temp.push_back(vt_y[0]);
+      temp.push_back(vt_y[1]);
+      temp.push_back(vt_y[2]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mA = t[temp[0].idx];
+      mD = t[temp[1].idx];
+      mE = t[temp[2].idx];
+      temp.clear();
+      temp.push_back(vt_y[3]);
+      temp.push_back(vt_y[4]);
+      temp.push_back(vt_y[5]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      mF = t[temp[2].idx];
+      temp.clear();
+     break;
+   case 8:
+      temp.push_back(vt_y[6]);
+      temp.push_back(vt_y[7]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mH = t[temp[0].idx];
+      mG = t[temp[1].idx];
+      temp.clear();
+      temp.push_back(vt_y[0]);
+      temp.push_back(vt_y[1]);
+      temp.push_back(vt_y[2]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mA = t[temp[0].idx];
+      mD = t[temp[1].idx];
+      mE = t[temp[2].idx];
+      temp.clear();
+      temp.push_back(vt_y[3]);
+      temp.push_back(vt_y[4]);
+      temp.push_back(vt_y[5]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      mF = t[temp[2].idx];
+      temp.clear();
+     break;
+    case 9:
+      temp.push_back(vt_y[0]);
+      temp.push_back(vt_y[1]);
+      temp.push_back(vt_y[2]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mA = t[temp[0].idx];
+      mD = t[temp[1].idx];
+      mE = t[temp[2].idx];
+      temp.clear();
+      temp.push_back(vt_y[3]);
+      temp.push_back(vt_y[4]);
+      temp.push_back(vt_y[5]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      mC = t[temp[1].idx];
+      mF = t[temp[2].idx];
+      temp.clear();
+      temp.push_back(vt_y[6]);
+      temp.push_back(vt_y[7]);
+      temp.push_back(vt_y[8]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mI = t[temp[0].idx];
+      mH = t[temp[1].idx];
+      mG = t[temp[2].idx];
+      temp.clear();
+      break;
+   default: break;
+ }
+ //clear
+ if(vt_x.size()>0) vt_x.clear();
+ if(vt_y.size()>0) vt_y.clear();
+ if(temp.size()>0) temp.clear();
 }
+// A D E
+// C B F
+// I H G
 // detect Markers
 void detectMarker(vector<cv::Point2f> centers){
   // init
@@ -996,7 +1247,9 @@ void detectMarker(vector<cv::Point2f> centers){
    }
 }
 
-void freeMode(vector<cv::Point2f> centers){
+void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
+   float lineWidth = 2;
+
    glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
@@ -1018,7 +1271,19 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
           glEnd();
-          glPopMatrix();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glEnd(); 
+          }
+           glPopMatrix();
           //print text
           drawLetter(mA,"A");
           drawLetter(mB,"B");
@@ -1035,6 +1300,20 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
           glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
           glEnd();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+          }
           glPopMatrix();
           //print text 
           drawLetter(mA,"A");
@@ -1059,7 +1338,30 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
           glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
           glEnd();
-          glPopMatrix();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd();
+              glEnable(GL_LINE_STIPPLE);
+              glLineStipple(2,0xaaaa);
+              glBegin(GL_LINES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glDisable(GL_LINE_STIPPLE);
+          }
+           glPopMatrix();
           //print text
           drawLetter(mA, "A");
           drawLetter(mB, "B");
@@ -1086,7 +1388,32 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
           glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
           glEnd();
-          glPopMatrix();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glEnable(GL_LINE_STIPPLE);
+              glLineStipple(2,0xaaaa);
+              glBegin(GL_LINES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glDisable(GL_LINE_STIPPLE);
+          }
+           glPopMatrix();
           //print text
           drawLetter(mA, "A");
           drawLetter(mB, "B");
@@ -1120,7 +1447,36 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
           glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
           glEnd();
-          glPopMatrix();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glEnable(GL_LINE_STIPPLE);
+              glLineStipple(2,0xaaaa);
+              glBegin(GL_LINES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glEnd(); 
+              glDisable(GL_LINE_STIPPLE);
+          }
+           glPopMatrix();
           //print text
           drawLetter(mA, "A");
           drawLetter(mB, "B");
@@ -1157,7 +1513,38 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
           glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
           glEnd();
-          glPopMatrix();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
+              glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glEnable(GL_LINE_STIPPLE);
+              glLineStipple(2,0xaaaa);
+              glBegin(GL_LINES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glEnd(); 
+              glDisable(GL_LINE_STIPPLE);
+          }
+           glPopMatrix();
           //print text
           drawLetter(mA, "A");
           drawLetter(mB, "B");
@@ -1202,7 +1589,42 @@ void freeMode(vector<cv::Point2f> centers){
           glVertex3f(mI.at<float>(0,0),mI.at<float>(1,0) ,-mI.at<float>(2,0));
           glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
           glEnd();
-          glPopMatrix();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mI.at<float>(0,0),mI.at<float>(1,0) ,-mI.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mI.at<float>(0,0),mI.at<float>(1,0) ,-mI.at<float>(2,0));
+              glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
+              glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glEnable(GL_LINE_STIPPLE);
+              glLineStipple(2,0xaaaa);
+              glBegin(GL_LINES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mH.at<float>(0,0),mH.at<float>(1,0) ,-mH.at<float>(2,0));
+              glEnd(); 
+              glDisable(GL_LINE_STIPPLE);
+          }
+           glPopMatrix();
           //print text
           drawLetter(mA, "A");
           drawLetter(mB, "B");
@@ -1270,9 +1692,10 @@ void vDrawScene()
     char textString[100] = "Free Mode";
     char unitString[100] = "Metric Units";
     // detect Markers
-    detectMarker(centers);
+    assignMarker(centers);
+    //detectMarker(centers);
      if ( mode == Free){
-      freeMode(centers);
+      freeMode(centers,outline_flag);
       int a = sprintf(textString,"%s","Free Mode");
     } else if (mode == Grid){
       int a = sprintf(textString,"%s","Grid Mode");
@@ -1309,7 +1732,7 @@ void vDrawScene()
       float z_area = -mA.at<float>(2,0);
       glPushMatrix();
       glLoadIdentity();
-      glColor4f(1.0f,0.0f,0.0f,0.6f);
+      glColor4f(1.0f,0.0f,0.0f,0.2f);
       glTranslatef(x_area,y_area,z_area);
       glRasterPos3f( 0.0f, 0.0f, 0.0f);
       char buffer[100];
@@ -1317,7 +1740,15 @@ void vDrawScene()
       drawString(buffer);
       glPopMatrix();
     }
-    
+
+    // when Screen Capturing
+    if(capture_flag){
+      glClearColor(1.0,1.0,1.0,1.0);
+      glClear(GL_COLOR_BUFFER_BIT);
+      sleep(1); 
+      capture_flag = false;
+    }
+ 
     glutSwapBuffers();
 }
 /************************************
