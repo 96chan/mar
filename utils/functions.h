@@ -24,6 +24,7 @@ void ScreenCapture();
 // Marker Func.
 void detectMarker(vector<cv::Point2f> centers);
 void assignMarker(vector<cv::Point2f> centers);
+void assignMarkerLine(vector<cv::Point2f> centers);
 
 // Calculate Func.
 float convertD(float distance); // convert UNIT from meter to inch or centimeter

@@ -77,7 +77,7 @@ bool yflag = false;
 bool zflag = false;
 bool outline_flag = false;
 bool capture_flag = false;
-bool alias_flag = false;
+bool alias_flag = false;// true;
 float M2CM = 100.0f;
 float M2IN = 39.3700787f;
 
@@ -149,21 +149,19 @@ int main(int argc,char **argv)
         //glutFullScreen();
         
         // Main Menu by Chan
-        int submenu = glutCreateMenu( vMenu );
-        glutAddMenuEntry("Free Mode",1);
-        glutAddMenuEntry("Grid Mode",2);
+        GLint submenu = glutCreateMenu( vMenu );
         glutAddMenuEntry("Line Mode",3);
         glutAddMenuEntry("X-line Mode",4);
         glutAddMenuEntry("Y-line Mode",5);
         glutAddMenuEntry("Z-line Mode",6);
-        int submenu2 = glutCreateMenu( vMenu );
+ 
+        glutCreateMenu( vMenu );
+        glutAddMenuEntry("Free Mode",1);
+        glutAddMenuEntry("Grid Mode",2);
+      // Sub Menu 
+        glutAddSubMenu("Line Mode",submenu);
         glutAddMenuEntry("Show Outline",7);
         glutAddMenuEntry("Change Unit",8);
-        glutAddMenuEntry("Change Alias",9);
-        int menu = glutCreateMenu( vMenu );
-        // Sub Menu 
-        glutAddSubMenu("Modes",submenu);
-        glutAddSubMenu("Setting",submenu2);
         glutAddMenuEntry("ScreenShot",10);
         glutAttachMenu(GLUT_LEFT_BUTTON);
 
@@ -268,8 +266,15 @@ void vKeyboard(unsigned char key,int x,int y){
   }
 }
 void ScreenCapture(){
+ time_t now = time(0);
+ char* dt = ctime(&now);
+// struct tm *now = localtime(&t);
+// cout << now->tm_year+1900 << '-' << now ->tm_mon +1 << '-' << now->tm_mday <<endl;
+// std::string now_time = convertInt(now->tm_year+1900) +"-"+ convertInt(now->tm_mon+1)
+// +"-"+convertInt(now->tm_mday)+"-"+convertInt(now->tm_hour)+"-"+convertInt(now->tm_min)+"-"+convertInt(now->tm_sec);
  
- std::string filename = "./image/capture" + convertInt(file_id) + ".png";
+ std::string filename = "./image/"+string(dt)+".png";
+ //std::string filename = "./image/capture" + convertInt(file_id) + ".png";
  cv::Mat img(720,1280,CV_8UC3);
  glPixelStorei(GL_PACK_ALIGNMENT,(img.step &3)?1:4);
  glPixelStorei(GL_PACK_ROW_LENGTH,img.step/img.elemSize());
@@ -360,11 +365,20 @@ int calculatePerimeter(vector<cv::Point2f> centers) {
          break;
   }
   return perimeter;
-} 
-float calculateTriangleArea(cv::Mat t0, cv::Mat t1, cv::Mat t2, bool flag=false){
+}
+float calTArea(cv::Mat t0, cv::Mat t1, cv::Mat t2,bool flag){
     float side1 = calculateDistance(t0,t1,flag);
     float side2 = calculateDistance(t1,t2,flag);
     float side3 = calculateDistance(t0,t2,flag);
+    float perimeter = side1 + side2 + side3;
+    float s = perimeter / 2;
+    float area = sqrt(s * (s - side1) * (s - side2) * (s - side3));
+    return area;
+}
+float calculateTriangleArea(cv::Mat t0, cv::Mat t1, cv::Mat t2, bool flag){
+    float side1 = floor(calculateDistance(t0,t1,flag)+0.5);
+    float side2 = floor(calculateDistance(t1,t2,flag)+0.5);
+    float side3 = floor(calculateDistance(t0,t2,flag)+0.5);
     float perimeter = side1 + side2 + side3;
     float s = perimeter / 2;
     float area = sqrt(s * (s - side1) * (s - side2) * (s - side3));
@@ -618,7 +632,7 @@ float calcSlope(cv::Mat t0, cv::Mat t1) {
 void lineMode(vector<cv::Point2f> centers){
   
   float translateDistance = -0.055;
-  float lineWidth = 2;
+  float lineWidth = 3;
   
   if (centers.size() == 3){
     glPushMatrix();
@@ -668,7 +682,7 @@ void lineMode2(vector<cv::Point2f> centers){
   
   float translateDistance = -0.055;
   float translateLetterDifference = -0.1;
-  float lineWidth = 2;
+  float lineWidth = 3;
 
  if (centers.size() == 3){
     glPushMatrix();
@@ -751,7 +765,7 @@ void gridMode(vector<cv::Point2f> centers){
        BC = calculateDistance(mB,mC,false);
        AB = calculateDistance(mA,mB,false);
        AC = calculateDistance(mA,mC,false);
-       Area1 = calculateTriangleArea(mA,mB,mC,false);
+       Area1 = calTArea(mA,mB,mC,false);
        H1 = 2*Area1/BC;
        A[0]=mA.at<float>(0,0);
        A[1]=mA.at<float>(1,0);
@@ -806,8 +820,8 @@ void gridMode(vector<cv::Point2f> centers){
        AB = calculateDistance(mB,mA,false);
        AC = calculateDistance(mA,mC,false);
        CD = calculateDistance(mC,mD,false);
-       Area1 = calculateTriangleArea(mC,mB,mA,false);
-       Area2 = calculateTriangleArea(mC,mD,mB,false);
+       Area1 = calTArea(mC,mB,mA,false);
+       Area2 = calTArea(mC,mD,mB,false);
        H1 = 2*Area1/BC;
        H2 = 2*Area2/BC;
        A[0]=mA.at<float>(0,0);
@@ -947,9 +961,11 @@ void gridMode(vector<cv::Point2f> centers){
    
    // draw yellow shape as the Free Mode
    freeMode(centers,false);
-   
+   std::cout << rows << " rows" << std::endl;
+   std::cout << cols << " columns" << std::endl; 
    // draw grids
-   GLfloat grid2x2[12] = {rb[0],rb[1],-mA.at<float>(2,0),lb[0],lb[1],-mA.at<float>(2,0),ru[0],ru[1],-mA.at<float>(2,0),lu[0],lu[1],-mA.at<float>(2,0)};
+   GLfloat grid2x2[12] = {rb[0],rb[1],-mC.at<float>(2,0),lb[0],lb[1],-mB.at<float>(2,0),ru[0],ru[1],-mA.at<float>(2,0),lu[0],lu[1],-mA.at<float>(2,0)};
+   
    glPushMatrix();
    glLoadIdentity();
    glColor4ub(255,0,0,128);
@@ -965,7 +981,7 @@ void gridMode(vector<cv::Point2f> centers){
   glMapGrid2f(ceil(rows), 0.0, 1.0,
             ceil(cols), 0.0, 1.0);
         glLineWidth(2); 
-        glEvalMesh2(GL_LINE,
+       glEvalMesh2(GL_LINE,
               0, ceil(rows),   // Starting at 0 mesh 5 steps (rows). 
               0, ceil(cols));  // Starting at 0 mesh 6 steps (columns).
   glPopMatrix();
@@ -982,7 +998,33 @@ bool Sort_x(const Points& a, const Points& b){
 bool Sort_y(const Points& a, const Points& b){
     return a.y < b.y;
 }
+// assign each marker to specific letter
+void assignMarkerLine(vector<cv::Point2f> centers){
+  // init
+  mA.empty();
+  mB.empty();
+  mC.empty();
 
+ cv::Mat t[centers.size()];
+ vector<Points> vt_x; // x coordinate vectors of every marker
+ 
+ // save x,y Coordinates and Index of marker
+ for(int i=0; i<centers.size(); i++){
+   t[i]= TheMarkers[i].Tvec;
+   Points p  = {t[i].at<float>(0,0),t[i].at<float>(1,0),i};
+   vt_x.push_back(p);
+ } 
+ sort(vt_x.begin(),vt_x.end(),Sort_x); //sort by x
+
+ switch(centers.size()){
+  case 3:
+      mA = t[vt_x[0].idx];
+      mB = t[vt_x[1].idx];
+      mC = t[vt_x[2].idx];
+      break;
+  default: break;
+ }
+}
 // assign each marker to specific letter
 void assignMarker(vector<cv::Point2f> centers){
   // init
@@ -1701,9 +1743,11 @@ void vDrawScene()
       int a = sprintf(textString,"%s","Grid Mode");
       gridMode(centers);
     } else if (mode == Line){
+       assignMarkerLine(centers);
        int a = sprintf(textString,"%s","Line Mode");
        lineMode(centers);
     } else if (mode == Line2){
+       assignMarkerLine(centers);
        int a = sprintf(textString,"%s","Line Mode2");
        lineMode2(centers);
      }
