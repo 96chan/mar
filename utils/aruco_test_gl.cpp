@@ -68,6 +68,7 @@ Size TheGlWindowSize;
 bool TheCaptureFlag=true;
 bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat &TheDistorsionCameraParams,Size size);
 Mat mA, mB, mC, mD, mE, mF, mG, mH, mI; // Marker Types
+int MarkerID[9]; // marker id such as A,B,C.. upto I
 int file_id = 0; //screen capture numbering
 
 // flags
@@ -124,7 +125,7 @@ int main(int argc,char **argv)
             return -1;
 
         }
- /*       lettermap[225] = "I";
+        lettermap[255] = "I";
         lettermap[666] = "H";
         lettermap[771] = "C";
         lettermap[787] = "G";
@@ -133,7 +134,7 @@ int main(int argc,char **argv)
         lettermap[922] = "A";
         lettermap[923] = "B";
         lettermap[939] = "D";
-*/
+
         //read first image
         TheVideoCapturer>>TheInputImage;
         //read camera paramters if passed
@@ -150,15 +151,14 @@ int main(int argc,char **argv)
         
         // Main Menu by Chan
         GLint submenu = glutCreateMenu( vMenu );
+        //sub menu 
         glutAddMenuEntry("Line Mode",3);
         glutAddMenuEntry("X-line Mode",4);
         glutAddMenuEntry("Y-line Mode",5);
         glutAddMenuEntry("Z-line Mode",6);
- 
         glutCreateMenu( vMenu );
         glutAddMenuEntry("Free Mode",1);
         glutAddMenuEntry("Grid Mode",2);
-      // Sub Menu 
         glutAddSubMenu("Line Mode",submenu);
         glutAddMenuEntry("Show Outline",7);
         glutAddMenuEntry("Change Unit",8);
@@ -268,13 +268,8 @@ void vKeyboard(unsigned char key,int x,int y){
 void ScreenCapture(){
  time_t now = time(0);
  char* dt = ctime(&now);
-// struct tm *now = localtime(&t);
-// cout << now->tm_year+1900 << '-' << now ->tm_mon +1 << '-' << now->tm_mday <<endl;
-// std::string now_time = convertInt(now->tm_year+1900) +"-"+ convertInt(now->tm_mon+1)
-// +"-"+convertInt(now->tm_mday)+"-"+convertInt(now->tm_hour)+"-"+convertInt(now->tm_min)+"-"+convertInt(now->tm_sec);
- 
+
  std::string filename = "./image/"+string(dt)+".png";
- //std::string filename = "./image/capture" + convertInt(file_id) + ".png";
  cv::Mat img(720,1280,CV_8UC3);
  glPixelStorei(GL_PACK_ALIGNMENT,(img.step &3)?1:4);
  glPixelStorei(GL_PACK_ROW_LENGTH,img.step/img.elemSize());
@@ -366,6 +361,7 @@ int calculatePerimeter(vector<cv::Point2f> centers) {
   }
   return perimeter;
 }
+// only needed for calculating cols in grid mode 
 float calTArea(cv::Mat t0, cv::Mat t1, cv::Mat t2,bool flag){
     float side1 = calculateDistance(t0,t1,flag);
     float side2 = calculateDistance(t1,t2,flag);
@@ -653,25 +649,9 @@ void lineMode(vector<cv::Point2f> centers){
     glEnd();
     
     glPopMatrix();
-    /*
-    for (int i = 0; i < 3; i++) {
-       if (TheMarkers[i].id == 922) {
-           drawLetter(TheMarkers[i].Tvec, "A");
-       }
-       else if (TheMarkers[i].id == 771) {
-           drawLetter(TheMarkers[i].Tvec, "C");
-       }
-       else if (TheMarkers[i].id == 923) {
-           drawLetter(TheMarkers[i].Tvec, "B");
-       }
-       else if (TheMarkers[i].id == 939) {
-           drawLetter(TheMarkers[i].Tvec, "D"); 
-       }
-     }
-     */
-    drawLetter(mA, "A");
-    drawLetter(mB, "B");
-    drawLetter(mC, "C");
+    drawLetter(mA,lettermap[MarkerID[0]]);
+    drawLetter(mB,lettermap[MarkerID[1]]);
+    drawLetter(mC,lettermap[MarkerID[2]]);
     drawSideText(mC,mB);
     drawSideText(mB,mA);
 //    drawSideTextTranslate(mC,mB,translateDistance);
@@ -718,11 +698,11 @@ void lineMode2(vector<cv::Point2f> centers){
       drawSideText(mC,mB);
     }
     drawSideTextTranslate(mC,mA,translateDistance);
-    drawLetter(mA,"A");
-    drawLetter(mB,"B");
-    drawLetter(mC,"C");
-    drawLetter(mA,"A", 1, translateDistance);
-    drawLetter(mC,"C", 1, translateDistance);
+    drawLetter(mA,lettermap[MarkerID[0]]);
+    drawLetter(mB,lettermap[MarkerID[1]]);
+    drawLetter(mC,lettermap[MarkerID[2]]);
+    drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
+    drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
   } 
 }
 
@@ -999,6 +979,7 @@ bool Sort_y(const Points& a, const Points& b){
     return a.y < b.y;
 }
 // assign each marker to specific letter
+// for linemodes (avoid assigning markers for triagnle)
 void assignMarkerLine(vector<cv::Point2f> centers){
   // init
   mA.empty();
@@ -1007,25 +988,37 @@ void assignMarkerLine(vector<cv::Point2f> centers){
 
  cv::Mat t[centers.size()];
  vector<Points> vt_x; // x coordinate vectors of every marker
+ vector<int> tMarkerID;
  
  // save x,y Coordinates and Index of marker
  for(int i=0; i<centers.size(); i++){
    t[i]= TheMarkers[i].Tvec;
    Points p  = {t[i].at<float>(0,0),t[i].at<float>(1,0),i};
    vt_x.push_back(p);
+   tMarkerID.push_back(TheMarkers[i].id); 
  } 
  sort(vt_x.begin(),vt_x.end(),Sort_x); //sort by x
 
  switch(centers.size()){
   case 3:
       mA = t[vt_x[0].idx];
+      MarkerID[0]= tMarkerID[vt_x[0].idx];
       mB = t[vt_x[1].idx];
+      MarkerID[1]= tMarkerID[vt_x[1].idx];
       mC = t[vt_x[2].idx];
+      MarkerID[2]= tMarkerID[vt_x[2].idx];
       break;
   default: break;
  }
+ if(tMarkerID.size()>0) tMarkerID.clear();
+ if(vt_x.size()>0) vt_x.clear();
 }
+
 // assign each marker to specific letter
+// assign random located markers to the following
+// A  D  E  
+// B  C  F
+// I  H  G 
 void assignMarker(vector<cv::Point2f> centers){
   // init
   mA.empty();
@@ -1042,12 +1035,14 @@ void assignMarker(vector<cv::Point2f> centers){
  vector<Points> vt_x; // x coordinate vectors of every marker
  vector<Points> vt_y; // y coordinate vectors of every marker
  vector<Points> temp;
- 
+ vector<int> tMarkerID; // temporate Marker ID
+
  // save x,y Coordinates and Index of marker
  for(int i=0; i<centers.size(); i++){
    t[i]= TheMarkers[i].Tvec;
    Points p  = {t[i].at<float>(0,0),t[i].at<float>(1,0),i};
    vt_x.push_back(p);
+   tMarkerID.push_back(TheMarkers[i].id); 
  } 
  vt_y = vt_x;
  sort(vt_x.begin(),vt_x.end(),Sort_x); //sort by x
@@ -1057,32 +1052,40 @@ void assignMarker(vector<cv::Point2f> centers){
   case 2:
       mA = t[vt_x[0].idx];
       mB = t[vt_x[1].idx];
+      MarkerID[0]= tMarkerID[vt_x[0].idx];
+      MarkerID[1]= tMarkerID[vt_x[1].idx];
       break;
   case 3:
       mA = t[vt_y[0].idx];
+      MarkerID[0]= tMarkerID[vt_y[0].idx];
       temp.push_back(vt_y[1]);
       temp.push_back(vt_y[2]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
-      temp.clear();
+      MarkerID[2]= tMarkerID[temp[1].idx];
       break;
   case 4:
       temp.push_back(vt_y[0]);
       temp.push_back(vt_y[1]);
       sort(temp.begin(),temp.end(),Sort_x);
       mA = t[temp[0].idx];
+      MarkerID[0]= tMarkerID[temp[0].idx];
       mD = t[temp[1].idx];
+      MarkerID[3]= tMarkerID[temp[1].idx];
       temp.clear();
       temp.push_back(vt_y[2]);
       temp.push_back(vt_y[3]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
-      temp.clear();
+      MarkerID[2]= tMarkerID[temp[1].idx];
       break;
   case 5:
       mE = t[vt_x[4].idx];
+      MarkerID[4]= tMarkerID[vt_x[4].idx];
       //exclude E
       for(int i=0;i<centers.size();i++){
         if(vt_y[i].idx == vt_x[4].idx){
@@ -1095,14 +1098,17 @@ void assignMarker(vector<cv::Point2f> centers){
       temp.push_back(vt_y[1]);
       sort(temp.begin(),temp.end(),Sort_x);
       mA = t[temp[0].idx];
+      MarkerID[0]= tMarkerID[temp[0].idx];
       mD = t[temp[1].idx];
+      MarkerID[3]= tMarkerID[temp[1].idx];
       temp.clear();
       temp.push_back(vt_y[2]);
       temp.push_back(vt_y[3]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
-      temp.clear();
+      MarkerID[2]= tMarkerID[temp[1].idx];
       break;
   case 6:
       temp.push_back(vt_y[0]);
@@ -1110,86 +1116,112 @@ void assignMarker(vector<cv::Point2f> centers){
       temp.push_back(vt_y[2]);
       sort(temp.begin(),temp.end(),Sort_x);
       mA = t[temp[0].idx];
+      MarkerID[0]= tMarkerID[temp[0].idx];
       mD = t[temp[1].idx];
+      MarkerID[3]= tMarkerID[temp[1].idx];
       mE = t[temp[2].idx];
+      MarkerID[4]= tMarkerID[temp[2].idx];
       temp.clear();
       temp.push_back(vt_y[3]);
       temp.push_back(vt_y[4]);
       temp.push_back(vt_y[5]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
+      MarkerID[2]= tMarkerID[temp[1].idx];
       mF = t[temp[2].idx];
-      temp.clear();
+      MarkerID[5]= tMarkerID[temp[2].idx];
       break;
    case 7:
       mG = t[vt_y[6].idx];
+      MarkerID[6]= tMarkerID[vt_y[6].idx];
       temp.push_back(vt_y[0]);
       temp.push_back(vt_y[1]);
       temp.push_back(vt_y[2]);
       sort(temp.begin(),temp.end(),Sort_x);
       mA = t[temp[0].idx];
+      MarkerID[0]= tMarkerID[temp[0].idx];
       mD = t[temp[1].idx];
+      MarkerID[3]= tMarkerID[temp[1].idx];
       mE = t[temp[2].idx];
+      MarkerID[4]= tMarkerID[temp[2].idx];
       temp.clear();
       temp.push_back(vt_y[3]);
       temp.push_back(vt_y[4]);
       temp.push_back(vt_y[5]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
+      MarkerID[2]= tMarkerID[temp[1].idx];
       mF = t[temp[2].idx];
-      temp.clear();
-     break;
+      MarkerID[5]= tMarkerID[temp[2].idx];
+      break;
    case 8:
       temp.push_back(vt_y[6]);
       temp.push_back(vt_y[7]);
       sort(temp.begin(),temp.end(),Sort_x);
       mH = t[temp[0].idx];
+      MarkerID[7]= tMarkerID[temp[0].idx];
       mG = t[temp[1].idx];
+      MarkerID[6]= tMarkerID[temp[1].idx];
       temp.clear();
       temp.push_back(vt_y[0]);
       temp.push_back(vt_y[1]);
       temp.push_back(vt_y[2]);
       sort(temp.begin(),temp.end(),Sort_x);
       mA = t[temp[0].idx];
+      MarkerID[0]= tMarkerID[temp[0].idx];
       mD = t[temp[1].idx];
+      MarkerID[3]= tMarkerID[temp[1].idx];
       mE = t[temp[2].idx];
+      MarkerID[4]= tMarkerID[temp[2].idx];
       temp.clear();
       temp.push_back(vt_y[3]);
       temp.push_back(vt_y[4]);
       temp.push_back(vt_y[5]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
+      MarkerID[2]= tMarkerID[temp[1].idx];
       mF = t[temp[2].idx];
-      temp.clear();
-     break;
+      MarkerID[5]= tMarkerID[temp[2].idx];
+      break;
     case 9:
       temp.push_back(vt_y[0]);
       temp.push_back(vt_y[1]);
       temp.push_back(vt_y[2]);
       sort(temp.begin(),temp.end(),Sort_x);
       mA = t[temp[0].idx];
+      MarkerID[0]= tMarkerID[temp[0].idx];
       mD = t[temp[1].idx];
+      MarkerID[3]= tMarkerID[temp[1].idx];
       mE = t[temp[2].idx];
+      MarkerID[4]= tMarkerID[temp[2].idx];
       temp.clear();
       temp.push_back(vt_y[3]);
       temp.push_back(vt_y[4]);
       temp.push_back(vt_y[5]);
       sort(temp.begin(),temp.end(),Sort_x);
       mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
       mC = t[temp[1].idx];
+      MarkerID[2]= tMarkerID[temp[1].idx];
       mF = t[temp[2].idx];
+      MarkerID[5]= tMarkerID[temp[2].idx];
       temp.clear();
       temp.push_back(vt_y[6]);
       temp.push_back(vt_y[7]);
       temp.push_back(vt_y[8]);
       sort(temp.begin(),temp.end(),Sort_x);
       mI = t[temp[0].idx];
+      MarkerID[8]= tMarkerID[temp[0].idx];
       mH = t[temp[1].idx];
+      MarkerID[7]= tMarkerID[temp[1].idx];
       mG = t[temp[2].idx];
-      temp.clear();
+      MarkerID[6]= tMarkerID[temp[2].idx];
       break;
    default: break;
  }
@@ -1197,11 +1229,10 @@ void assignMarker(vector<cv::Point2f> centers){
  if(vt_x.size()>0) vt_x.clear();
  if(vt_y.size()>0) vt_y.clear();
  if(temp.size()>0) temp.clear();
+ if(tMarkerID.size()>0) tMarkerID.clear();
 }
-// A D E
-// C B F
-// I H G
 // detect Markers
+// if using this func, be cautious when putting markers
 void detectMarker(vector<cv::Point2f> centers){
   // init
   mA.empty();
@@ -1213,17 +1244,7 @@ void detectMarker(vector<cv::Point2f> centers){
   mG.empty();
   mH.empty();
   mI.empty();
-  /*
-  lettermap[225] = "I";
-  lettermap[666] = "H";
-  lettermap[771] = "C";
-  lettermap[787] = "G";
-  lettermap[816] = "F";
-  lettermap[819] = "E";
-  lettermap[922] = "A";
-  lettermap[923] = "B";
-  lettermap[939] = "D";
-  */
+
   switch(centers.size()){
       case 2:
         mA = TheMarkers[0].Tvec;
@@ -1302,10 +1323,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
           glEnd();
           glPopMatrix();
-          //print text
           drawSideText(mA,mB);
-          drawLetter(mA,"A");
-          drawLetter(mB,"B");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
           break;
         case 3: 
          glBegin(GL_TRIANGLES);
@@ -1327,9 +1347,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
            glPopMatrix();
           //print text
-          drawLetter(mA,"A");
-          drawLetter(mB,"B");
-          drawLetter(mC,"C");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
           drawSideText(mA,mB);
           drawSideText(mA,mC);
           drawSideText(mB,mC);
@@ -1358,10 +1378,10 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
           glPopMatrix();
           //print text 
-          drawLetter(mA,"A");
-          drawLetter(mB,"B");
-          drawLetter(mC,"C");
-          drawLetter(mD,"D");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
+          drawLetter(mD,lettermap[MarkerID[3]]);
           drawSideText(mA,mB);
           drawSideText(mB,mC);
           drawSideText(mC,mD);
@@ -1405,11 +1425,11 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
            glPopMatrix();
           //print text
-          drawLetter(mA, "A");
-          drawLetter(mB, "B");
-          drawLetter(mC, "C");
-          drawLetter(mD, "D");
-          drawLetter(mE, "E");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
+          drawLetter(mD,lettermap[MarkerID[3]]);
+          drawLetter(mE,lettermap[MarkerID[4]]);
           drawSideText(mA,mB);
           drawSideText(mB,mC);
           drawSideText(mC,mE);
@@ -1457,12 +1477,12 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
            glPopMatrix();
           //print text
-          drawLetter(mA, "A");
-          drawLetter(mB, "B");
-          drawLetter(mC, "C");
-          drawLetter(mD, "D");
-          drawLetter(mE, "E");
-          drawLetter(mF, "F");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
+          drawLetter(mD,lettermap[MarkerID[3]]);
+          drawLetter(mE,lettermap[MarkerID[4]]);
+          drawLetter(mF,lettermap[MarkerID[5]]);
           drawSideText(mA,mB);
           drawSideText(mB,mC);
           drawSideText(mC,mF);
@@ -1520,13 +1540,13 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
            glPopMatrix();
           //print text
-          drawLetter(mA, "A");
-          drawLetter(mB, "B");
-          drawLetter(mC, "C");
-          drawLetter(mD, "D");
-          drawLetter(mE, "E");
-          drawLetter(mF, "F");
-          drawLetter(mG, "G");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
+          drawLetter(mD,lettermap[MarkerID[3]]);
+          drawLetter(mE,lettermap[MarkerID[4]]);
+          drawLetter(mF,lettermap[MarkerID[5]]);
+          drawLetter(mG,lettermap[MarkerID[6]]);
           drawSideText(mA,mB);
           drawSideText(mB,mC);
           drawSideText(mC,mG);
@@ -1588,14 +1608,14 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
            glPopMatrix();
           //print text
-          drawLetter(mA, "A");
-          drawLetter(mB, "B");
-          drawLetter(mC, "C");
-          drawLetter(mD, "D");
-          drawLetter(mE, "E");
-          drawLetter(mF, "F");
-          drawLetter(mG, "G");
-          drawLetter(mH, "H");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
+          drawLetter(mD,lettermap[MarkerID[3]]);
+          drawLetter(mE,lettermap[MarkerID[4]]);
+          drawLetter(mF,lettermap[MarkerID[5]]);
+          drawLetter(mG,lettermap[MarkerID[6]]);
+          drawLetter(mH,lettermap[MarkerID[7]]);
           drawSideText(mA,mB);
           drawSideText(mB,mC);
           drawSideText(mC,mH);
@@ -1668,15 +1688,15 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
            glPopMatrix();
           //print text
-          drawLetter(mA, "A");
-          drawLetter(mB, "B");
-          drawLetter(mC, "C");
-          drawLetter(mD, "D");
-          drawLetter(mE, "E");
-          drawLetter(mF, "F");
-          drawLetter(mG, "G");
-          drawLetter(mH, "H");
-          drawLetter(mI, "I");
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          drawLetter(mB,lettermap[MarkerID[1]]);
+          drawLetter(mC,lettermap[MarkerID[2]]);
+          drawLetter(mD,lettermap[MarkerID[3]]);
+          drawLetter(mE,lettermap[MarkerID[4]]);
+          drawLetter(mF,lettermap[MarkerID[5]]);
+          drawLetter(mG,lettermap[MarkerID[6]]);
+          drawLetter(mH,lettermap[MarkerID[7]]);
+          drawLetter(mI,lettermap[MarkerID[8]]);
           drawSideText(mA,mB);
           drawSideText(mB,mI);
           drawSideText(mI,mH);
