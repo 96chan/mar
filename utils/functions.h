@@ -12,11 +12,11 @@ void vResize( GLsizei iWidth, GLsizei iHeight );
 
 // Menu Manipulation Func.
 void vMenu(int value);
-void vMouse(int b,int s,int x,int y);
-void vKeyboard(unsigned char key,int x,int y);
+//void vMouse(int b,int s,int x,int y);
+void vKeyboard(unsigned char key,int,int);
 
 // Mode Func.
-void freeMode(vector<cv::Point2f> centers,bool outline_flag);
+void freeMode(vector<cv::Point2f> centers,bool);
 void gridMode(vector<cv::Point2f> centers);
 void lineMode(vector<cv::Point2f> centers);
 void lineMode2(vector<cv::Point2f> centers);
