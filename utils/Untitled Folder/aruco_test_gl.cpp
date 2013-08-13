@@ -49,6 +49,8 @@ enum Mode{
   Free,
   Triangle,
   Grid,
+  Line,
+  Line2
 };
 
 // Global Variables 
@@ -76,8 +78,6 @@ bool yflag = false;
 bool zflag = false;
 bool outline_flag = false;
 bool capture_flag = false;
-bool line_flag =false;
-bool coin_flag = false; 
 bool alias_flag = false;// true;
 float M2CM = 100.0f;
 float M2IN = 39.3700787f;
@@ -134,17 +134,6 @@ int main(int argc,char **argv)
         lettermap[922] = "A";
         lettermap[923] = "B";
         lettermap[939] = "D";
-        lettermap[508] = "J";
-        lettermap[184] = "K";
-        lettermap[1] = "L";
-        lettermap[409] = "M";
-        lettermap[938] = "N";
-        lettermap[855] = "O";
-        lettermap[943] = "P"; 
-        lettermap[937] = "Q"; 
-        lettermap[942] = "R"; 
-        lettermap[281] = "S"; 
-        lettermap[511] = "T"; 
 
         //read first image
         TheVideoCapturer>>TheInputImage;
@@ -163,6 +152,7 @@ int main(int argc,char **argv)
         // Main Menu by Chan
         GLint submenu = glutCreateMenu( vMenu );
         //sub menu 
+        glutAddMenuEntry("Line Mode",3);
         glutAddMenuEntry("X-line Mode",4);
         glutAddMenuEntry("Y-line Mode",5);
         glutAddMenuEntry("Z-line Mode",6);
@@ -205,18 +195,22 @@ void vMenu(int value){
             mode = Grid;
             cout << "I am in the grid mode" << endl;
             break;
+        case 3:
+            mode = Line;
+            cout << "I am in the line mode" << endl;
+            break;
         case 4:
-            mode = Free;
+            mode = Line2;
             xflag = !xflag;
             cout << "I am in the x-variable mode" << endl;
             break;
         case 5:
-            mode = Free;
+            mode = Line2;
             yflag = !yflag;
             cout << "I am in the y-variable mode" << endl;
             break;
         case 6:
-            mode = Free;
+            mode = Line2;
             zflag = !zflag;
             cout << "I am in the z-variable mode" << endl;
             break;
@@ -247,17 +241,20 @@ void vKeyboard(unsigned char key,int x,int y){
     if (key == 'g'){
     mode = Grid;
     cout << "I am in the grid mode" << endl;
+  } else if (key == 'l'){
+    mode = Line;
+    cout << "I am in the line mode" << endl;
   } else if (key == 'x'){
-    mode = Free;
+    mode = Line2;
     xflag = !xflag;
     cout << "I am in the line mode2" << endl;
   }
   else if (key == 'y') {
-     mode = Free;
+     mode = Line2;
      yflag = !yflag;
   }
   else if (key == 'z') {
-     mode = Free;
+     mode = Line2;
      zflag = !zflag;
   } 
   else if (key == 'u'){
@@ -575,10 +572,9 @@ void drawLetterOnXTranslate(cv::Mat tnaught, std::string letter){
 void drawArea(vector<cv::Point2f> centers){
   int perimeter = calculatePerimeter(centers);
   float area = calculateArea(centers);
-  #ifdef DEBUG
   cout << "Perimeter : "<<perimeter<<endl;
   cout << "Area : " <<area <<endl;
-  #endif
+
   char buffer[50];  
   char smallbuffer[50]; 
   char buffer2[50]; 
@@ -945,10 +941,8 @@ void gridMode(vector<cv::Point2f> centers){
    
    // draw yellow shape as the Free Mode
    freeMode(centers,false);
-   #ifdef DEBUG
    std::cout << rows << " rows" << std::endl;
    std::cout << cols << " columns" << std::endl; 
-   #endif
    // draw grids
    GLfloat grid2x2[12] = {rb[0],rb[1],-mC.at<float>(2,0),lb[0],lb[1],-mB.at<float>(2,0),ru[0],ru[1],-mA.at<float>(2,0),lu[0],lu[1],-mA.at<float>(2,0)};
    
@@ -985,6 +979,42 @@ bool Sort_y(const Points& a, const Points& b){
     return a.y < b.y;
 }
 // assign each marker to specific letter
+// for linemodes (avoid assigning markers for triagnle)
+void assignMarkerLine(vector<cv::Point2f> centers){
+  // init
+  mA.empty();
+  mB.empty();
+  mC.empty();
+
+ cv::Mat t[centers.size()];
+ vector<Points> vt_x; // x coordinate vectors of every marker
+ vector<int> tMarkerID;
+ 
+ // save x,y Coordinates and Index of marker
+ for(int i=0; i<centers.size(); i++){
+   t[i]= TheMarkers[i].Tvec;
+   Points p  = {t[i].at<float>(0,0),t[i].at<float>(1,0),i};
+   vt_x.push_back(p);
+   tMarkerID.push_back(TheMarkers[i].id); 
+ } 
+ sort(vt_x.begin(),vt_x.end(),Sort_x); //sort by x
+
+ switch(centers.size()){
+  case 3:
+      mA = t[vt_x[0].idx];
+      MarkerID[0]= tMarkerID[vt_x[0].idx];
+      mB = t[vt_x[1].idx];
+      MarkerID[1]= tMarkerID[vt_x[1].idx];
+      mC = t[vt_x[2].idx];
+      MarkerID[2]= tMarkerID[vt_x[2].idx];
+      break;
+  default: break;
+ }
+ if(tMarkerID.size()>0) tMarkerID.clear();
+ if(vt_x.size()>0) vt_x.clear();
+}
+
+// assign each marker to specific letter
 // assign random located markers to the following
 // A  D  E  
 // B  C  F
@@ -1000,10 +1030,8 @@ void assignMarker(vector<cv::Point2f> centers){
   mG.empty();
   mH.empty();
   mI.empty();
- bool tflag =true;
- cv::Mat tM[centers.size()];
+
  cv::Mat t[centers.size()];
- vector<int> disM;
  vector<Points> vt_x; // x coordinate vectors of every marker
  vector<Points> vt_y; // y coordinate vectors of every marker
  vector<Points> temp;
@@ -1021,45 +1049,24 @@ void assignMarker(vector<cv::Point2f> centers){
  sort(vt_y.begin(),vt_y.end(),Sort_y); //sort by y
 
  switch(centers.size()){
-   case 1: 
-      mA = t[0];
-      MarkerID[0] = tMarkerID[0];
-      break;
-   case 2:
+  case 2:
       mA = t[vt_x[0].idx];
       mB = t[vt_x[1].idx];
       MarkerID[0]= tMarkerID[vt_x[0].idx];
       MarkerID[1]= tMarkerID[vt_x[1].idx];
       break;
- 
-   case 3:
-       tM[0] = t[vt_x[0].idx];
-       MarkerID[0]= tMarkerID[vt_x[0].idx];
-       tM[1] = t[vt_x[1].idx];
-       MarkerID[1]= tMarkerID[vt_x[1].idx];
-       tM[2] = t[vt_x[2].idx];
-       MarkerID[2]= tMarkerID[vt_x[2].idx];
-          
-       if(floor(calculateDistance(tM[0],tM[2],true)+0.5)==floor(calculateDistance(tM[0],tM[1],true)+0.5)+floor(calculateDistance(tM[1],tM[2],true)+0.5)
-          && calculateTriangleArea(tM[0],tM[1],tM[2],true)<=0){
-           line_flag=true;    
-           mA = tM[0];
-           mB = tM[1];
-           mC = tM[2];
-       }else{
-           line_flag=false;
-           mA = t[vt_y[0].idx];
-           MarkerID[0]= tMarkerID[vt_y[0].idx];
-           temp.push_back(vt_y[1]);
-           temp.push_back(vt_y[2]);
-           sort(temp.begin(),temp.end(),Sort_x);
-           mB = t[temp[0].idx];
-           MarkerID[1]= tMarkerID[temp[0].idx];
-           mC = t[temp[1].idx];
-           MarkerID[2]= tMarkerID[temp[1].idx];
-       }
-       break;
-case 4:
+  case 3:
+      mA = t[vt_y[0].idx];
+      MarkerID[0]= tMarkerID[vt_y[0].idx];
+      temp.push_back(vt_y[1]);
+      temp.push_back(vt_y[2]);
+      sort(temp.begin(),temp.end(),Sort_x);
+      mB = t[temp[0].idx];
+      MarkerID[1]= tMarkerID[temp[0].idx];
+      mC = t[temp[1].idx];
+      MarkerID[2]= tMarkerID[temp[1].idx];
+      break;
+  case 4:
       temp.push_back(vt_y[0]);
       temp.push_back(vt_y[1]);
       sort(temp.begin(),temp.end(),Sort_x);
@@ -1126,112 +1133,7 @@ case 4:
       mF = t[temp[2].idx];
       MarkerID[5]= tMarkerID[temp[2].idx];
       break;
-    case 7:
-        //  coin demonstration
-        if(vt_y[3].idx == vt_x[3].idx){
-            tM[2] = t[vt_y[3].idx];
-            temp.push_back(vt_y[0]);
-            temp.push_back(vt_y[1]);
-            temp.push_back(vt_y[2]);
-            sort(temp.begin(),temp.end(),Sort_x);
-            tM[0] = t[temp[0].idx];
-            tM[3] = t[temp[1].idx];
-            tM[4] = t[temp[2].idx];
-            MarkerID[2] = tMarkerID[vt_y[3].idx];
-            MarkerID[0] = tMarkerID[temp[0].idx];
-            MarkerID[3] = tMarkerID[temp[1].idx];
-            MarkerID[4] = tMarkerID[temp[2].idx];
-            temp.clear();
-            temp.push_back(vt_y[4]);
-            temp.push_back(vt_y[5]);
-            temp.push_back(vt_y[6]);
-            sort(temp.begin(),temp.end(),Sort_x);
-            tM[1] = t[temp[0].idx];
-            tM[6] = t[temp[1].idx];
-            tM[5] = t[temp[2].idx];
-            MarkerID[1] = tMarkerID[temp[0].idx];
-            MarkerID[6] = tMarkerID[temp[1].idx];
-            MarkerID[5] = tMarkerID[temp[2].idx];
-            temp.clear();    
-        }else{
-            tM[2] = t[vt_x[3].idx];
-            temp.push_back(vt_x[0]);
-            temp.push_back(vt_x[1]);
-            temp.push_back(vt_x[2]);
-            sort(temp.begin(),temp.end(),Sort_y);
-            tM[0] = t[temp[0].idx];
-            tM[1] = t[temp[1].idx];
-            tM[6] = t[temp[2].idx];
-            MarkerID[2] = tMarkerID[vt_x[3].idx];
-            MarkerID[0] = tMarkerID[temp[0].idx];
-            MarkerID[1] = tMarkerID[temp[1].idx];
-            MarkerID[6] = tMarkerID[temp[2].idx];
-            temp.clear();
-            temp.push_back(vt_x[4]);
-            temp.push_back(vt_x[5]);
-            temp.push_back(vt_x[6]);
-            sort(temp.begin(),temp.end(),Sort_y);
-            tM[3] = t[temp[0].idx];
-            tM[4] = t[temp[1].idx];
-            tM[5] = t[temp[2].idx];
-            MarkerID[3] = tMarkerID[temp[0].idx];
-            MarkerID[4] = tMarkerID[temp[1].idx];
-            MarkerID[5] = tMarkerID[temp[2].idx];
-             temp.clear();    
-        }
-       // compare distance 
-       disM.push_back(floor(calculateDistance(tM[0],tM[2],true)+0.5)); //AC
-       disM.push_back(floor(calculateDistance(tM[1],tM[2],true)+0.5)); //BC
-       disM.push_back(floor(calculateDistance(tM[3],tM[2],true)+0.5)); //DC
-       disM.push_back(floor(calculateDistance(tM[4],tM[2],true)+0.5)); //EC
-       disM.push_back(floor(calculateDistance(tM[5],tM[2],true)+0.5)); //FC
-       disM.push_back(floor(calculateDistance(tM[6],tM[2],true)+0.5)); //GC
-       disM.push_back(floor(calculateDistance(tM[0],tM[3],true)+0.5)); //AD
-       disM.push_back(floor(calculateDistance(tM[3],tM[4],true)+0.5)); //DE
-       disM.push_back(floor(calculateDistance(tM[4],tM[5],true)+0.5)); //EF
-       disM.push_back(floor(calculateDistance(tM[5],tM[6],true)+0.5)); //FG
-       disM.push_back(floor(calculateDistance(tM[6],tM[1],true)+0.5)); //GB
-       disM.push_back(floor(calculateDistance(tM[1],tM[0],true)+0.5)); //BA
-       
-       for(int i=0;i<(int)disM.size()-1;i++)if(disM[i]!=disM[i+1])tflag=false;
-  
-       if(tflag){
-            coin_flag =true;
-            mA = tM[0];
-            mB = tM[1];
-            mC = tM[2];
-            mD = tM[3];
-            mE = tM[4];
-            mF = tM[5];
-            mG = tM[6];
-       }else{
-           coin_flag =false;
-           mG = t[vt_y[6].idx];
-           MarkerID[6]= tMarkerID[vt_y[6].idx];
-           temp.push_back(vt_y[0]);
-           temp.push_back(vt_y[1]);
-           temp.push_back(vt_y[2]);
-           sort(temp.begin(),temp.end(),Sort_x);
-           mA = t[temp[0].idx];
-           MarkerID[0]= tMarkerID[temp[0].idx];
-           mD = t[temp[1].idx];
-           MarkerID[3]= tMarkerID[temp[1].idx];
-           mE = t[temp[2].idx];
-           MarkerID[4]= tMarkerID[temp[2].idx];
-           temp.clear();
-           temp.push_back(vt_y[3]);
-           temp.push_back(vt_y[4]);
-           temp.push_back(vt_y[5]);
-           sort(temp.begin(),temp.end(),Sort_x);
-           mB = t[temp[0].idx];
-           MarkerID[1]= tMarkerID[temp[0].idx];
-           mC = t[temp[1].idx];
-           MarkerID[2]= tMarkerID[temp[1].idx];
-           mF = t[temp[2].idx];
-           MarkerID[5]= tMarkerID[temp[2].idx];
-       }
-       break;
-   case 10:
+   case 7:
       mG = t[vt_y[6].idx];
       MarkerID[6]= tMarkerID[vt_y[6].idx];
       temp.push_back(vt_y[0]);
@@ -1328,7 +1230,6 @@ case 4:
  if(vt_y.size()>0) vt_y.clear();
  if(temp.size()>0) temp.clear();
  if(tMarkerID.size()>0) tMarkerID.clear();
- if(disM.size()>0) disM.clear();
 }
 // detect Markers
 // if using this func, be cautious when putting markers
@@ -1411,15 +1312,11 @@ void detectMarker(vector<cv::Point2f> centers){
 
 void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
    float lineWidth = 2;
-   float AB, BC, AC, AD, BD, CD;
-   float translateDistance;
+
    glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
    switch(centers.size()){
-        case 1: 
-          drawLetter(mA,lettermap[MarkerID[0]]);
-          break;
         case 2: 
          glBegin(GL_LINES);
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1430,93 +1327,35 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawLetter(mA,lettermap[MarkerID[0]]);
           drawLetter(mB,lettermap[MarkerID[1]]);
           break;
-
         case 3: 
-          if(line_flag){
-            translateDistance = -0.055;
-            glColor3f(1,1,0);
-            glLineWidth(lineWidth);
-            glBegin(GL_LINES);
-            glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-            glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-            glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-            glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-            glEnd();
-            glTranslatef(0.0f,translateDistance,0.0f);
-            glBegin(GL_LINES);
-            glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-            glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-            glEnd();
-            glBegin(GL_LINES);
-            glTranslatef(0.0f,translateDistance,0.0f);
-            glTranslatef(0.0f,translateDistance,0.0f);
-            glEnd();
-            glPopMatrix();
-            if (xflag) drawX(mB,mA, 'X');
-            else drawSideText(mB, mA);
-            if (yflag) drawX(mC,mB,'Y');
-            else drawSideText(mC,mB);
-            drawSideTextTranslate(mC,mA,translateDistance);
-            drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
-            drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
-          }else{
-              AB = floor(calculateDistance(mA,mB,true)+0.5);
-              BC = floor(calculateDistance(mB,mC,true)+0.5);
-              AC = floor(calculateDistance(mC,mA,true)+0.5);
-              if(AB == BC && BC == AC){// equilateral triangle
-                glColor4ub(0,255,0,200);
-              }
-              else if(AB==BC || BC == AC || AB == AC){// isosceles triangle
-               glColor4ub(0,255,255,200);
-              }
-              else{
-               glColor4ub(255,255,0,200);
-              }
-              glBegin(GL_TRIANGLES);
+         glBegin(GL_TRIANGLES);
+          glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+          glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+          glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+          glEnd();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
               glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
               glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
               glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glEnd();
-              if(outline_flag){
-                  glColor4ub(255,0,0,200);
-                  glLineWidth(lineWidth);
-                  glBegin(GL_LINES);      
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glEnd(); 
-              }
-              drawSideText(mA,mB);
-              drawSideText(mA,mC);
-              drawSideText(mB,mC);
-              drawArea(centers);
+              glEnd(); 
           }
-          glPopMatrix();
+           glPopMatrix();
           //print text
           drawLetter(mA,lettermap[MarkerID[0]]);
           drawLetter(mB,lettermap[MarkerID[1]]);
           drawLetter(mC,lettermap[MarkerID[2]]);
-         break;
-      case 4: 
-          AB = floor(calculateDistance(mA,mB,true)+0.5);
-          BC = floor(calculateDistance(mB,mC,true)+0.5);
-          AC = floor(calculateDistance(mC,mA,true)+0.5);
-          AD = floor(calculateDistance(mA,mD,true)+0.5);
-          CD = floor(calculateDistance(mC,mD,true)+0.5);
-          BD = floor(calculateDistance(mB,mD,true)+0.5);
-          
-          if(AB == BC && BC == CD  && AD == BC && AC == BD){// square 
-              glColor4ub(0,255,0,200);
-          }
-          else if (AB == BC && BC == CD  && AD == BC){// rhombus
-             glColor4ub(0,255,255,200);
-          } 
-          else{
-           glColor4ub(255,255,0,200);
-          }
+          drawSideText(mA,mB);
+          drawSideText(mA,mC);
+          drawSideText(mB,mC);
+          drawArea(centers);
+          break;
+        case 4: 
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1549,7 +1388,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawSideText(mA,mD);
           drawArea(centers); 
           break;
-       case 5:
+        case 5:
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1652,139 +1491,54 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawSideText(mD,mA);
           drawArea(centers); 
           break;
-
         case 7:
-          if(!coin_flag){
-              glColor4ub(255,255,0,200);
-              glBegin(GL_QUADS);
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+          glBegin(GL_QUADS);
+          glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+          glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+          glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+          glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+          glEnd();
+          glBegin(GL_QUADS);
+          glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+          glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+          glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+          glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+          glEnd();
+          glBegin(GL_TRIANGLES);
+          glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+          glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+          glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+          glEnd();
+          if(outline_flag){
+              glColor4ub(255,0,0,200);
+              glLineWidth(lineWidth);
+              glBegin(GL_LINES);      
               glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
               glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
               glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glEnd();
-              glBegin(GL_QUADS);
-              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-              glEnd();
-              if(outline_flag){
-                  glColor4ub(255,0,0,200);
-                  glLineWidth(lineWidth);
-                  glBegin(GL_LINES);      
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glEnd(); 
-                  glEnable(GL_LINE_STIPPLE);
-                  glLineStipple(2,0xaaaa);
-                  glBegin(GL_LINES);
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glEnd(); 
-                  glDisable(GL_LINE_STIPPLE);
-              }
-              drawSideText(mA,mB);
-              drawSideText(mB,mC);
-              drawSideText(mC,mG);
-              drawSideText(mG,mF);
-              drawSideText(mF,mE);
-              drawSideText(mE,mD);
-              drawSideText(mD,mA);
-           }
-          else{ //coin demonstration
-              glColor4ub(0,255,0,200);
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
               glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
               glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
               glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-              glEnd();
-              if(outline_flag){
-                  glColor4ub(255,0,0,200);
-                  glLineWidth(lineWidth);
-                  glBegin(GL_LINES);      
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glEnd(); 
-                  glEnable(GL_LINE_STIPPLE);
-                  glLineStipple(2,0xaaaa);
-                  glBegin(GL_LINES);      
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glEnd(); 
-                  glDisable(GL_LINE_STIPPLE);
-              }
-              drawSideText(mA,mB);
-              drawSideText(mB,mG);
-              drawSideText(mG,mF);
-              drawSideText(mF,mE);
-              drawSideText(mE,mD);
-              drawSideText(mD,mA);
+              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glEnd(); 
+              glEnable(GL_LINE_STIPPLE);
+              glLineStipple(2,0xaaaa);
+              glBegin(GL_LINES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+              glEnd(); 
+              glDisable(GL_LINE_STIPPLE);
           }
-          glPopMatrix();
+           glPopMatrix();
           //print text
           drawLetter(mA,lettermap[MarkerID[0]]);
           drawLetter(mB,lettermap[MarkerID[1]]);
@@ -1793,9 +1547,16 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawLetter(mE,lettermap[MarkerID[4]]);
           drawLetter(mF,lettermap[MarkerID[5]]);
           drawLetter(mG,lettermap[MarkerID[6]]);
-          drawArea(centers);
+          drawSideText(mA,mB);
+          drawSideText(mB,mC);
+          drawSideText(mC,mG);
+          drawSideText(mG,mF);
+          drawSideText(mF,mE);
+          drawSideText(mE,mD);
+          drawSideText(mD,mA);
+          drawArea(centers); 
           break;
-       case 8:
+        case 8:
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -2001,8 +1762,16 @@ void vDrawScene()
     } else if (mode == Grid){
       int a = sprintf(textString,"%s","Grid Mode");
       gridMode(centers);
-    }
-    int m =sprintf(unitString,"%s",imperialUnitFlag?"(Imperial Units)":"(Metric Units)");
+    } else if (mode == Line){
+       assignMarkerLine(centers);
+       int a = sprintf(textString,"%s","Line Mode");
+       lineMode(centers);
+    } else if (mode == Line2){
+       assignMarkerLine(centers);
+       int a = sprintf(textString,"%s","Line Mode2");
+       lineMode2(centers);
+     }
+     int m =sprintf(unitString,"%s",imperialUnitFlag?"(Imperial Units)":"(Metric Units)");
      glEnable(GL_BLEND);
      glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         

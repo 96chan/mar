@@ -1,0 +1,3 @@
+/home/ischool/Documents/MathMAR/build-aruco/src/CMakeFiles/aruco.dir
+/home/ischool/Documents/MathMAR/build-aruco/utils/CMakeFiles/aruco_test_gl.dir
+/home/ischool/Documents/MathMAR/build-aruco/CMakeFiles/uninstall.dir
