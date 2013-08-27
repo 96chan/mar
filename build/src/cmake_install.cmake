@@ -46,9 +46,9 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "main")
     ENDIF()
   ENDFOREACH()
   FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE FILES
-    "/home/ischool/Documents/MathMAR/b/src/libaruco.so.1.2.4"
-    "/home/ischool/Documents/MathMAR/b/src/libaruco.so.1.2"
-    "/home/ischool/Documents/MathMAR/b/src/libaruco.so"
+    "/home/ischool/Documents/MathMAR/build/src/libaruco.so.1.2.4"
+    "/home/ischool/Documents/MathMAR/build/src/libaruco.so.1.2"
+    "/home/ischool/Documents/MathMAR/build/src/libaruco.so"
     )
   FOREACH(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libaruco.so.1.2.4"

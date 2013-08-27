@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 SET(CMAKE_RELATIVE_PATH_TOP_SOURCE "/home/ischool/Documents/MathMAR")
-SET(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/ischool/Documents/MathMAR/b")
+SET(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/ischool/Documents/MathMAR/build")
 
 # Force unix paths in dependencies.
 SET(CMAKE_FORCE_UNIX_PATHS 1)

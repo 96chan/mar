@@ -35,7 +35,7 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_SOURCE_DIR = /home/ischool/Documents/MathMAR
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/b
+CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/build
 
 # Include any dependencies generated for this target.
 include src/CMakeFiles/aruco.dir/depend.make
@@ -48,17 +48,17 @@ include src/CMakeFiles/aruco.dir/flags.make
 
 src/CMakeFiles/aruco.dir/markerdetector.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/markerdetector.cpp.o: ../src/markerdetector.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/markerdetector.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/markerdetector.cpp.o -c /home/ischool/Documents/MathMAR/src/markerdetector.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/markerdetector.cpp.o -c /home/ischool/Documents/MathMAR/src/markerdetector.cpp
 
 src/CMakeFiles/aruco.dir/markerdetector.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/markerdetector.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/markerdetector.cpp > CMakeFiles/aruco.dir/markerdetector.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/markerdetector.cpp > CMakeFiles/aruco.dir/markerdetector.cpp.i
 
 src/CMakeFiles/aruco.dir/markerdetector.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/markerdetector.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/markerdetector.cpp -o CMakeFiles/aruco.dir/markerdetector.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/markerdetector.cpp -o CMakeFiles/aruco.dir/markerdetector.cpp.s
 
 src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
@@ -71,17 +71,17 @@ src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides.build: src/CMakeFiles/aru
 
 src/CMakeFiles/aruco.dir/boarddetector.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/boarddetector.cpp.o: ../src/boarddetector.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/boarddetector.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/boarddetector.cpp.o -c /home/ischool/Documents/MathMAR/src/boarddetector.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/boarddetector.cpp.o -c /home/ischool/Documents/MathMAR/src/boarddetector.cpp
 
 src/CMakeFiles/aruco.dir/boarddetector.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/boarddetector.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/boarddetector.cpp > CMakeFiles/aruco.dir/boarddetector.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/boarddetector.cpp > CMakeFiles/aruco.dir/boarddetector.cpp.i
 
 src/CMakeFiles/aruco.dir/boarddetector.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/boarddetector.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/boarddetector.cpp -o CMakeFiles/aruco.dir/boarddetector.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/boarddetector.cpp -o CMakeFiles/aruco.dir/boarddetector.cpp.s
 
 src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
@@ -94,17 +94,17 @@ src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides.build: src/CMakeFiles/aruc
 
 src/CMakeFiles/aruco.dir/cameraparameters.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/cameraparameters.cpp.o: ../src/cameraparameters.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/cameraparameters.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cameraparameters.cpp.o -c /home/ischool/Documents/MathMAR/src/cameraparameters.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cameraparameters.cpp.o -c /home/ischool/Documents/MathMAR/src/cameraparameters.cpp
 
 src/CMakeFiles/aruco.dir/cameraparameters.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/cameraparameters.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/cameraparameters.cpp > CMakeFiles/aruco.dir/cameraparameters.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/cameraparameters.cpp > CMakeFiles/aruco.dir/cameraparameters.cpp.i
 
 src/CMakeFiles/aruco.dir/cameraparameters.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/cameraparameters.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/cameraparameters.cpp -o CMakeFiles/aruco.dir/cameraparameters.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/cameraparameters.cpp -o CMakeFiles/aruco.dir/cameraparameters.cpp.s
 
 src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
@@ -117,17 +117,17 @@ src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides.build: src/CMakeFiles/a
 
 src/CMakeFiles/aruco.dir/marker.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/marker.cpp.o: ../src/marker.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/marker.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/marker.cpp.o -c /home/ischool/Documents/MathMAR/src/marker.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/marker.cpp.o -c /home/ischool/Documents/MathMAR/src/marker.cpp
 
 src/CMakeFiles/aruco.dir/marker.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/marker.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/marker.cpp > CMakeFiles/aruco.dir/marker.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/marker.cpp > CMakeFiles/aruco.dir/marker.cpp.i
 
 src/CMakeFiles/aruco.dir/marker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/marker.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/marker.cpp -o CMakeFiles/aruco.dir/marker.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/marker.cpp -o CMakeFiles/aruco.dir/marker.cpp.s
 
 src/CMakeFiles/aruco.dir/marker.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/marker.cpp.o.requires
@@ -140,17 +140,17 @@ src/CMakeFiles/aruco.dir/marker.cpp.o.provides.build: src/CMakeFiles/aruco.dir/m
 
 src/CMakeFiles/aruco.dir/board.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/board.cpp.o: ../src/board.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/board.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/board.cpp.o -c /home/ischool/Documents/MathMAR/src/board.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/board.cpp.o -c /home/ischool/Documents/MathMAR/src/board.cpp
 
 src/CMakeFiles/aruco.dir/board.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/board.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/board.cpp > CMakeFiles/aruco.dir/board.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/board.cpp > CMakeFiles/aruco.dir/board.cpp.i
 
 src/CMakeFiles/aruco.dir/board.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/board.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/board.cpp -o CMakeFiles/aruco.dir/board.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/board.cpp -o CMakeFiles/aruco.dir/board.cpp.s
 
 src/CMakeFiles/aruco.dir/board.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/board.cpp.o.requires
@@ -163,17 +163,17 @@ src/CMakeFiles/aruco.dir/board.cpp.o.provides.build: src/CMakeFiles/aruco.dir/bo
 
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o: ../src/cvdrawingutils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cvdrawingutils.cpp.o -c /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cvdrawingutils.cpp.o -c /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp
 
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/cvdrawingutils.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp > CMakeFiles/aruco.dir/cvdrawingutils.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp > CMakeFiles/aruco.dir/cvdrawingutils.cpp.i
 
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/cvdrawingutils.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp -o CMakeFiles/aruco.dir/cvdrawingutils.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp -o CMakeFiles/aruco.dir/cvdrawingutils.cpp.s
 
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o.requires
@@ -186,17 +186,17 @@ src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o.provides.build: src/CMakeFiles/aru
 
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o: ../src/arucofidmarkers.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/b/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/arucofidmarkers.cpp.o -c /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/arucofidmarkers.cpp.o -c /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp
 
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/arucofidmarkers.cpp.i"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp > CMakeFiles/aruco.dir/arucofidmarkers.cpp.i
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp > CMakeFiles/aruco.dir/arucofidmarkers.cpp.i
 
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/arucofidmarkers.cpp.s"
-	cd /home/ischool/Documents/MathMAR/b/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp -o CMakeFiles/aruco.dir/arucofidmarkers.cpp.s
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp -o CMakeFiles/aruco.dir/arucofidmarkers.cpp.s
 
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o.requires:
 .PHONY : src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o.requires
@@ -248,8 +248,8 @@ src/libaruco.so.1.2.4: /usr/local/lib/libopencv_videostab.so
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/build.make
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library libaruco.so"
-	cd /home/ischool/Documents/MathMAR/b/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/aruco.dir/link.txt --verbose=$(VERBOSE)
-	cd /home/ischool/Documents/MathMAR/b/src && $(CMAKE_COMMAND) -E cmake_symlink_library libaruco.so.1.2.4 libaruco.so.1.2 libaruco.so
+	cd /home/ischool/Documents/MathMAR/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/aruco.dir/link.txt --verbose=$(VERBOSE)
+	cd /home/ischool/Documents/MathMAR/build/src && $(CMAKE_COMMAND) -E cmake_symlink_library libaruco.so.1.2.4 libaruco.so.1.2 libaruco.so
 
 src/libaruco.so.1.2: src/libaruco.so.1.2.4
 
@@ -269,10 +269,10 @@ src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.
 .PHONY : src/CMakeFiles/aruco.dir/requires
 
 src/CMakeFiles/aruco.dir/clean:
-	cd /home/ischool/Documents/MathMAR/b/src && $(CMAKE_COMMAND) -P CMakeFiles/aruco.dir/cmake_clean.cmake
+	cd /home/ischool/Documents/MathMAR/build/src && $(CMAKE_COMMAND) -P CMakeFiles/aruco.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/aruco.dir/clean
 
 src/CMakeFiles/aruco.dir/depend:
-	cd /home/ischool/Documents/MathMAR/b && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ischool/Documents/MathMAR /home/ischool/Documents/MathMAR/src /home/ischool/Documents/MathMAR/b /home/ischool/Documents/MathMAR/b/src /home/ischool/Documents/MathMAR/b/src/CMakeFiles/aruco.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ischool/Documents/MathMAR/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ischool/Documents/MathMAR /home/ischool/Documents/MathMAR/src /home/ischool/Documents/MathMAR/build /home/ischool/Documents/MathMAR/build/src /home/ischool/Documents/MathMAR/build/src/CMakeFiles/aruco.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/aruco.dir/depend
 

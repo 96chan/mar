@@ -39,7 +39,7 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_SOURCE_DIR = /home/ischool/Documents/MathMAR
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/b
+CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -108,7 +108,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/ischool/Documents/MathMAR/b/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/ischool/Documents/MathMAR/build/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -127,9 +127,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/b/CMakeFiles /home/ischool/Documents/MathMAR/b/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/build/CMakeFiles /home/ischool/Documents/MathMAR/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/b/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -183,6 +183,19 @@ aruco/fast:
 .PHONY : aruco/fast
 
 #=============================================================================
+# Target rules for targets named GLUI
+
+# Build rule for target.
+GLUI: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 GLUI
+.PHONY : GLUI
+
+# fast build rule for target.
+GLUI/fast:
+	$(MAKE) -f glui/CMakeFiles/GLUI.dir/build.make glui/CMakeFiles/GLUI.dir/build
+.PHONY : GLUI/fast
+
+#=============================================================================
 # Target rules for targets named MATHMAR
 
 # Build rule for target.
@@ -211,6 +224,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... uninstall"
 	@echo "... aruco"
+	@echo "... GLUI"
 	@echo "... MATHMAR"
 .PHONY : help
 

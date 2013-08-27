@@ -33,13 +33,14 @@ IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake" TYPE FILE FILES "/home/ischool/Documents/MathMAR/b/Findaruco.cmake")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake" TYPE FILE FILES "/home/ischool/Documents/MathMAR/build/Findaruco.cmake")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  INCLUDE("/home/ischool/Documents/MathMAR/b/src/cmake_install.cmake")
-  INCLUDE("/home/ischool/Documents/MathMAR/b/utils/cmake_install.cmake")
+  INCLUDE("/home/ischool/Documents/MathMAR/build/src/cmake_install.cmake")
+  INCLUDE("/home/ischool/Documents/MathMAR/build/glui/cmake_install.cmake")
+  INCLUDE("/home/ischool/Documents/MathMAR/build/utils/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
@@ -49,7 +50,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/home/ischool/Documents/MathMAR/b/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/home/ischool/Documents/MathMAR/build/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/home/ischool/Documents/MathMAR/b/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/home/ischool/Documents/MathMAR/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

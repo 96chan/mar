@@ -1,2 +1,2 @@
-#!/bin/bash
-./utils/MATHMAR live ~/Documents/MathMAR/camera.yml 0.038
+#/bin/bash
+~/Documents/MathMAR/build/utils/MATHMAR live ~/Documents/MathMAR/camera.yml 0.038

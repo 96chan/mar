@@ -38,16 +38,18 @@ or implied, of Rafael Muñoz Salinas.
 #else
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include <GL/glui.h>
 #endif
 #include "aruco.h"
 #include "functions.h"
+
+#define PI 3.1415926535897932384626433832795
 using namespace cv;
 using namespace aruco;
 
 //Enumeration for modes
 enum Mode{
   Free,
-  Triangle,
   Grid,
 };
 
@@ -66,8 +68,33 @@ Size TheGlWindowSize;
 bool TheCaptureFlag=true;
 bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat &TheDistorsionCameraParams,Size size);
 Mat mA, mB, mC, mD, mE, mF, mG, mH, mI; // Marker Types
+Mat eA,eB,eD,eE,eF,eG; // Extended Marker for simulation 
 int MarkerID[9]; // marker id such as A,B,C.. upto I
 int file_id = 0; //screen capture numbering
+int window_id;
+
+// Pointer to the controls
+GLUI *glui_button, *glui_subwin; 
+GLUI_Panel *panel1;
+GLUI_Panel *panel2;
+GLUI_Panel *panel3;
+GLUI_Panel *panel4;
+GLUI_RadioGroup *linear_rg;
+GLUI_RadioGroup *unit_rg;
+GLUI_Checkbox *outline_cb;
+GLUI_Checkbox *grid_cb;
+GLUI_Checkbox *simulate_cb;
+
+int mode_type=0;
+int linear_type=3;
+int outline_type=0;
+int unit_type=0;
+int simulate_type=0;
+GLUI_Button *show_btn;
+GLUI_Button *hide_btn;
+GLUI_Button *capture_btn;
+GLUI_Button *quit_btn;
+
 
 // flags
 bool imperialUnitFlag = false;
@@ -78,7 +105,8 @@ bool outline_flag = false;
 bool capture_flag = false;
 bool line_flag =false;
 bool coin_flag = false; 
-bool alias_flag = false;// true;
+bool simulate_flag = false;
+bool alias_flag = true;// true;
 float M2CM = 100.0f;
 float M2IN = 39.3700787f;
 
@@ -103,139 +131,80 @@ bool readArguments ( int argc,char **argv )
     TheMarkerSize=atof(argv[3]);
     return true;
 }
-/************************************
- *
- *
- ************************************/
-int main(int argc,char **argv)
-{
-    try
-    {//parse arguments
-        if (readArguments (argc,argv)==false) return 0;
-        //read from camera
-        if (TheInputVideo=="live"){
-            TheVideoCapturer.open(0); // change number 0 or 1
-            TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH,1280);
-            TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT,720);
-        }
-        else TheVideoCapturer.open(TheInputVideo);
-        if (!TheVideoCapturer.isOpened())
-        {
-            cerr<<"Could not open video"<<endl;
-            return -1;
 
-        }
-        lettermap[255] = "I";
-        lettermap[666] = "H";
-        lettermap[771] = "C";
-        lettermap[787] = "G";
-        lettermap[816] = "F";
-        lettermap[819] = "E";
-        lettermap[922] = "A";
-        lettermap[923] = "B";
-        lettermap[939] = "D";
-        lettermap[508] = "J";
-        lettermap[184] = "K";
-        lettermap[1] = "L";
-        lettermap[409] = "M";
-        lettermap[938] = "N";
-        lettermap[855] = "O";
-        lettermap[943] = "P"; 
-        lettermap[937] = "Q"; 
-        lettermap[942] = "R"; 
-        lettermap[281] = "S"; 
-        lettermap[511] = "T"; 
-
-        //read first image
-        TheVideoCapturer>>TheInputImage;
-        //read camera paramters if passed
-        TheCameraParams.readFromXMLFile(TheIntrinsicFile);
-        TheCameraParams.resize(TheInputImage.size());
-        
-        init();
-        glutInit(&argc, argv);
-        glutInitWindowPosition( 0, 0);
-        glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);
-        glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
-        glutCreateWindow( "MathMAR" );
-        //glutFullScreen();
-        
-        // Main Menu by Chan
-        GLint submenu = glutCreateMenu( vMenu );
-        //sub menu 
-        glutAddMenuEntry("X-line Mode",4);
-        glutAddMenuEntry("Y-line Mode",5);
-        glutAddMenuEntry("Z-line Mode",6);
-        glutCreateMenu( vMenu );
-        glutAddMenuEntry("Free Mode",1);
-        glutAddMenuEntry("Grid Mode",2);
-        glutAddSubMenu("Line Mode",submenu);
-        glutAddMenuEntry("Show Outline",7);
-        glutAddMenuEntry("Change Unit",8);
-        glutAddMenuEntry("ScreenShot",10);
-        glutAttachMenu(GLUT_LEFT_BUTTON);
-
-        glutDisplayFunc( vDrawScene );
-        glutIdleFunc( vIdle );
-        glutReshapeFunc( vResize );
-        //glutMouseFunc(vMouse);
-        glutKeyboardFunc(vKeyboard);
-        glClearColor( 0.0, 0.0, 0.0, 1.0 );
-        glClearDepth( 1.0 );
-        TheGlWindowSize=TheInputImage.size();
-        vResize(TheGlWindowSize.width,TheGlWindowSize.height);
-        glutMainLoop();
-        
-    } catch (std::exception &ex)
-
-    {
-        cout<<"Exception :"<<ex.what()<<endl;
+void vButton(GLUI_Control* control){
+    cout<<"control : " << control->get_id() <<endl;
+  
+    if(control->get_id() == 1){
+            capture_flag = true;
+            ScreenCapture();
+            cout << "Screen Capture" <<endl;
+    }
+    else if(control->get_id() == 2){
+            glui_button->hide();
+            glui_subwin->show();
+    }
+    else if(control->get_id() == 3){
+            glui_button->show();
+            glui_subwin->hide(); 
     }
 }
 /************************************
  * Mode Selection using Touch
 *************************************/
 void vMenu(int value){
+    cout << "mode_type : " << mode_type <<endl;
+    cout << "simulate_type " << simulate_type <<endl;
+    cout << "outline_type " << outline_type <<endl;
+
+    if(mode_type==0) value =1;
+    else if(mode_type==1) value =2;
+    if(outline_type==0) outline_flag =false;
+    else if(outline_type==1) outline_flag =true;
+    if(unit_type==0) imperialUnitFlag=false; 
+    else if(unit_type==1) imperialUnitFlag =true;
+    if(simulate_type==0) simulate_flag = false;
+    else if(simulate_type==1) simulate_flag = true;
+    
     switch(value){
         case 1:
             mode = Free;
             cout << "I am in the default free mode" << endl;
+            if(linear_type==0){xflag =true;yflag=false;zflag=false;}
+            else if(linear_type==1){xflag =false;yflag=true;zflag=false;}
+            else if(linear_type==2){xflag =false;yflag=false;zflag=true;}
+            else if(linear_type==3){xflag =false;yflag=false;zflag=false;}
             break;
         case 2:
             mode = Grid;
             cout << "I am in the grid mode" << endl;
             break;
-        case 4:
+        case 3:
             mode = Free;
             xflag = !xflag;
             cout << "I am in the x-variable mode" << endl;
             break;
-        case 5:
+        case 4:
             mode = Free;
             yflag = !yflag;
             cout << "I am in the y-variable mode" << endl;
             break;
-        case 6:
+        case 5:
             mode = Free;
             zflag = !zflag;
             cout << "I am in the z-variable mode" << endl;
             break;
-        case 7:
+        case 6:
             mode = Free;
             outline_flag = !outline_flag;
             break;
-         case 8:
+        case 7:
             imperialUnitFlag = !imperialUnitFlag;
             break;
-        case 9:
+        case 8:
             alias_flag = !alias_flag;
             break;
-       case 10:
-            capture_flag = true;
-            ScreenCapture();
-            cout << "Screen Capture" <<endl;
-            break;
-        default: break;
+       default: break;
         }
     glutPostRedisplay();
 }
@@ -271,8 +240,8 @@ void vKeyboard(unsigned char key,int x,int y){
 void ScreenCapture(){
  time_t now = time(0);
  char* dt = ctime(&now);
-
- std::string filename = "./image/"+string(dt)+".png";
+ std::string filename = "/home/ischool/Documents/MathMAR/image/"+string(dt)+".png";
+ 
  cv::Mat img(720,1280,CV_8UC3);
  glPixelStorei(GL_PACK_ALIGNMENT,(img.step &3)?1:4);
  glPixelStorei(GL_PACK_ROW_LENGTH,img.step/img.elemSize());
@@ -496,9 +465,6 @@ glTranslatef(0.0, dist, 0.0);
   drawStringLetter(letter);
   
 glPopMatrix();
-  #ifdef DEBUG
-  cout << "Drawing a character"<<endl;
-  #endif
 }
 
 
@@ -576,8 +542,8 @@ void drawArea(vector<cv::Point2f> centers){
   int perimeter = calculatePerimeter(centers);
   float area = calculateArea(centers);
   #ifdef DEBUG
-  cout << "Perimeter : "<<perimeter<<endl;
-  cout << "Area : " <<area <<endl;
+//  cout << "Perimeter : "<<perimeter<<endl;
+//  cout << "Area : " <<area <<endl;
   #endif
   char buffer[50];  
   char smallbuffer[50]; 
@@ -730,7 +696,19 @@ float getSin(cv::Mat t0, cv::Mat t1){
 float cal_bottom_len(float hypotenuse, float height){
      return sqrt((hypotenuse*hypotenuse)-(height*height));
 }
-
+void simulateMode(vector<cv::Point2f> centers){
+  switch(centers.size()){
+    case 7:
+        eA = 2*mA-mC;
+        eB = 2*mB-mC;
+        eD = 2*mD-mC;
+        eE = 2*mE-mC;
+        eF = 2*mF-mC;
+        eG = 2*mG-mC;
+        break;
+    default: break;
+  }
+}
 // available mode only for triangle and quadranglie
 void gridMode(vector<cv::Point2f> centers){
   float lb[2],lu[2],rb[2],ru[2];
@@ -946,8 +924,8 @@ void gridMode(vector<cv::Point2f> centers){
    // draw yellow shape as the Free Mode
    freeMode(centers,false);
    #ifdef DEBUG
-   std::cout << rows << " rows" << std::endl;
-   std::cout << cols << " columns" << std::endl; 
+//   std::cout << rows << " rows" << std::endl;
+//   std::cout << cols << " columns" << std::endl; 
    #endif
    // draw grids
    GLfloat grid2x2[12] = {rb[0],rb[1],-mC.at<float>(2,0),lb[0],lb[1],-mB.at<float>(2,0),ru[0],ru[1],-mA.at<float>(2,0),lu[0],lu[1],-mA.at<float>(2,0)};
@@ -1195,7 +1173,7 @@ case 4:
        
        for(int i=0;i<(int)disM.size()-1;i++)if(disM[i]!=disM[i+1])tflag=false;
   
-       if(tflag){
+//       if(tflag){
             coin_flag =true;
             mA = tM[0];
             mB = tM[1];
@@ -1204,32 +1182,33 @@ case 4:
             mE = tM[4];
             mF = tM[5];
             mG = tM[6];
-       }else{
-           coin_flag =false;
-           mG = t[vt_y[6].idx];
-           MarkerID[6]= tMarkerID[vt_y[6].idx];
-           temp.push_back(vt_y[0]);
-           temp.push_back(vt_y[1]);
-           temp.push_back(vt_y[2]);
-           sort(temp.begin(),temp.end(),Sort_x);
-           mA = t[temp[0].idx];
-           MarkerID[0]= tMarkerID[temp[0].idx];
-           mD = t[temp[1].idx];
-           MarkerID[3]= tMarkerID[temp[1].idx];
-           mE = t[temp[2].idx];
-           MarkerID[4]= tMarkerID[temp[2].idx];
-           temp.clear();
-           temp.push_back(vt_y[3]);
-           temp.push_back(vt_y[4]);
-           temp.push_back(vt_y[5]);
-           sort(temp.begin(),temp.end(),Sort_x);
-           mB = t[temp[0].idx];
-           MarkerID[1]= tMarkerID[temp[0].idx];
-           mC = t[temp[1].idx];
-           MarkerID[2]= tMarkerID[temp[1].idx];
-           mF = t[temp[2].idx];
-           MarkerID[5]= tMarkerID[temp[2].idx];
-       }
+//       }else{
+//           coin_flag =false;
+//           mG = t[vt_y[6].idx];
+//           MarkerID[6]= tMarkerID[vt_y[6].idx];
+//           temp.push_back(vt_y[0]);
+//           temp.push_back(vt_y[1]);
+//           temp.push_back(vt_y[2]);
+//           sort(temp.begin(),temp.end(),Sort_x);
+//           mA = t[temp[0].idx];
+//           MarkerID[0]= tMarkerID[temp[0].idx];
+//           mD = t[temp[1].idx];
+//           MarkerID[3]= tMarkerID[temp[1].idx];
+//           mE = t[temp[2].idx];
+//           MarkerID[4]= tMarkerID[temp[2].idx];
+//           temp.clear();
+//           temp.push_back(vt_y[3]);
+//           temp.push_back(vt_y[4]);
+//           temp.push_back(vt_y[5]);
+//           sort(temp.begin(),temp.end(),Sort_x);
+//           mB = t[temp[0].idx];
+//           MarkerID[1]= tMarkerID[temp[0].idx];
+//           mC = t[temp[1].idx];
+//           MarkerID[2]= tMarkerID[temp[1].idx];
+//           mF = t[temp[2].idx];
+//           MarkerID[5]= tMarkerID[temp[2].idx];
+//       }
+       if(simulate_flag){simulateMode(centers);}
        break;
    case 10:
       mG = t[vt_y[6].idx];
@@ -1413,15 +1392,22 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
    float lineWidth = 2;
    float AB, BC, AC, AD, BD, CD;
    float translateDistance;
-   glColor4ub(255,255,0,200);
+   float r_eA,r_eB,r_eD,r_eE,r_eF,r_eG;
+  glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
    switch(centers.size()){
         case 1: 
-          drawLetter(mA,lettermap[MarkerID[0]]);
+           linear_rg->disable();
+           grid_cb->disable();
+           simulate_cb->disable();
+           drawLetter(mA,lettermap[MarkerID[0]]);
           break;
         case 2: 
-         glBegin(GL_LINES);
+          linear_rg->disable();
+          grid_cb->disable();
+          simulate_cb->disable();
+          glBegin(GL_LINES);
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
           glEnd();
@@ -1433,6 +1419,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
 
         case 3: 
           if(line_flag){
+            grid_cb->disable();
+            simulate_cb->disable();
+            linear_rg->enable();
             translateDistance = -0.055;
             glColor3f(1,1,0);
             glLineWidth(lineWidth);
@@ -1460,6 +1449,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
             drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
             drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
           }else{
+               simulate_cb->disable();
+               linear_rg->disable();
+               grid_cb->enable();
               AB = floor(calculateDistance(mA,mB,true)+0.5);
               BC = floor(calculateDistance(mB,mC,true)+0.5);
               AC = floor(calculateDistance(mC,mA,true)+0.5);
@@ -1501,6 +1493,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawLetter(mC,lettermap[MarkerID[2]]);
          break;
       case 4: 
+               simulate_cb->disable();
+               linear_rg->disable();
+               grid_cb->enable();
           AB = floor(calculateDistance(mA,mB,true)+0.5);
           BC = floor(calculateDistance(mB,mC,true)+0.5);
           AC = floor(calculateDistance(mC,mA,true)+0.5);
@@ -1550,6 +1545,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
        case 5:
+               simulate_cb->disable();
+               linear_rg->disable();
+               grid_cb->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1599,7 +1597,10 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
         case 6:
-          glBegin(GL_QUADS);
+               simulate_cb->disable();
+               linear_rg->disable();
+               grid_cb->disable();
+           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
@@ -1654,6 +1655,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           break;
 
         case 7:
+               linear_rg->disable();
+               grid_cb->disable();
+           simulate_cb->enable();
           if(!coin_flag){
               glColor4ub(255,255,0,200);
               glBegin(GL_QUADS);
@@ -1711,7 +1715,8 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
               drawSideText(mD,mA);
            }
           else{ //coin demonstration
-              glColor4ub(0,255,0,200);
+        //      glColor4ub(0,255,0,200);
+              glColor4ub(255,255,0,200);
               glBegin(GL_TRIANGLES);
               glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
               glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1742,7 +1747,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
               glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
               glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
               glEnd();
-              if(outline_flag){
+              if(outline_flag || simulate_flag){
                   glColor4ub(255,0,0,200);
                   glLineWidth(lineWidth);
                   glBegin(GL_LINES);      
@@ -1776,6 +1781,65 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
                   glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
                   glEnd(); 
                   glDisable(GL_LINE_STIPPLE);
+                  if(simulate_flag){
+                      r_eA= calculateDistance(mA,eA,false)/2;
+                      r_eB= calculateDistance(mB,eB,false)/2;
+                      r_eD= calculateDistance(mD,eD,false)/2;
+                      r_eE= calculateDistance(mE,eE,false)/2;
+                      r_eF= calculateDistance(mF,eF,false)/2;
+                      r_eG= calculateDistance(mG,eG,false)/2;
+                      glColor4ub(255,255,255,200);
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eA.at<float>(0,0)+cos(i) *r_eA, eA.at<float>(1,0)+sin(i)*r_eA, -eA.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eB.at<float>(0,0)+cos(i) *r_eB, eB.at<float>(1,0)+sin(i)*r_eB, -eB.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eD.at<float>(0,0)+cos(i) *r_eD, eD.at<float>(1,0)+sin(i)*r_eD, -eD.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eE.at<float>(0,0)+cos(i) *r_eE, eE.at<float>(1,0)+sin(i)*r_eE, -eE.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eF.at<float>(0,0)+cos(i) *r_eF, eF.at<float>(1,0)+sin(i)*r_eF, -eF.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at<float>(1,0)+sin(i)*r_eG, -eG.at<float>(2,0));
+                      
+                      glEnd();
+                      glColor4ub(255,0,0,200);
+                      glEnable(GL_LINE_STIPPLE);
+                      glLineStipple(2,0xaaaa);
+                      glBegin(GL_LINES);      
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(eB.at<float>(0,0),eB.at<float>(1,0) ,-eB.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(eD.at<float>(0,0),eD.at<float>(1,0) ,-eD.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(eE.at<float>(0,0),eE.at<float>(1,0) ,-eE.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(eF.at<float>(0,0),eF.at<float>(1,0) ,-eF.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(eG.at<float>(0,0),eG.at<float>(1,0) ,-eG.at<float>(2,0));
+                      
+                      glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
+                      glVertex3f(eD.at<float>(0,0),eD.at<float>(1,0) ,-eD.at<float>(2,0));
+                      glVertex3f(eD.at<float>(0,0),eD.at<float>(1,0) ,-eD.at<float>(2,0));
+                      glVertex3f(eE.at<float>(0,0),eE.at<float>(1,0) ,-eE.at<float>(2,0));
+                      glVertex3f(eE.at<float>(0,0),eE.at<float>(1,0) ,-eE.at<float>(2,0));
+                      glVertex3f(eF.at<float>(0,0),eF.at<float>(1,0) ,-eF.at<float>(2,0));
+                      glVertex3f(eF.at<float>(0,0),eF.at<float>(1,0) ,-eF.at<float>(2,0));
+                      glVertex3f(eG.at<float>(0,0),eG.at<float>(1,0) ,-eG.at<float>(2,0));
+                      glVertex3f(eG.at<float>(0,0),eG.at<float>(1,0) ,-eG.at<float>(2,0));
+                      glVertex3f(eB.at<float>(0,0),eB.at<float>(1,0) ,-eB.at<float>(2,0));
+                      glVertex3f(eB.at<float>(0,0),eB.at<float>(1,0) ,-eB.at<float>(2,0));
+                      glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
+                      glEnd(); 
+                      glDisable(GL_LINE_STIPPLE);
+                 }
               }
               drawSideText(mA,mB);
               drawSideText(mB,mG);
@@ -1796,6 +1860,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers);
           break;
        case 8:
+          linear_rg->disable();
+          grid_cb->disable();
+          simulate_cb->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1866,6 +1933,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
         case 9:
+          linear_rg->disable();
+          grid_cb->disable();
+          simulate_cb->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -2066,6 +2136,7 @@ void vIdle()
         //resize the image to the size of the GL window
         cv::resize(TheUndInputImage,TheResizedImage,TheGlWindowSize);
     }
+    glutSetWindow(window_id);
     glutPostRedisplay();
 }
 /************************************
@@ -2084,5 +2155,161 @@ void vResize( GLsizei iWidth, GLsizei iHeight )
         //resize the image to the size of the GL window
         if (TheUndInputImage.rows!=0)
             cv::resize(TheUndInputImage,TheResizedImage,TheGlWindowSize);
+    }
+}
+/************************************
+ *
+ *
+ ************************************/
+int main(int argc,char **argv)
+{
+    try
+    {//parse arguments
+        if (readArguments (argc,argv)==false) return 0;
+        //read from camera
+        if (TheInputVideo=="live"){
+            TheVideoCapturer.open(0); // change number 0 or 1
+            TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH,1280);
+            TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT,720);
+        }
+        else TheVideoCapturer.open(TheInputVideo);
+        if (!TheVideoCapturer.isOpened())
+        {
+            cerr<<"Could not open video"<<endl;
+            return -1;
+
+        }
+        lettermap[255] = "I";
+        lettermap[666] = "H";
+        lettermap[771] = "C";
+        lettermap[787] = "G";
+        lettermap[816] = "F";
+        lettermap[819] = "E";
+        lettermap[922] = "A";
+        lettermap[923] = "B";
+        lettermap[939] = "D";
+        lettermap[508] = "J";
+        lettermap[184] = "K";
+        lettermap[1] = "L";
+        lettermap[409] = "M";
+        lettermap[938] = "N";
+        lettermap[855] = "O";
+        lettermap[943] = "P"; 
+        lettermap[937] = "Q"; 
+        lettermap[942] = "R"; 
+        lettermap[281] = "S"; 
+        lettermap[511] = "T"; 
+
+        //read first image
+        TheVideoCapturer>>TheInputImage;
+        //read camera paramters if passed
+        TheCameraParams.readFromXMLFile(TheIntrinsicFile);
+        TheCameraParams.resize(TheInputImage.size());
+        
+        init();
+        glutInit(&argc, argv);
+        glutInitWindowPosition( 0, 0);
+        glutInitWindowSize(TheInputImage.size().width,TheInputImage.size().height);
+        glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
+        window_id = glutCreateWindow( "MathMAR" );
+        //glutFullScreen();
+        
+        //GLUI *glui = GLUI_Master.create_glui("MATHMAR");
+        glui_button = GLUI_Master.create_glui_subwindow(window_id,GLUI_SUBWINDOW_BOTTOM);
+        show_btn = new GLUI_Button(glui_button,"Show MENU",2,vButton);
+//        new GLUI_Column(glui_button,false);
+        //glui_subwin->add_column(true);
+        glui_button->set_main_gfx_window( window_id);
+        
+        glui_subwin = GLUI_Master.create_glui_subwindow(window_id,GLUI_SUBWINDOW_RIGHT);
+        glui_subwin->set_main_gfx_window( window_id);
+        glui_subwin->add_statictext("");
+        hide_btn = new GLUI_Button(glui_subwin,"Hide MENU",3,vButton);
+        glui_subwin->add_statictext("");
+        glui_subwin->add_separator();
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("Grid Mode");
+        grid_cb = new GLUI_Checkbox(glui_subwin,"Enabled",&mode_type,-1,vMenu);
+        //glui_subwin->add_checkbox("Enabled",&mode_type,-1,vMenu);
+        glui_subwin->add_statictext("");
+        glui_subwin->add_separator();
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("Linear Mode");
+        linear_rg = new GLUI_RadioGroup(glui_subwin,&linear_type,-1,vMenu);
+            new GLUI_RadioButton( linear_rg, "X variable" );
+            new GLUI_RadioButton( linear_rg, "Y variable" );
+            new GLUI_RadioButton( linear_rg, "Z variable" );
+            new GLUI_RadioButton( linear_rg, "None" );
+        glui_subwin->add_statictext("");
+        glui_subwin->add_separator();
+        //glui_subwin->add_column(true);
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("Unit Change");
+        unit_rg = new GLUI_RadioGroup(glui_subwin,&unit_type,-1,vMenu);
+            new GLUI_RadioButton( unit_rg, "Metric(cm)" );
+            new GLUI_RadioButton( unit_rg, "Imperial(in)" );
+        glui_subwin->add_statictext("");
+        glui_subwin->add_separator();
+        
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("Outline");
+        outline_cb = new GLUI_Checkbox(glui_subwin,"Show Outline",&outline_type,-1,vMenu);
+        //glui_subwin->add_checkbox("Show Outline",&outline_type,-1,vMenu);
+        glui_subwin->add_statictext("");
+        glui_subwin->add_separator();
+
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("Simulation");
+        simulate_cb = new GLUI_Checkbox(glui_subwin,"Simulate",&simulate_type,-1,vMenu);
+        //glui_subwin->add_checkbox("Simulate",&simulate_type,-1,vMenu);
+        glui_subwin->add_statictext("");
+        glui_subwin->add_separator();
+          
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("ScreenShot");
+        capture_btn = new GLUI_Button(glui_subwin,"Capture Now",1,vButton);
+        glui_subwin->add_statictext("");
+        //glui_subwin->add_column(true);
+        glui_subwin->add_separator();
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("");
+        glui_subwin->add_statictext("");
+        quit_btn = new GLUI_Button(glui_subwin,"Quit",0,exit);
+
+        glui_subwin->hide();
+/*      
+        GLint submenu = glutCreateMenu( vMenu );
+        //sub menu 
+        glutAddMenuEntry("X-line Mode",4);
+        glutAddMenuEntry("Y-line Mode",5);
+        glutAddMenuEntry("Z-line Mode",6);
+        glutCreateMenu( vMenu );
+        glutAddMenuEntry("Free Mode",1);
+        glutAddMenuEntry("Grid Mode",2);
+        glutAddSubMenu("Line Mode",submenu);
+        glutAddMenuEntry("Show Outline",7);
+        glutAddMenuEntry("Change Unit",8);
+        glutAddMenuEntry("ScreenShot",10);
+        glutAttachMenu(GLUT_LEFT_BUTTON);
+*/
+        glutDisplayFunc( vDrawScene );
+        //glutIdleFunc( vIdle );
+        GLUI_Master.set_glutIdleFunc( vIdle);
+        glutReshapeFunc( vResize );
+        //glutMouseFunc(vMouse);
+        glutKeyboardFunc(vKeyboard);
+        glClearColor( 0.0, 0.0, 0.0, 1.0 );
+        glClearDepth( 1.0 );
+        TheGlWindowSize=TheInputImage.size();
+        vResize(TheGlWindowSize.width,TheGlWindowSize.height);
+        glutMainLoop();
+        
+    } catch (std::exception &ex)
+
+    {
+        cout<<"Exception :"<<ex.what()<<endl;
     }
 }

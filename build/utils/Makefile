@@ -39,7 +39,7 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_SOURCE_DIR = /home/ischool/Documents/MathMAR
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/b
+CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -98,7 +98,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/ischool/Documents/MathMAR/b && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/ischool/Documents/MathMAR/build && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -108,7 +108,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/ischool/Documents/MathMAR/b && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/ischool/Documents/MathMAR/b/CPackSourceConfig.cmake
+	cd /home/ischool/Documents/MathMAR/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/ischool/Documents/MathMAR/build/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -127,14 +127,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/ischool/Documents/MathMAR/b && $(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/b/CMakeFiles /home/ischool/Documents/MathMAR/b/utils/CMakeFiles/progress.marks
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f CMakeFiles/Makefile2 utils/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/b/CMakeFiles 0
+	cd /home/ischool/Documents/MathMAR/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/build/CMakeFiles /home/ischool/Documents/MathMAR/build/utils/CMakeFiles/progress.marks
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f CMakeFiles/Makefile2 utils/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ischool/Documents/MathMAR/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f CMakeFiles/Makefile2 utils/clean
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f CMakeFiles/Makefile2 utils/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f CMakeFiles/Makefile2 utils/preinstall
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f CMakeFiles/Makefile2 utils/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f CMakeFiles/Makefile2 utils/preinstall
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f CMakeFiles/Makefile2 utils/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ischool/Documents/MathMAR/b && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/ischool/Documents/MathMAR/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 utils/CMakeFiles/MATHMAR.dir/rule:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f CMakeFiles/Makefile2 utils/CMakeFiles/MATHMAR.dir/rule
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f CMakeFiles/Makefile2 utils/CMakeFiles/MATHMAR.dir/rule
 .PHONY : utils/CMakeFiles/MATHMAR.dir/rule
 
 # Convenience name for target.
@@ -167,7 +167,7 @@ MATHMAR: utils/CMakeFiles/MATHMAR.dir/rule
 
 # fast build rule for target.
 MATHMAR/fast:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/build
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/build
 .PHONY : MATHMAR/fast
 
 MATHMAR.o: MATHMAR.cpp.o
@@ -175,7 +175,7 @@ MATHMAR.o: MATHMAR.cpp.o
 
 # target to build an object file
 MATHMAR.cpp.o:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/MATHMAR.cpp.o
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/MATHMAR.cpp.o
 .PHONY : MATHMAR.cpp.o
 
 MATHMAR.i: MATHMAR.cpp.i
@@ -183,7 +183,7 @@ MATHMAR.i: MATHMAR.cpp.i
 
 # target to preprocess a source file
 MATHMAR.cpp.i:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/MATHMAR.cpp.i
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/MATHMAR.cpp.i
 .PHONY : MATHMAR.cpp.i
 
 MATHMAR.s: MATHMAR.cpp.s
@@ -191,7 +191,7 @@ MATHMAR.s: MATHMAR.cpp.s
 
 # target to generate assembly for a file
 MATHMAR.cpp.s:
-	cd /home/ischool/Documents/MathMAR/b && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/MATHMAR.cpp.s
+	cd /home/ischool/Documents/MathMAR/build && $(MAKE) -f utils/CMakeFiles/MATHMAR.dir/build.make utils/CMakeFiles/MATHMAR.dir/MATHMAR.cpp.s
 .PHONY : MATHMAR.cpp.s
 
 # Help Target
@@ -223,6 +223,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ischool/Documents/MathMAR/b && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/ischool/Documents/MathMAR/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

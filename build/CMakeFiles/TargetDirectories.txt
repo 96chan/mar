@@ -1,3 +1,4 @@
-/home/ischool/Documents/MathMAR/b/utils/CMakeFiles/MATHMAR.dir
-/home/ischool/Documents/MathMAR/b/src/CMakeFiles/aruco.dir
-/home/ischool/Documents/MathMAR/b/CMakeFiles/uninstall.dir
+/home/ischool/Documents/MathMAR/build/glui/CMakeFiles/GLUI.dir
+/home/ischool/Documents/MathMAR/build/utils/CMakeFiles/MATHMAR.dir
+/home/ischool/Documents/MathMAR/build/src/CMakeFiles/aruco.dir
+/home/ischool/Documents/MathMAR/build/CMakeFiles/uninstall.dir

@@ -35,7 +35,7 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_SOURCE_DIR = /home/ischool/Documents/MathMAR
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/b
+CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/build
 
 # Utility rule file for uninstall.
 
@@ -43,7 +43,7 @@ CMAKE_BINARY_DIR = /home/ischool/Documents/MathMAR/b
 include CMakeFiles/uninstall.dir/progress.make
 
 CMakeFiles/uninstall:
-	/usr/bin/cmake -P /home/ischool/Documents/MathMAR/b/cmake_uninstall.cmake
+	/usr/bin/cmake -P /home/ischool/Documents/MathMAR/build/cmake_uninstall.cmake
 
 uninstall: CMakeFiles/uninstall
 uninstall: CMakeFiles/uninstall.dir/build.make
@@ -58,6 +58,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/ischool/Documents/MathMAR/b && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ischool/Documents/MathMAR /home/ischool/Documents/MathMAR /home/ischool/Documents/MathMAR/b /home/ischool/Documents/MathMAR/b /home/ischool/Documents/MathMAR/b/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ischool/Documents/MathMAR/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ischool/Documents/MathMAR /home/ischool/Documents/MathMAR /home/ischool/Documents/MathMAR/build /home/ischool/Documents/MathMAR/build /home/ischool/Documents/MathMAR/build/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/uninstall.dir/depend
 
