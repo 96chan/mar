@@ -1,6 +1,6 @@
 #define DEBUG 1
 /*****************************
-Copyright 2011 Rafael Muñoz Salinas. All rights reserved.
+  Copyright 2011 Rafael Muñoz Salinas. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -68,7 +68,8 @@ Size TheGlWindowSize;
 bool TheCaptureFlag=true;
 bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat &TheDistorsionCameraParams,Size size);
 Mat mA, mB, mC, mD, mE, mF, mG, mH, mI; // Marker Types
-Mat eA,eB,eD,eE,eF,eG; // Extended Marker for simulation 
+Mat eA,eB,eD,eE,eF,eG,eAD,eDE,eEF,eFG,eGB,eBA; // Extended Marker for simulation 
+Mat hAC,hDC,hBC,hEC,hFC,hGC,hAD,hDE,hEF,hFG,hGB,hBA;
 int MarkerID[9]; // marker id such as A,B,C.. upto I
 int file_id = 0; //screen capture numbering
 int window_id;
@@ -81,15 +82,15 @@ GLUI_Panel *panel3;
 GLUI_Panel *panel4;
 GLUI_RadioGroup *linear_rg;
 GLUI_RadioGroup *unit_rg;
+GLUI_RadioGroup *simulate_rg;
 GLUI_Checkbox *outline_cb;
 GLUI_Checkbox *grid_cb;
-GLUI_Checkbox *simulate_cb;
 
 int mode_type=0;
 int linear_type=3;
 int outline_type=0;
 int unit_type=0;
-int simulate_type=0;
+int simulate_type=3;
 GLUI_Button *show_btn;
 GLUI_Button *hide_btn;
 GLUI_Button *capture_btn;
@@ -101,10 +102,13 @@ bool imperialUnitFlag = false;
 bool xflag = false;
 bool yflag = false;
 bool zflag = false;
+bool aflag = false;
+bool bflag = false;
+bool cflag = false;
+bool coin_flag = false;
 bool outline_flag = false;
 bool capture_flag = false;
 bool line_flag =false;
-bool coin_flag = false; 
 bool simulate_flag = false;
 bool alias_flag = true;// true;
 float M2CM = 100.0f;
@@ -163,9 +167,13 @@ void vMenu(int value){
     else if(outline_type==1) outline_flag =true;
     if(unit_type==0) imperialUnitFlag=false; 
     else if(unit_type==1) imperialUnitFlag =true;
-    if(simulate_type==0) simulate_flag = false;
-    else if(simulate_type==1) simulate_flag = true;
     
+    if(simulate_type==0) {simulate_flag=true;aflag=true;bflag=false;cflag=false;}
+    else if(simulate_type==1) {simulate_flag=true;aflag=false;bflag=true;cflag=false;}
+    else if(simulate_type==2) {simulate_flag=true;aflag=false;bflag=false;cflag=true;}
+    else if(simulate_type==3) {simulate_flag=false;aflag=false;bflag=false;cflag=false;}
+
+     
     switch(value){
         case 1:
             mode = Free;
@@ -705,6 +713,24 @@ void simulateMode(vector<cv::Point2f> centers){
         eE = 2*mE-mC;
         eF = 2*mF-mC;
         eG = 2*mG-mC;
+        eAD = (eA+eD)/2;
+        eDE = (eD+eE)/2;
+        eEF = (eE+eF)/2; 
+        eFG = (eF+eG)/2;
+        eGB = (eG+eB)/2;
+        eBA = (eB+eA)/2;
+        hAC = (mA+mC)/2;
+        hBC = (mB+mC)/2;
+        hDC = (mD+mC)/2;
+        hEC = (mE+mC)/2;
+        hFC = (mF+mC)/2;
+        hGC = (mG+mC)/2;
+        hAD = (mA+mD)/2;
+        hDE = (mD+mE)/2;
+        hEF = (mE+mF)/2;
+        hFG = (mF+mG)/2;
+        hGB = (mG+mB)/2;
+        hBA = (mB+mA)/2;
         break;
     default: break;
   }
@@ -978,10 +1004,8 @@ void assignMarker(vector<cv::Point2f> centers){
   mG.empty();
   mH.empty();
   mI.empty();
- bool tflag =true;
  cv::Mat tM[centers.size()];
  cv::Mat t[centers.size()];
- vector<int> disM;
  vector<Points> vt_x; // x coordinate vectors of every marker
  vector<Points> vt_y; // y coordinate vectors of every marker
  vector<Points> temp;
@@ -1156,85 +1180,20 @@ case 4:
             MarkerID[4] = tMarkerID[temp[1].idx];
             MarkerID[5] = tMarkerID[temp[2].idx];
              temp.clear();    
-        }
+       }
        // compare distance 
-       disM.push_back(floor(calculateDistance(tM[0],tM[2],true)+0.5)); //AC
-       disM.push_back(floor(calculateDistance(tM[1],tM[2],true)+0.5)); //BC
-       disM.push_back(floor(calculateDistance(tM[3],tM[2],true)+0.5)); //DC
-       disM.push_back(floor(calculateDistance(tM[4],tM[2],true)+0.5)); //EC
-       disM.push_back(floor(calculateDistance(tM[5],tM[2],true)+0.5)); //FC
-       disM.push_back(floor(calculateDistance(tM[6],tM[2],true)+0.5)); //GC
-       disM.push_back(floor(calculateDistance(tM[0],tM[3],true)+0.5)); //AD
-       disM.push_back(floor(calculateDistance(tM[3],tM[4],true)+0.5)); //DE
-       disM.push_back(floor(calculateDistance(tM[4],tM[5],true)+0.5)); //EF
-       disM.push_back(floor(calculateDistance(tM[5],tM[6],true)+0.5)); //FG
-       disM.push_back(floor(calculateDistance(tM[6],tM[1],true)+0.5)); //GB
-       disM.push_back(floor(calculateDistance(tM[1],tM[0],true)+0.5)); //BA
-       
-       for(int i=0;i<(int)disM.size()-1;i++)if(disM[i]!=disM[i+1])tflag=false;
-  
-//       if(tflag){
-            coin_flag =true;
-            mA = tM[0];
-            mB = tM[1];
-            mC = tM[2];
-            mD = tM[3];
-            mE = tM[4];
-            mF = tM[5];
-            mG = tM[6];
-//       }else{
-//           coin_flag =false;
-//           mG = t[vt_y[6].idx];
-//           MarkerID[6]= tMarkerID[vt_y[6].idx];
-//           temp.push_back(vt_y[0]);
-//           temp.push_back(vt_y[1]);
-//           temp.push_back(vt_y[2]);
-//           sort(temp.begin(),temp.end(),Sort_x);
-//           mA = t[temp[0].idx];
-//           MarkerID[0]= tMarkerID[temp[0].idx];
-//           mD = t[temp[1].idx];
-//           MarkerID[3]= tMarkerID[temp[1].idx];
-//           mE = t[temp[2].idx];
-//           MarkerID[4]= tMarkerID[temp[2].idx];
-//           temp.clear();
-//           temp.push_back(vt_y[3]);
-//           temp.push_back(vt_y[4]);
-//           temp.push_back(vt_y[5]);
-//           sort(temp.begin(),temp.end(),Sort_x);
-//           mB = t[temp[0].idx];
-//           MarkerID[1]= tMarkerID[temp[0].idx];
-//           mC = t[temp[1].idx];
-//           MarkerID[2]= tMarkerID[temp[1].idx];
-//           mF = t[temp[2].idx];
-//           MarkerID[5]= tMarkerID[temp[2].idx];
-//       }
+       if(floor(calculateDistance(tM[6],tM[2],true)+0.5) < floor(calculateDistance(tM[6],tM[1],true)+0.5))
+           coin_flag=false; //GC=GB
+       else coin_flag=true;
+       mA = tM[0];
+       mB = tM[1];
+       mC = tM[2];
+       mD = tM[3];
+       mE = tM[4];
+       mF = tM[5];
+       mG = tM[6];
        if(simulate_flag){simulateMode(centers);}
        break;
-   case 10:
-      mG = t[vt_y[6].idx];
-      MarkerID[6]= tMarkerID[vt_y[6].idx];
-      temp.push_back(vt_y[0]);
-      temp.push_back(vt_y[1]);
-      temp.push_back(vt_y[2]);
-      sort(temp.begin(),temp.end(),Sort_x);
-      mA = t[temp[0].idx];
-      MarkerID[0]= tMarkerID[temp[0].idx];
-      mD = t[temp[1].idx];
-      MarkerID[3]= tMarkerID[temp[1].idx];
-      mE = t[temp[2].idx];
-      MarkerID[4]= tMarkerID[temp[2].idx];
-      temp.clear();
-      temp.push_back(vt_y[3]);
-      temp.push_back(vt_y[4]);
-      temp.push_back(vt_y[5]);
-      sort(temp.begin(),temp.end(),Sort_x);
-      mB = t[temp[0].idx];
-      MarkerID[1]= tMarkerID[temp[0].idx];
-      mC = t[temp[1].idx];
-      MarkerID[2]= tMarkerID[temp[1].idx];
-      mF = t[temp[2].idx];
-      MarkerID[5]= tMarkerID[temp[2].idx];
-      break;
    case 8:
       temp.push_back(vt_y[6]);
       temp.push_back(vt_y[7]);
@@ -1307,7 +1266,6 @@ case 4:
  if(vt_y.size()>0) vt_y.clear();
  if(temp.size()>0) temp.clear();
  if(tMarkerID.size()>0) tMarkerID.clear();
- if(disM.size()>0) disM.clear();
 }
 // detect Markers
 // if using this func, be cautious when putting markers
@@ -1392,21 +1350,22 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
    float lineWidth = 2;
    float AB, BC, AC, AD, BD, CD;
    float translateDistance;
-   float r_eA,r_eB,r_eD,r_eE,r_eF,r_eG;
-  glColor4ub(255,255,0,200);
+   float r_eA,r_eB,r_eD,r_eE,r_eF,r_eG,r_eAD,r_eDE,r_eEF,r_eFG,r_eGB,r_eBA; // radius of extended circle for simuulation
+   float r_hAC,r_hDC,r_hBC,r_hEC,r_hFC,r_hGC,r_hAD,r_hDE,r_hEF,r_hFG,r_hGB,r_hBA;
+   glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
    switch(centers.size()){
         case 1: 
            linear_rg->disable();
            grid_cb->disable();
-           simulate_cb->disable();
+           simulate_rg->disable();
            drawLetter(mA,lettermap[MarkerID[0]]);
           break;
         case 2: 
           linear_rg->disable();
           grid_cb->disable();
-          simulate_cb->disable();
+          simulate_rg->disable();
           glBegin(GL_LINES);
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
@@ -1420,7 +1379,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
         case 3: 
           if(line_flag){
             grid_cb->disable();
-            simulate_cb->disable();
+            simulate_rg->disable();
             linear_rg->enable();
             translateDistance = -0.055;
             glColor3f(1,1,0);
@@ -1449,7 +1408,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
             drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
             drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
           }else{
-               simulate_cb->disable();
+               simulate_rg->disable();
                linear_rg->disable();
                grid_cb->enable();
               AB = floor(calculateDistance(mA,mB,true)+0.5);
@@ -1493,9 +1452,9 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawLetter(mC,lettermap[MarkerID[2]]);
          break;
       case 4: 
-               simulate_cb->disable();
-               linear_rg->disable();
-               grid_cb->enable();
+          simulate_rg->disable();
+          linear_rg->disable();
+          grid_cb->enable();
           AB = floor(calculateDistance(mA,mB,true)+0.5);
           BC = floor(calculateDistance(mB,mC,true)+0.5);
           AC = floor(calculateDistance(mC,mA,true)+0.5);
@@ -1545,7 +1504,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
        case 5:
-               simulate_cb->disable();
+               simulate_rg->disable();
                linear_rg->disable();
                grid_cb->disable();
           glBegin(GL_QUADS);
@@ -1597,10 +1556,10 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
         case 6:
-               simulate_cb->disable();
-               linear_rg->disable();
-               grid_cb->disable();
-           glBegin(GL_QUADS);
+          simulate_rg->disable();
+          linear_rg->disable();
+          grid_cb->disable();
+          glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
@@ -1655,10 +1614,11 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           break;
 
         case 7:
-               linear_rg->disable();
-               grid_cb->disable();
-           simulate_cb->enable();
+          linear_rg->disable();
+          grid_cb->disable();
           if(!coin_flag){
+              outline_cb->enable(); 
+              simulate_rg->disable();
               glColor4ub(255,255,0,200);
               glBegin(GL_QUADS);
               glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
@@ -1715,73 +1675,80 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
               drawSideText(mD,mA);
            }
           else{ //coin demonstration
-        //      glColor4ub(0,255,0,200);
-              glColor4ub(255,255,0,200);
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-              glEnd();
-              glBegin(GL_TRIANGLES);
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-              glEnd();
-              if(outline_flag || simulate_flag){
-                  glColor4ub(255,0,0,200);
-                  glLineWidth(lineWidth);
-                  glBegin(GL_LINES);      
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              if(!simulate_flag){
+                  simulate_rg->enable();
+                  outline_cb->enable(); 
+                  glColor4ub(255,255,0,200);
+                  glBegin(GL_TRIANGLES);
                   glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
                   glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                  glEnd(); 
-                  glEnable(GL_LINE_STIPPLE);
-                  glLineStipple(2,0xaaaa);
-                  glBegin(GL_LINES);      
-                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
                   glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                  glEnd();
+                  glBegin(GL_TRIANGLES);
                   glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
                   glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                  glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                  glEnd();
+                  glBegin(GL_TRIANGLES);
                   glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
                   glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                  glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                  glEnd();
+                  glBegin(GL_TRIANGLES);
                   glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
                   glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                  glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                  glEnd();
+                  glBegin(GL_TRIANGLES);
                   glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
                   glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                  glEnd(); 
-                  glDisable(GL_LINE_STIPPLE);
-                  if(simulate_flag){
+                  glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                  glEnd();
+                  glBegin(GL_TRIANGLES);
+                  glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                  glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                  glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                  glEnd();
+                  if(outline_flag){
+                      simulate_rg->disable();
+                      glColor4ub(255,0,0,200);
+                      glLineWidth(lineWidth);
+                      glBegin(GL_LINES);      
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glEnd(); 
+                      glEnable(GL_LINE_STIPPLE);
+                      glLineStipple(2,0xaaaa);
+                      glBegin(GL_LINES);      
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glEnd(); 
+                      glDisable(GL_LINE_STIPPLE);
+                  }
+              }
+              else if(aflag && simulate_flag){
+                      simulate_rg->enable();
+                      outline_cb->disable();
                       r_eA= calculateDistance(mA,eA,false)/2;
                       r_eB= calculateDistance(mB,eB,false)/2;
                       r_eD= calculateDistance(mD,eD,false)/2;
@@ -1796,17 +1763,16 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
                       for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eB.at<float>(0,0)+cos(i) *r_eB, eB.at<float>(1,0)+sin(i)*r_eB, -eB.at<float>(2,0));
                       glEnd();
                       glBegin(GL_POLYGON);
-for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eD.at<float>(0,0)+cos(i) *r_eD, eD.at<float>(1,0)+sin(i)*r_eD, -eD.at<float>(2,0));
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eD.at<float>(0,0)+cos(i) *r_eD, eD.at<float>(1,0)+sin(i)*r_eD, -eD.at<float>(2,0));
                       glEnd();
                       glBegin(GL_POLYGON);
-for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eE.at<float>(0,0)+cos(i) *r_eE, eE.at<float>(1,0)+sin(i)*r_eE, -eE.at<float>(2,0));
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eE.at<float>(0,0)+cos(i) *r_eE, eE.at<float>(1,0)+sin(i)*r_eE, -eE.at<float>(2,0));
                       glEnd();
                       glBegin(GL_POLYGON);
-for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eF.at<float>(0,0)+cos(i) *r_eF, eF.at<float>(1,0)+sin(i)*r_eF, -eF.at<float>(2,0));
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eF.at<float>(0,0)+cos(i) *r_eF, eF.at<float>(1,0)+sin(i)*r_eF, -eF.at<float>(2,0));
                       glEnd();
                       glBegin(GL_POLYGON);
-for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at<float>(1,0)+sin(i)*r_eG, -eG.at<float>(2,0));
-                      
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at<float>(1,0)+sin(i)*r_eG, -eG.at<float>(2,0));
                       glEnd();
                       glColor4ub(255,0,0,200);
                       glEnable(GL_LINE_STIPPLE);
@@ -1839,8 +1805,212 @@ for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at
                       glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
                       glEnd(); 
                       glDisable(GL_LINE_STIPPLE);
+                      glColor4ub(255,0,0,200);
+                      glLineWidth(lineWidth);
+                      glBegin(GL_LINES);      
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glEnd(); 
+                      glEnable(GL_LINE_STIPPLE);
+                      glLineStipple(2,0xaaaa);
+                      glBegin(GL_LINES);      
+                      glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mE.at<float>(0,0),mE.at<float>(1,0) ,-mE.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mF.at<float>(0,0),mF.at<float>(1,0) ,-mF.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(mG.at<float>(0,0),mG.at<float>(1,0) ,-mG.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glEnd(); 
+                      glDisable(GL_LINE_STIPPLE);
                  }
-              }
+                 else if(bflag && simulate_flag){
+                      simulate_rg->enable();
+                      outline_cb->disable();
+                      r_eA= calculateDistance(mA,eA,false)/2;
+                      r_eB= calculateDistance(mB,eB,false)/2;
+                      r_eD= calculateDistance(mD,eD,false)/2;
+                      r_eE= calculateDistance(mE,eE,false)/2;
+                      r_eF= calculateDistance(mF,eF,false)/2;
+                      r_eG= calculateDistance(mG,eG,false)/2;
+                      r_eAD= (calculateDistance(eA,eD,false)-r_eA-r_eD)/2;
+                      r_eDE= (calculateDistance(eD,eE,false)-r_eD-r_eE)/2;
+                      r_eEF= (calculateDistance(eE,eF,false)-r_eE-r_eF)/2;
+                      r_eFG= (calculateDistance(eF,eG,false)-r_eF-r_eG)/2;
+                      r_eGB= (calculateDistance(eG,eB,false)-r_eG-r_eB)/2;
+                      r_eBA= (calculateDistance(eB,eA,false)-r_eB-r_eA)/2;
+                      glColor4ub(255,255,255,200);
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eA.at<float>(0,0)+cos(i) *r_eA, eA.at<float>(1,0)+sin(i)*r_eA, -eA.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eB.at<float>(0,0)+cos(i) *r_eB, eB.at<float>(1,0)+sin(i)*r_eB, -eB.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eD.at<float>(0,0)+cos(i) *r_eD, eD.at<float>(1,0)+sin(i)*r_eD, -eD.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eE.at<float>(0,0)+cos(i) *r_eE, eE.at<float>(1,0)+sin(i)*r_eE, -eE.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eF.at<float>(0,0)+cos(i) *r_eF, eF.at<float>(1,0)+sin(i)*r_eF, -eF.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at<float>(1,0)+sin(i)*r_eG, -eG.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eAD.at<float>(0,0)+cos(i) *r_eAD, eAD.at<float>(1,0)+sin(i)*r_eAD, -eAD.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eDE.at<float>(0,0)+cos(i) *r_eDE, eDE.at<float>(1,0)+sin(i)*r_eDE, -eDE.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eEF.at<float>(0,0)+cos(i) *r_eEF, eEF.at<float>(1,0)+sin(i)*r_eEF, -eEF.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eFG.at<float>(0,0)+cos(i) *r_eFG, eFG.at<float>(1,0)+sin(i)*r_eFG, -eFG.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eGB.at<float>(0,0)+cos(i) *r_eGB, eGB.at<float>(1,0)+sin(i)*r_eGB, -eGB.at<float>(2,0));
+                      glEnd();
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eBA.at<float>(0,0)+cos(i) *r_eBA, eBA.at<float>(1,0)+sin(i)*r_eBA, -eBA.at<float>(2,0));
+                      glEnd();
+                      glLineWidth(5);
+                      glBegin(GL_LINES);      
+                      glColor4ub(0,0,0,255);
+                      glBegin(GL_LINES);      
+                      glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
+                      glVertex3f(eD.at<float>(0,0),eD.at<float>(1,0) ,-eD.at<float>(2,0));
+                      glVertex3f(eD.at<float>(0,0),eD.at<float>(1,0) ,-eD.at<float>(2,0));
+                      glVertex3f(eE.at<float>(0,0),eE.at<float>(1,0) ,-eE.at<float>(2,0));
+                      glVertex3f(eE.at<float>(0,0),eE.at<float>(1,0) ,-eE.at<float>(2,0));
+                      glVertex3f(eF.at<float>(0,0),eF.at<float>(1,0) ,-eF.at<float>(2,0));
+                      glVertex3f(eF.at<float>(0,0),eF.at<float>(1,0) ,-eF.at<float>(2,0));
+                      glVertex3f(eG.at<float>(0,0),eG.at<float>(1,0) ,-eG.at<float>(2,0));
+                      glVertex3f(eG.at<float>(0,0),eG.at<float>(1,0) ,-eG.at<float>(2,0));
+                      glVertex3f(eB.at<float>(0,0),eB.at<float>(1,0) ,-eB.at<float>(2,0));
+                      glVertex3f(eB.at<float>(0,0),eB.at<float>(1,0) ,-eB.at<float>(2,0));
+                      glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
+                      glVertex3f(eA.at<float>(0,0),eA.at<float>(1,0) ,-eA.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(eE.at<float>(0,0),eE.at<float>(1,0) ,-eE.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glVertex3f(eG.at<float>(0,0),eG.at<float>(1,0) ,-eG.at<float>(2,0));
+                      glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                      glEnd(); 
+                 }
+                 else if(cflag && simulate_flag){
+                      simulate_rg->enable();
+                      outline_cb->disable();
+                      r_hAC= calculateDistance(mA,mC,false)/2;
+                      r_hDC= calculateDistance(mD,mC,false)/2;
+                      r_hBC= calculateDistance(mB,mC,false)/2;
+                      r_hEC= calculateDistance(mE,mC,false)/2;
+                      r_hFC= calculateDistance(mF,mC,false)/2;
+                      r_hGC= calculateDistance(mG,mC,false)/2;
+                      r_hAD= calculateDistance(mA,mD,false)/2;
+                      r_hDE= calculateDistance(mD,mE,false)/2;
+                      r_hEF= calculateDistance(mE,mF,false)/2;
+                      r_hFG= calculateDistance(mF,mG,false)/2;
+                      r_hGB= calculateDistance(mG,mB,false)/2;
+                      r_hBA= calculateDistance(mB,mA,false)/2;
+                      glColor4ub(0,0,0,255);
+                      glLineWidth(3);
+                      glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hAC.at<float>(0,0)+cos(deg)*r_hAC,hAC.at<float>(1,0)+sin(deg)*r_hAC,-hAC.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hDC.at<float>(0,0)+cos(deg)*r_hDC,hDC.at<float>(1,0)+sin(deg)*r_hDC,-hDC.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hBC.at<float>(0,0)+cos(deg)*r_hBC,hBC.at<float>(1,0)+sin(deg)*r_hBC,-hBC.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hEC.at<float>(0,0)+cos(deg)*r_hEC,hEC.at<float>(1,0)+sin(deg)*r_hEC,-hEC.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hFC.at<float>(0,0)+cos(deg)*r_hFC,hFC.at<float>(1,0)+sin(deg)*r_hFC,-hFC.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hGC.at<float>(0,0)+cos(deg)*r_hGC,hGC.at<float>(1,0)+sin(deg)*r_hGC,-hGC.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hAD.at<float>(0,0)+cos(deg)*r_hAD,hAD.at<float>(1,0)+sin(deg)*r_hAD,-hAD.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hDE.at<float>(0,0)+cos(deg)*r_hDE,hDE.at<float>(1,0)+sin(deg)*r_hDE,-hDE.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hEF.at<float>(0,0)+cos(deg)*r_hEF,hEF.at<float>(1,0)+sin(deg)*r_hEF,-hEF.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hFG.at<float>(0,0)+cos(deg)*r_hFG,hFG.at<float>(1,0)+sin(deg)*r_hFG,-hFG.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hGB.at<float>(0,0)+cos(deg)*r_hGB,hGB.at<float>(1,0)+sin(deg)*r_hGB,-hGB.at<float>(2,0));
+                      }
+                      glEnd();
+                     glBegin(GL_LINE_LOOP);
+                      for(int i=0;i<360;i++){
+                       float deg = i*PI/180;
+                       glVertex3f(hBA.at<float>(0,0)+cos(deg)*r_hBA,hBA.at<float>(1,0)+sin(deg)*r_hBA,-hBA.at<float>(2,0));
+                      }
+                      glEnd();
+                     /* glColor4ub(255,255,255,200);
+                      glBegin(GL_POLYGON);
+                      for(double i=0;i<2*PI;i+=PI/20) glVertex3f(hAC.at<float>(0,0)+cos(i) *r_hAC,
+                          hAC.at<float>(1,0)+sin(i)*r_hAC, -hAC.at<float>(2,0));
+                      glEnd();
+                     */
+                 }
               drawSideText(mA,mB);
               drawSideText(mB,mG);
               drawSideText(mG,mF);
@@ -1862,7 +2032,7 @@ for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at
        case 8:
           linear_rg->disable();
           grid_cb->disable();
-          simulate_cb->disable();
+          simulate_rg->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1935,7 +2105,7 @@ for(double i=0;i<2*PI;i+=PI/20) glVertex3f(eG.at<float>(0,0)+cos(i) *r_eG, eG.at
         case 9:
           linear_rg->disable();
           grid_cb->disable();
-          simulate_cb->disable();
+          simulate_rg->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -2260,7 +2430,11 @@ int main(int argc,char **argv)
 
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Simulation");
-        simulate_cb = new GLUI_Checkbox(glui_subwin,"Simulate",&simulate_type,-1,vMenu);
+        simulate_rg = new GLUI_RadioGroup(glui_subwin,&simulate_type,-1,vMenu);
+            new GLUI_RadioButton( simulate_rg, "A-type" );
+            new GLUI_RadioButton( simulate_rg, "B-type" );
+            new GLUI_RadioButton( simulate_rg, "C-type" );
+            new GLUI_RadioButton( simulate_rg, "None" );
         //glui_subwin->add_checkbox("Simulate",&simulate_type,-1,vMenu);
         glui_subwin->add_statictext("");
         glui_subwin->add_separator();
@@ -2271,10 +2445,6 @@ int main(int argc,char **argv)
         glui_subwin->add_statictext("");
         //glui_subwin->add_column(true);
         glui_subwin->add_separator();
-        glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("");
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("");
         quit_btn = new GLUI_Button(glui_subwin,"Quit",0,exit);
