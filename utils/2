@@ -455,13 +455,13 @@ void drawLetter(cv::Mat currentMat, std::string letter, int black=0,float dist=0
   float xcoordinate = currentMat.at<float>(0,0);// + t2.at<float>(0,0))/2;
   float ycoordinate = currentMat.at<float>(1,0);// + t2.at<float>(1,0))/2;
   float zcoordinate = -1*currentMat.at<float>(2,0);// - t2.at<float>(2,0))/2;
+  
   glPushMatrix();
-  if (black==0) {
+  if (black) {
   glColor4ub(28,248,255,128);
   }
-  else if(black==2){
-  glColor4ub(255,255,255,255);
-  xcoordinate -= 0.01;
+  else {
+  glColor4ub(28,248,255,128); 
   }
 
   glLoadIdentity();
@@ -736,88 +736,6 @@ void simulateMode(vector<cv::Point2f> centers){
   }
 }
 // available mode only for triangle and quadranglie
-void drawHeight(vector<cv::Point2f> centers){
-  float pH[2]; // point for drawing height
-  float A[2],B[2],C[2];
-  float cos, sin;
-  float H1, Area1;
-  float AB, AC, BC;
-  float v_x; // foot of perpendicular on BC from point A
-  //triangle
-  switch(centers.size()){
-    case 3:
-       // Bottom line (B-C)
-       cos = getCos(mB,mC);
-       sin = getSin(mB,mC);
-       // calculate left bottom & right bottom (+-2)
-       BC = calculateDistance(mB,mC,false);
-       AB = calculateDistance(mA,mB,false);
-       AC = calculateDistance(mA,mC,false);
-       Area1 = calTArea(mA,mB,mC,false);
-       H1 = 2*Area1/BC;
-       A[0]=mA.at<float>(0,0);
-       A[1]=mA.at<float>(1,0);
-       B[0]=mB.at<float>(0,0);
-       B[1]=mB.at<float>(1,0);
-       C[0]=mC.at<float>(0,0);
-       C[1]=mC.at<float>(1,0);
-       v_x = cos*cos*A[0]+cos*sin*A[1]-cos*sin*B[1]+sin*sin*B[0];
-       // A
-       //   B   C
-       if (v_x<B[0]){
-           pH[0] = B[0]+cal_bottom_len(AB,H1)*cos;
-           pH[1] = B[1]+cal_bottom_len(AB,H1)*sin;
-       }
-       //        A
-       //  B   C
-       else if (v_x > C[0]){
-           pH[0] = C[0]-cal_bottom_len(AC,H1)*cos;
-           pH[1] = C[1]-cal_bottom_len(AC,H1)*sin;
-       }
-       //    A
-       //  B    C
-       else{
-           pH[0] = B[0]-cal_bottom_len(AB,H1)*cos;
-           pH[1] = B[1]-cal_bottom_len(AB,H1)*sin;
-       } 
-    glColor4ub(255,0,0,255);
-    glLineWidth(3);
-    glEnable(GL_LINE_STIPPLE);
-    glLineStipple(2,0xaaaa);
-    glBegin(GL_LINES);
-    if(v_x<B[0]){
-       glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-       glVertex3f(pH[0],pH[1],-mB.at<float>(2,0));
-    }else if(v_x >C[0]){
-       glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-       glVertex3f(pH[0],pH[1],-mC.at<float>(2,0));
-    }
-    glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-   glVertex3f(pH[0],pH[1],-mA.at<float>(2,0));
-   glEnd(); 
-   glDisable(GL_LINE_STIPPLE);
- 
-  // for drawing number of the height
-  BC = calculateDistance(mB,mC);
-  Area1 =calculateArea(centers);
-  H1 = floor(2*Area1/BC+0.5);
-  char buffer[50];
-  if (imperialUnitFlag){
-    int n = sprintf(buffer,"%.0f in\n",H1);
-  } else{
-    int n = sprintf(buffer,"%.0f cm\n",H1);
-  }
-  cout << "BC : "<< BC << " Area1 : " << Area1 <<" H1 : "<<H1<<endl; 
-  glPushMatrix();
-  glColor3f(0,0,1);
-  glLoadIdentity();
-  glTranslatef((pH[0]+mA.at<float>(0,0))/2,(pH[1]+mA.at<float>(1,0))/2,-mA.at<float>(2,0));
-  glRasterPos3f( 0.0f, 0.0f, 0.0f );
-  drawString(buffer);
-  glPopMatrix();
-  break;
-   }   
-}
 void gridMode(vector<cv::Point2f> centers){
   float lb[2],lu[2],rb[2],ru[2];
   float A[2],B[2],C[2],D[2],E[2],F[2],G[2],H[2],I[2];
@@ -825,7 +743,6 @@ void gridMode(vector<cv::Point2f> centers){
   float cos, sin;
   float H1, H2, Area1, Area2;
   float AB, AC, AD, BC, BD, CD;
-  float v_x; // foot of perpendicular on BC from point A
   //triangle
   switch(centers.size()){
     case 3:
@@ -844,10 +761,9 @@ void gridMode(vector<cv::Point2f> centers){
        B[1]=mB.at<float>(1,0);
        C[0]=mC.at<float>(0,0);
        C[1]=mC.at<float>(1,0);
-       v_x = cos*cos*A[0]+cos*sin*A[1]-cos*sin*B[1]+sin*sin*B[0];
        // A
        //   B   C
-        if (v_x<B[0]){
+       if (A[0]<B[0]){
            lu[0] = A[0];
            lu[1] = A[1];
            lb[0] = B[0]+cal_bottom_len(AB,H1)*cos;
@@ -859,7 +775,7 @@ void gridMode(vector<cv::Point2f> centers){
        }
        //        A
        //  B   C
-       else if(v_x > C[0]){
+       else if (A[0] > C[0]){
            lb[0] = B[0];
            lb[1] = B[1];
            ru[0] = A[0];
@@ -1437,8 +1353,6 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
    float r_eA,r_eB,r_eD,r_eE,r_eF,r_eG,r_eAD,r_eDE,r_eEF,r_eFG,r_eGB,r_eBA; // radius of extended circle for simuulation
    float r_hAC,r_hDC,r_hBC,r_hEC,r_hFC,r_hGC,r_hAD,r_hDE,r_hEF,r_hFG,r_hGB,r_hBA;
    Mat centered;// position for the shape's name
-   String shape_name ="";
-   float temp_area, temp_area1;
    glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
@@ -1495,72 +1409,30 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
             drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
             drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
           }else{
-              simulate_rg->disable();
-              linear_rg->disable();
-              grid_cb->enable();
+               simulate_rg->disable();
+               linear_rg->disable();
+               grid_cb->enable();
               AB = floor(calculateDistance(mA,mB,true)+0.5);
               BC = floor(calculateDistance(mB,mC,true)+0.5);
               AC = floor(calculateDistance(mC,mA,true)+0.5);
-              centered = (mA+mB+mC)/3;
               if(AB == BC && BC == AC){// equilateral triangle
-                shape_name ="Equilateral";
                 glColor4ub(0,255,0,200);
-                glBegin(GL_TRIANGLES);
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                glEnd();
-                glColor4ub(255,0,0,200);
-                glLineWidth(10);
-                glBegin(GL_LINES);      
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glEnd();
+                centered = (mA+mB+mC)/3;
+                drawLetter(centered,"Equilateral Triangle",0); 
+                
               }
               else if(AB==BC || BC == AC || AB == AC){// isosceles triangle
-               shape_name ="Isosceles";
                glColor4ub(0,255,255,200);
-               glBegin(GL_TRIANGLES);
-               glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-               glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-               glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-               glEnd();
-               glColor4ub(255,0,0,200);
-               glLineWidth(15);
-               glBegin(GL_LINES);      
-               if(AB==BC){
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-               }
-               else if(BC==AC){
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-               }else if(AB==AC){
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              }
-               glEnd();
               }
               else{
                glColor4ub(255,255,0,200);
-               glBegin(GL_TRIANGLES);
-               glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-               glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-               glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-               glEnd();
-             }
+              }
+              glBegin(GL_TRIANGLES);
+              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+              glEnd();
               if(outline_flag){
-                  drawHeight(centers);
                   glColor4ub(255,0,0,200);
                   glLineWidth(lineWidth);
                   glBegin(GL_LINES);      
@@ -1576,10 +1448,6 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
               drawSideText(mA,mC);
               drawSideText(mB,mC);
               drawArea(centers);
-              if(shape_name!=""){
-                  drawLetter(centered,shape_name,2,0.0);
-                  drawLetter(centered,"Triangle",2,0.01);
-              }
           }
           glPopMatrix();
           //print text
@@ -1597,62 +1465,22 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           AD = floor(calculateDistance(mA,mD,true)+0.5);
           CD = floor(calculateDistance(mC,mD,true)+0.5);
           BD = floor(calculateDistance(mB,mD,true)+0.5);
-          temp_area = AD*BD;
-          temp_area1 = floor(calculateTriangleArea(mA,mB,mC,true)+calculateTriangleArea(mA,mC,mD,true)+0.5);
-          centered = (mA+mB+mC+mD)/4;
+          
           if(AB == BC && BC == CD  && AD == BC && AC == BD){// square 
-              shape_name ="Square";
               glColor4ub(0,255,0,200);
-              glBegin(GL_QUADS);
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glEnd();
-              glColor4ub(255,0,0,200);
-              glLineWidth(10);
-              glBegin(GL_LINES);      
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glEnd();
-        }
-          else if (AB == BC && BC == CD  && temp_area == temp_area1 ){// rhombus
-              shape_name ="Rhombus";
-              glColor4ub(0,255,255,200);
-              glBegin(GL_QUADS);
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glEnd();
-              glColor4ub(255,0,0,200);
-              glLineWidth(10);
-              glBegin(GL_LINES);      
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-              glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-              glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-              glEnd();
-       } 
+          }
+          else if (AB == BC && BC == CD  && AD == BC){// rhombus
+             glColor4ub(0,255,255,200);
+          } 
           else{
            glColor4ub(255,255,0,200);
-           glBegin(GL_QUADS);
-           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
-           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
-           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
-           glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
-           glEnd();
-         }
+          }
+          glBegin(GL_QUADS);
+          glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+          glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+          glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+          glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+          glEnd();
           if(outline_flag){
               glColor4ub(255,0,0,200);
               glLineWidth(lineWidth);
@@ -1669,9 +1497,6 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           }
           glPopMatrix();
           //print text 
-         if(shape_name!=""){
-                  drawLetter(centered,shape_name,2,0.0);
-          }
           drawLetter(mA,lettermap[MarkerID[0]]);
           drawLetter(mB,lettermap[MarkerID[1]]);
           drawLetter(mC,lettermap[MarkerID[2]]);
