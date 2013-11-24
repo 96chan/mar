@@ -76,17 +76,15 @@ int window_id;
 
 // Pointer to the controls
 GLUI *glui_button, *glui_subwin; 
-GLUI_Panel *panel1;
-GLUI_Panel *panel2;
-GLUI_Panel *panel3;
-GLUI_Panel *panel4;
 GLUI_RadioGroup *linear_rg;
 GLUI_RadioGroup *unit_rg;
 GLUI_RadioGroup *simulate_rg;
 GLUI_Checkbox *outline_cb;
 GLUI_Checkbox *grid_cb;
+GLUI_Checkbox *linear_cb;
 
-int mode_type=0;
+int mode_grid=0;
+int mode_linear=0;
 int linear_type=3;
 int outline_type=0;
 int unit_type=0;
@@ -109,6 +107,7 @@ bool coin_flag = false;
 bool outline_flag = false;
 bool capture_flag = false;
 bool line_flag =false;
+bool grid_flag =false;
 bool simulate_flag = false;
 bool alias_flag = true;// true;
 float M2CM = 100.0f;
@@ -157,62 +156,41 @@ void vButton(GLUI_Control* control){
  * Mode Selection using Touch
 *************************************/
 void vMenu(int value){
-    cout << "mode_type : " << mode_type <<endl;
+    cout << "mode_grid : " << mode_grid <<endl;
+    cout << "mode_linear : " << mode_linear <<endl;
     cout << "simulate_type " << simulate_type <<endl;
     cout << "outline_type " << outline_type <<endl;
-
-    if(mode_type==0) value =1;
-    else if(mode_type==1) value =2;
+    cout << "unit_type " << unit_type <<endl;
+    if(mode_grid==0){value =1;grid_flag=false;}
+    else if(mode_grid==1){value =2;grid_flag=true;}
     if(outline_type==0) outline_flag =false;
     else if(outline_type==1) outline_flag =true;
     if(unit_type==0) imperialUnitFlag=false; 
     else if(unit_type==1) imperialUnitFlag =true;
-    
+    if(mode_linear==0) line_flag=false;
+    else if(mode_linear==1) line_flag=true;
+
     if(simulate_type==0) {simulate_flag=true;aflag=true;bflag=false;cflag=false;}
     else if(simulate_type==1) {simulate_flag=true;aflag=false;bflag=true;cflag=false;}
     else if(simulate_type==2) {simulate_flag=true;aflag=false;bflag=false;cflag=true;}
     else if(simulate_type==3) {simulate_flag=false;aflag=false;bflag=false;cflag=false;}
-
      
     switch(value){
         case 1:
             mode = Free;
-            cout << "I am in the default free mode" << endl;
+            if(line_flag){
             if(linear_type==0){xflag =true;yflag=false;zflag=false;}
             else if(linear_type==1){xflag =false;yflag=true;zflag=false;}
             else if(linear_type==2){xflag =false;yflag=false;zflag=true;}
             else if(linear_type==3){xflag =false;yflag=false;zflag=false;}
-            break;
+            }
+           cout << "I am in the default free mode" << endl;
+           break;
         case 2:
             mode = Grid;
             cout << "I am in the grid mode" << endl;
             break;
-        case 3:
-            mode = Free;
-            xflag = !xflag;
-            cout << "I am in the x-variable mode" << endl;
-            break;
-        case 4:
-            mode = Free;
-            yflag = !yflag;
-            cout << "I am in the y-variable mode" << endl;
-            break;
-        case 5:
-            mode = Free;
-            zflag = !zflag;
-            cout << "I am in the z-variable mode" << endl;
-            break;
-        case 6:
-            mode = Free;
-            outline_flag = !outline_flag;
-            break;
-        case 7:
-            imperialUnitFlag = !imperialUnitFlag;
-            break;
-        case 8:
-            alias_flag = !alias_flag;
-            break;
-       default: break;
+        default: break;
         }
     glutPostRedisplay();
 }
@@ -1126,14 +1104,11 @@ void assignMarker(vector<cv::Point2f> centers){
        tM[2] = t[vt_x[2].idx];
        MarkerID[2]= tMarkerID[vt_x[2].idx];
           
-       if(floor(calculateDistance(tM[0],tM[2],true)+0.5)==floor(calculateDistance(tM[0],tM[1],true)+0.5)+floor(calculateDistance(tM[1],tM[2],true)+0.5)
-          && calculateTriangleArea(tM[0],tM[1],tM[2],true)<=0){
-           line_flag=true;    
+       if(line_flag){
            mA = tM[0];
            mB = tM[1];
            mC = tM[2];
        }else{
-           line_flag=false;
            mA = t[vt_y[0].idx];
            MarkerID[0]= tMarkerID[vt_y[0].idx];
            temp.push_back(vt_y[1]);
@@ -1213,8 +1188,7 @@ case 4:
       MarkerID[5]= tMarkerID[temp[2].idx];
       break;
     case 7:
-        //  coin demonstration
-        if(vt_y[3].idx == vt_x[3].idx){
+       if(vt_y[3].idx == vt_x[3].idx){
             tM[2] = t[vt_y[3].idx];
             temp.push_back(vt_y[0]);
             temp.push_back(vt_y[1]);
@@ -1265,18 +1239,44 @@ case 4:
             MarkerID[5] = tMarkerID[temp[2].idx];
              temp.clear();    
        }
-       // compare distance 
-       if(floor(calculateDistance(tM[6],tM[2],true)+0.5) < floor(calculateDistance(tM[6],tM[1],true)+0.5))
-           coin_flag=false; //GC=GB
-       else coin_flag=true;
-       mA = tM[0];
-       mB = tM[1];
-       mC = tM[2];
-       mD = tM[3];
-       mE = tM[4];
-       mF = tM[5];
-       mG = tM[6];
-       if(simulate_flag){simulateMode(centers);}
+       if(calculateDistance(tM[6],tM[2],true) < calculateDistance(tM[6],tM[1],true)){
+           coin_flag=false; //GC<GB
+           temp.push_back(vt_y[0]);
+           temp.push_back(vt_y[1]);
+           temp.push_back(vt_y[2]);
+           sort(temp.begin(),temp.end(),Sort_x);
+           mA = t[temp[0].idx];
+           MarkerID[0]= tMarkerID[temp[0].idx];
+           mD = t[temp[1].idx];
+           MarkerID[3]= tMarkerID[temp[1].idx];
+           mE = t[temp[2].idx];
+           MarkerID[4]= tMarkerID[temp[2].idx];
+           temp.clear();
+           temp.push_back(vt_y[3]);
+           temp.push_back(vt_y[4]);
+           temp.push_back(vt_y[5]);
+           sort(temp.begin(),temp.end(),Sort_x);
+           mB = t[temp[0].idx];
+           MarkerID[1]= tMarkerID[temp[0].idx];
+           mC = t[temp[1].idx];
+           MarkerID[2]= tMarkerID[temp[1].idx];
+           mF = t[temp[2].idx];
+           MarkerID[5]= tMarkerID[temp[2].idx];
+           mG = t[vt_y[6].idx];
+           MarkerID[6]=tMarkerID[vt_y[6].idx];
+        }
+        else{
+           coin_flag=true;
+           //  coin demonstration
+           mA = tM[0];
+           mB = tM[1];
+           mC = tM[2];
+           mD = tM[3];
+           mE = tM[4];
+           mF = tM[5];
+           mG = tM[6];
+           if(simulate_flag){simulateMode(centers);}
+       }
        break;
    case 8:
       temp.push_back(vt_y[6]);
@@ -1442,17 +1442,32 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
    glColor4ub(255,255,0,200);
    glPushMatrix();
    glLoadIdentity();
+
+/*   
+   linear_cb->disable();
+   linear_rg->disable();
+   grid_cb->disable();
+   simulate_rg->disable();
+   outline_cb->disable();
+   unit_rg->disable();
+*/
    switch(centers.size()){
         case 1: 
-           linear_rg->disable();
-           grid_cb->disable();
-           simulate_rg->disable();
-           drawLetter(mA,lettermap[MarkerID[0]]);
-          break;
-        case 2: 
+          linear_cb->disable();
           linear_rg->disable();
           grid_cb->disable();
           simulate_rg->disable();
+          outline_cb->disable();
+          unit_rg->disable();
+          drawLetter(mA,lettermap[MarkerID[0]]);
+          break;
+        case 2: 
+          linear_cb->disable();
+          linear_rg->disable();
+          grid_cb->disable();
+          simulate_rg->disable();
+          outline_cb->disable();
+          unit_rg->enable();
           glBegin(GL_LINES);
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
           glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
@@ -1462,12 +1477,20 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawLetter(mA,lettermap[MarkerID[0]]);
           drawLetter(mB,lettermap[MarkerID[1]]);
           break;
-
-        case 3: 
+        case 3:
+          simulate_rg->disable();
+          if(grid_flag){
+           linear_cb->disable();
+           outline_cb->disable();
+          }else{
+           grid_cb->enable();
+           linear_cb->enable();
+           outline_cb->enable();
+          }
           if(line_flag){
-            grid_cb->disable();
-            simulate_rg->disable();
             linear_rg->enable();
+            grid_cb->disable();
+            outline_cb->disable();
             translateDistance = -0.055;
             glColor3f(1,1,0);
             glLineWidth(lineWidth);
@@ -1495,9 +1518,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
             drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
             drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
           }else{
-              simulate_rg->disable();
               linear_rg->disable();
-              grid_cb->enable();
               AB = floor(calculateDistance(mA,mB,true)+0.5);
               BC = floor(calculateDistance(mB,mC,true)+0.5);
               AC = floor(calculateDistance(mC,mA,true)+0.5);
@@ -1588,9 +1609,16 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawLetter(mC,lettermap[MarkerID[2]]);
          break;
       case 4: 
-          simulate_rg->disable();
+          unit_rg->enable();
+          linear_cb->disable();
           linear_rg->disable();
-          grid_cb->enable();
+          simulate_rg->disable();
+          if(grid_flag){
+           outline_cb->disable();
+          }else{
+           grid_cb->enable();
+           outline_cb->enable();
+          }
           AB = floor(calculateDistance(mA,mB,true)+0.5);
           BC = floor(calculateDistance(mB,mC,true)+0.5);
           AC = floor(calculateDistance(mC,mA,true)+0.5);
@@ -1683,9 +1711,12 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
        case 5:
-               simulate_rg->disable();
-               linear_rg->disable();
-               grid_cb->disable();
+          unit_rg->enable();
+          linear_cb->disable();
+          linear_rg->disable();
+          simulate_rg->disable();
+          outline_cb->enable();
+          grid_cb->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -1735,8 +1766,11 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
         case 6:
-          simulate_rg->disable();
+          unit_rg->enable();
+          linear_cb->disable();
           linear_rg->disable();
+          simulate_rg->disable();
+          outline_cb->enable();
           grid_cb->disable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
@@ -1793,10 +1827,12 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           break;
 
         case 7:
+          unit_rg->enable();
+          linear_cb->disable();
           linear_rg->disable();
+          outline_cb->enable();
           grid_cb->disable();
           if(!coin_flag){
-              outline_cb->enable(); 
               simulate_rg->disable();
               glColor4ub(255,255,0,200);
               glBegin(GL_QUADS);
@@ -1854,9 +1890,8 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
               drawSideText(mD,mA);
            }
           else{ //coin demonstration
+              simulate_rg->enable();
               if(!simulate_flag){
-                  simulate_rg->enable();
-                  outline_cb->enable(); 
                   glColor4ub(255,255,0,200);
                   glBegin(GL_TRIANGLES);
                   glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
@@ -2209,9 +2244,8 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers);
           break;
        case 8:
-          linear_rg->disable();
-          grid_cb->disable();
-          simulate_rg->disable();
+          unit_rg->enable();
+          outline_cb->enable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -2282,9 +2316,8 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
           drawArea(centers); 
           break;
         case 9:
-          linear_rg->disable();
-          grid_cb->disable();
-          simulate_rg->disable();
+          unit_rg->enable();
+          outline_cb->enable();
           glBegin(GL_QUADS);
           glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
           glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
@@ -2563,11 +2596,10 @@ int main(int argc,char **argv)
         window_id = glutCreateWindow( "MathMAR" );
         //glutFullScreen();
         
-        //GLUI *glui = GLUI_Master.create_glui("MATHMAR");
         glui_button = GLUI_Master.create_glui_subwindow(window_id,GLUI_SUBWINDOW_BOTTOM);
         show_btn = new GLUI_Button(glui_button,"Show MENU",2,vButton);
-//        new GLUI_Column(glui_button,false);
-        //glui_subwin->add_column(true);
+        for(int i=1;i<90;i++)glui_button->add_column(false);
+        quit_btn = new GLUI_Button(glui_button,"Quit",0,exit);
         glui_button->set_main_gfx_window( window_id);
         
         glui_subwin = GLUI_Master.create_glui_subwindow(window_id,GLUI_SUBWINDOW_RIGHT);
@@ -2578,12 +2610,13 @@ int main(int argc,char **argv)
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Grid Mode");
-        grid_cb = new GLUI_Checkbox(glui_subwin,"Enabled",&mode_type,-1,vMenu);
+        grid_cb = new GLUI_Checkbox(glui_subwin,"Enabled",&mode_grid,-1,vMenu);
         //glui_subwin->add_checkbox("Enabled",&mode_type,-1,vMenu);
         glui_subwin->add_statictext("");
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Linear Mode");
+        linear_cb = new GLUI_Checkbox(glui_subwin,"Enabled",&mode_linear,-1,vMenu);
         linear_rg = new GLUI_RadioGroup(glui_subwin,&linear_type,-1,vMenu);
             new GLUI_RadioButton( linear_rg, "X variable" );
             new GLUI_RadioButton( linear_rg, "Y variable" );
@@ -2591,7 +2624,6 @@ int main(int argc,char **argv)
             new GLUI_RadioButton( linear_rg, "None" );
         glui_subwin->add_statictext("");
         glui_subwin->add_separator();
-        //glui_subwin->add_column(true);
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Unit Change");
         unit_rg = new GLUI_RadioGroup(glui_subwin,&unit_type,-1,vMenu);
@@ -2603,7 +2635,6 @@ int main(int argc,char **argv)
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Outline");
         outline_cb = new GLUI_Checkbox(glui_subwin,"Show Outline",&outline_type,-1,vMenu);
-        //glui_subwin->add_checkbox("Show Outline",&outline_type,-1,vMenu);
         glui_subwin->add_statictext("");
         glui_subwin->add_separator();
 
@@ -2614,36 +2645,18 @@ int main(int argc,char **argv)
             new GLUI_RadioButton( simulate_rg, "B-type" );
             new GLUI_RadioButton( simulate_rg, "C-type" );
             new GLUI_RadioButton( simulate_rg, "None" );
-        //glui_subwin->add_checkbox("Simulate",&simulate_type,-1,vMenu);
         glui_subwin->add_statictext("");
         glui_subwin->add_separator();
           
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("ScreenShot");
         capture_btn = new GLUI_Button(glui_subwin,"Capture Now",1,vButton);
-        glui_subwin->add_statictext("");
-        //glui_subwin->add_column(true);
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("");
         quit_btn = new GLUI_Button(glui_subwin,"Quit",0,exit);
 
         glui_subwin->hide();
-/*      
-        GLint submenu = glutCreateMenu( vMenu );
-        //sub menu 
-        glutAddMenuEntry("X-line Mode",4);
-        glutAddMenuEntry("Y-line Mode",5);
-        glutAddMenuEntry("Z-line Mode",6);
-        glutCreateMenu( vMenu );
-        glutAddMenuEntry("Free Mode",1);
-        glutAddMenuEntry("Grid Mode",2);
-        glutAddSubMenu("Line Mode",submenu);
-        glutAddMenuEntry("Show Outline",7);
-        glutAddMenuEntry("Change Unit",8);
-        glutAddMenuEntry("ScreenShot",10);
-        glutAttachMenu(GLUT_LEFT_BUTTON);
-*/
         glutDisplayFunc( vDrawScene );
         //glutIdleFunc( vIdle );
         GLUI_Master.set_glutIdleFunc( vIdle);
