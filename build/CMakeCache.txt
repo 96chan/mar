@@ -169,12 +169,6 @@ CPACK_SOURCE_ZIP:BOOL=OFF
 //Enable profiling in the GCC compiler (Add flags: -g -pg)
 ENABLE_PROFILING:BOOL=OFF
 
-//Dependencies for target
-GLUI_LIB_DEPENDS:STATIC=
-
-//Path to a library.
-GLUI_glui_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libglui.a
-
 //Path to a file.
 GLUT_INCLUDE_DIR:PATH=/usr/include
 
@@ -203,10 +197,10 @@ OPENGL_glu_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libGLU.so
 OPENGL_xmesa_INCLUDE_DIR:PATH=OPENGL_xmesa_INCLUDE_DIR-NOTFOUND
 
 //Path where debug 3rdpaty OpenCV dependencies are located
-OpenCV_3RDPARTY_LIB_DIR_DBG:PATH=/usr/local/share/OpenCV/3rdparty/lib
+OpenCV_3RDPARTY_LIB_DIR_DBG:PATH=
 
 //Path where release 3rdpaty OpenCV dependencies are located
-OpenCV_3RDPARTY_LIB_DIR_OPT:PATH=/usr/local/share/OpenCV/3rdparty/lib
+OpenCV_3RDPARTY_LIB_DIR_OPT:PATH=
 
 OpenCV_CONFIG_PATH:FILEPATH=/usr/local/share/OpenCV
 
@@ -214,10 +208,10 @@ OpenCV_CONFIG_PATH:FILEPATH=/usr/local/share/OpenCV
 OpenCV_DIR:PATH=/usr/local/share/OpenCV
 
 //Path where debug OpenCV libraries are located
-OpenCV_LIB_DIR_DBG:PATH=/usr/local/lib
+OpenCV_LIB_DIR_DBG:PATH=
 
 //Path where release OpenCV libraries are located
-OpenCV_LIB_DIR_OPT:PATH=/usr/local/lib
+OpenCV_LIB_DIR_OPT:PATH=
 
 //Enable -ffast-math for GCC
 USE_FAST_MATH:BOOL=ON
@@ -424,7 +418,7 @@ X11_xf86vmode_INCLUDE_PATH:PATH=X11_xf86vmode_INCLUDE_PATH-NOTFOUND
 aruco_BINARY_DIR:STATIC=/home/ischool/Documents/MathMAR/build
 
 //Dependencies for the target
-aruco_LIB_DEPENDS:STATIC=debug;/usr/local/lib/libopencv_calib3d.so;debug;/usr/local/lib/libopencv_contrib.so;debug;/usr/local/lib/libopencv_core.so;debug;/usr/local/lib/libopencv_features2d.so;debug;/usr/local/lib/libopencv_flann.so;debug;/usr/local/lib/libopencv_gpu.so;debug;/usr/local/lib/libopencv_highgui.so;debug;/usr/local/lib/libopencv_imgproc.so;debug;/usr/local/lib/libopencv_legacy.so;debug;/usr/local/lib/libopencv_ml.so;debug;/usr/local/lib/libopencv_nonfree.so;debug;/usr/local/lib/libopencv_objdetect.so;debug;/usr/local/lib/libopencv_photo.so;debug;/usr/local/lib/libopencv_stitching.so;debug;/usr/local/lib/libopencv_superres.so;debug;/usr/local/lib/libopencv_ts.so;debug;/usr/local/lib/libopencv_video.so;debug;/usr/local/lib/libopencv_videostab.so;optimized;/usr/local/lib/libopencv_calib3d.so;optimized;/usr/local/lib/libopencv_contrib.so;optimized;/usr/local/lib/libopencv_core.so;optimized;/usr/local/lib/libopencv_features2d.so;optimized;/usr/local/lib/libopencv_flann.so;optimized;/usr/local/lib/libopencv_gpu.so;optimized;/usr/local/lib/libopencv_highgui.so;optimized;/usr/local/lib/libopencv_imgproc.so;optimized;/usr/local/lib/libopencv_legacy.so;optimized;/usr/local/lib/libopencv_ml.so;optimized;/usr/local/lib/libopencv_nonfree.so;optimized;/usr/local/lib/libopencv_objdetect.so;optimized;/usr/local/lib/libopencv_photo.so;optimized;/usr/local/lib/libopencv_stitching.so;optimized;/usr/local/lib/libopencv_superres.so;optimized;/usr/local/lib/libopencv_ts.so;optimized;/usr/local/lib/libopencv_video.so;optimized;/usr/local/lib/libopencv_videostab.so;
+aruco_LIB_DEPENDS:STATIC=general;opencv_videostab;general;opencv_video;general;opencv_ts;general;opencv_superres;general;opencv_stitching;general;opencv_photo;general;opencv_ocl;general;opencv_objdetect;general;opencv_nonfree;general;opencv_ml;general;opencv_legacy;general;opencv_imgproc;general;opencv_highgui;general;opencv_gpu;general;opencv_flann;general;opencv_features2d;general;opencv_core;general;opencv_contrib;general;opencv_calib3d;
 
 //Value Computed by CMake
 aruco_SOURCE_DIR:STATIC=/home/ischool/Documents/MathMAR
@@ -534,7 +528,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=4
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -373,10 +373,12 @@ void drawString(char* string, int sub=0){
   for (c=string; *c != '\0'; c++) 
     {
       if (!sub) {
-      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+//HELVETICA_18, *c);
       }
       else {
-      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
+      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+//HELVETICA_12, *c);
       }
     }
  
@@ -536,25 +538,28 @@ void drawArea(vector<cv::Point2f> centers){
   char buffer2[50]; 
   if (imperialUnitFlag){
     int n = sprintf(buffer,"Area = %4.0f in",floor(area+0.5));
-    int m = sprintf(smallbuffer, "2\n");
+    int m = sprintf(smallbuffer, "^2\n");
     int l = sprintf(buffer2,"Perimeter = %i in\n", perimeter);
   }
   else{
     int n = sprintf(buffer,"Area = %4.0f cm\n",floor(area+0.5));
-    int m = sprintf(smallbuffer,"2\n");
+    int m = sprintf(smallbuffer, "^2\n");
     int l = sprintf(buffer2,"Perimeter = %i cm\n", perimeter);
   }
 
-  float x_area = 0;
+  float x_area = 0; 
+  float x_area3 =0;
   float y_area = 0;
   float z_area = 0;
   float y_area2 = 0;
+  float y_area3 = 0;
   float xtranslateArea = -4*0.015;
   float ytranslateArea = 2.5*0.015;
   x_area = mA.at<float>(0,0) + xtranslateArea;
-  y_area = mA.at<float>(1,0) - 0.75*ytranslateArea;
+  y_area = mA.at<float>(1,0) - 0.45*ytranslateArea;
   z_area = -mA.at<float>(2,0);
-  y_area2 = mA.at<float>(1,0) -1.25*ytranslateArea;
+  y_area2 = mA.at<float>(1,0) -0.25*ytranslateArea;
+  y_area3 = mA.at<float>(1,0) -0.30*ytranslateArea;
 
   glPushMatrix();
   glColor3f(0,0,1);
@@ -562,8 +567,9 @@ void drawArea(vector<cv::Point2f> centers){
   glTranslatef(x_area,y_area2,z_area);
   glRasterPos3f( 0.0f, 0.0f, 0.0f);
   drawString(buffer);
-  drawString(smallbuffer, 1);
+  drawString(smallbuffer,1);
   glPopMatrix();
+
 
   glPushMatrix();
   glLoadIdentity();  
@@ -2454,7 +2460,7 @@ void vDrawScene()
       int a = sprintf(textString,"%s","Grid Mode");
       gridMode(centers);
     }
-    int m =sprintf(unitString,"%s",imperialUnitFlag?"(Imperial Units)":"(Metric Units)");
+    int m =sprintf(unitString,"%s",imperialUnitFlag?"(in)":"(cm)");
      glEnable(GL_BLEND);
      glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         
@@ -2492,8 +2498,9 @@ void vDrawScene()
     if(capture_flag){
       glClearColor(1.0,1.0,1.0,1.0);
       glClear(GL_COLOR_BUFFER_BIT);
-      sleep(1); 
+      sleep(0.1); 
       capture_flag = false;
+      system("mplayer ~/Documents/MathMAR1/camera1.mp3");
     }
  
     glutSwapBuffers();
@@ -2605,37 +2612,37 @@ int main(int argc,char **argv)
         glui_subwin = GLUI_Master.create_glui_subwindow(window_id,GLUI_SUBWINDOW_RIGHT);
         glui_subwin->set_main_gfx_window( window_id);
         glui_subwin->add_statictext("");
-        hide_btn = new GLUI_Button(glui_subwin,"Hide MENU",3,vButton);
-        glui_subwin->add_statictext("");
+        hide_btn = new GLUI_Button(glui_subwin,"Hide",3,vButton);
+//        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("Grid Mode");
-        grid_cb = new GLUI_Checkbox(glui_subwin,"Enabled",&mode_grid,-1,vMenu);
+        glui_subwin->add_statictext("Grid");
+        grid_cb = new GLUI_Checkbox(glui_subwin,"On",&mode_grid,-1,vMenu);
         //glui_subwin->add_checkbox("Enabled",&mode_type,-1,vMenu);
-        glui_subwin->add_statictext("");
+//        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("Linear Mode");
-        linear_cb = new GLUI_Checkbox(glui_subwin,"Enabled",&mode_linear,-1,vMenu);
+        glui_subwin->add_statictext("Linear");
+        linear_cb = new GLUI_Checkbox(glui_subwin,"On",&mode_linear,-1,vMenu);
         linear_rg = new GLUI_RadioGroup(glui_subwin,&linear_type,-1,vMenu);
-            new GLUI_RadioButton( linear_rg, "X variable" );
-            new GLUI_RadioButton( linear_rg, "Y variable" );
-            new GLUI_RadioButton( linear_rg, "Z variable" );
+            new GLUI_RadioButton( linear_rg, "X" );
+            new GLUI_RadioButton( linear_rg, "Y" );
+            new GLUI_RadioButton( linear_rg, "Z" );
             new GLUI_RadioButton( linear_rg, "None" );
-        glui_subwin->add_statictext("");
+//        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("Unit Change");
+        glui_subwin->add_statictext("Unit");
         unit_rg = new GLUI_RadioGroup(glui_subwin,&unit_type,-1,vMenu);
-            new GLUI_RadioButton( unit_rg, "Metric(cm)" );
-            new GLUI_RadioButton( unit_rg, "Imperial(in)" );
-        glui_subwin->add_statictext("");
+            new GLUI_RadioButton( unit_rg, "cm" );
+            new GLUI_RadioButton( unit_rg, "in" );
+//        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
         
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Outline");
-        outline_cb = new GLUI_Checkbox(glui_subwin,"Show Outline",&outline_type,-1,vMenu);
-        glui_subwin->add_statictext("");
+        outline_cb = new GLUI_Checkbox(glui_subwin,"On",&outline_type,-1,vMenu);
+//        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
 
         glui_subwin->add_statictext("");
@@ -2645,13 +2652,14 @@ int main(int argc,char **argv)
             new GLUI_RadioButton( simulate_rg, "B-type" );
             new GLUI_RadioButton( simulate_rg, "C-type" );
             new GLUI_RadioButton( simulate_rg, "None" );
-        glui_subwin->add_statictext("");
+//        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
           
         glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("ScreenShot");
-        capture_btn = new GLUI_Button(glui_subwin,"Capture Now",1,vButton);
+        glui_subwin->add_statictext("Screen");
+        capture_btn = new GLUI_Button(glui_subwin,"Capture",1,vButton);
         glui_subwin->add_separator();
+        glui_subwin->add_statictext("");
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("");
         quit_btn = new GLUI_Button(glui_subwin,"Quit",0,exit);

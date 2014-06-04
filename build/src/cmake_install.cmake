@@ -68,15 +68,22 @@ ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "main
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "main")
   FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/aruco" TYPE FILE FILES
-    "/home/ischool/Documents/MathMAR/src/boarddetector.h"
-    "/home/ischool/Documents/MathMAR/src/markerdetector.h"
-    "/home/ischool/Documents/MathMAR/src/arucofidmarkers.h"
     "/home/ischool/Documents/MathMAR/src/cvdrawingutils.h"
-    "/home/ischool/Documents/MathMAR/src/cameraparameters.h"
-    "/home/ischool/Documents/MathMAR/src/marker.h"
-    "/home/ischool/Documents/MathMAR/src/aruco.h"
-    "/home/ischool/Documents/MathMAR/src/exports.h"
+    "/home/ischool/Documents/MathMAR/src/glui.h"
+    "/home/ischool/Documents/MathMAR/src/quaternion.h"
     "/home/ischool/Documents/MathMAR/src/board.h"
+    "/home/ischool/Documents/MathMAR/src/glui_internal.h"
+    "/home/ischool/Documents/MathMAR/src/viewmodel.h"
+    "/home/ischool/Documents/MathMAR/src/boarddetector.h"
+    "/home/ischool/Documents/MathMAR/src/arcball.h"
+    "/home/ischool/Documents/MathMAR/src/arucofidmarkers.h"
+    "/home/ischool/Documents/MathMAR/src/markerdetector.h"
+    "/home/ischool/Documents/MathMAR/src/aruco.h"
+    "/home/ischool/Documents/MathMAR/src/marker.h"
+    "/home/ischool/Documents/MathMAR/src/cameraparameters.h"
+    "/home/ischool/Documents/MathMAR/src/glui_internal_control.h"
+    "/home/ischool/Documents/MathMAR/src/exports.h"
+    "/home/ischool/Documents/MathMAR/src/algebra3.h"
     )
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "main")
 

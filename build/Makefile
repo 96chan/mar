@@ -183,19 +183,6 @@ aruco/fast:
 .PHONY : aruco/fast
 
 #=============================================================================
-# Target rules for targets named GLUI
-
-# Build rule for target.
-GLUI: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 GLUI
-.PHONY : GLUI
-
-# fast build rule for target.
-GLUI/fast:
-	$(MAKE) -f glui/CMakeFiles/GLUI.dir/build.make glui/CMakeFiles/GLUI.dir/build
-.PHONY : GLUI/fast
-
-#=============================================================================
 # Target rules for targets named MATHMAR
 
 # Build rule for target.
@@ -224,7 +211,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... uninstall"
 	@echo "... aruco"
-	@echo "... GLUI"
 	@echo "... MATHMAR"
 .PHONY : help
 

@@ -46,101 +46,55 @@ include src/CMakeFiles/aruco.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/aruco.dir/flags.make
 
-src/CMakeFiles/aruco.dir/markerdetector.cpp.o: src/CMakeFiles/aruco.dir/flags.make
-src/CMakeFiles/aruco.dir/markerdetector.cpp.o: ../src/markerdetector.cpp
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o: ../src/glui_treepanel.cpp
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/markerdetector.cpp.o"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/markerdetector.cpp.o -c /home/ischool/Documents/MathMAR/src/markerdetector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_treepanel.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_treepanel.cpp
 
-src/CMakeFiles/aruco.dir/markerdetector.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/markerdetector.cpp.i"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/markerdetector.cpp > CMakeFiles/aruco.dir/markerdetector.cpp.i
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_treepanel.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_treepanel.cpp > CMakeFiles/aruco.dir/glui_treepanel.cpp.i
 
-src/CMakeFiles/aruco.dir/markerdetector.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/markerdetector.cpp.s"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/markerdetector.cpp -o CMakeFiles/aruco.dir/markerdetector.cpp.s
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_treepanel.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_treepanel.cpp -o CMakeFiles/aruco.dir/glui_treepanel.cpp.s
 
-src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires:
-.PHONY : src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.requires
 
-src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides: src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides.build
-.PHONY : src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.provides
 
-src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides.build: src/CMakeFiles/aruco.dir/markerdetector.cpp.o
+src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o
 
-src/CMakeFiles/aruco.dir/boarddetector.cpp.o: src/CMakeFiles/aruco.dir/flags.make
-src/CMakeFiles/aruco.dir/boarddetector.cpp.o: ../src/boarddetector.cpp
+src/CMakeFiles/aruco.dir/glui_list.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_list.cpp.o: ../src/glui_list.cpp
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_2)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/boarddetector.cpp.o"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/boarddetector.cpp.o -c /home/ischool/Documents/MathMAR/src/boarddetector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_list.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_list.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_list.cpp
 
-src/CMakeFiles/aruco.dir/boarddetector.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/boarddetector.cpp.i"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/boarddetector.cpp > CMakeFiles/aruco.dir/boarddetector.cpp.i
+src/CMakeFiles/aruco.dir/glui_list.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_list.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_list.cpp > CMakeFiles/aruco.dir/glui_list.cpp.i
 
-src/CMakeFiles/aruco.dir/boarddetector.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/boarddetector.cpp.s"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/boarddetector.cpp -o CMakeFiles/aruco.dir/boarddetector.cpp.s
+src/CMakeFiles/aruco.dir/glui_list.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_list.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_list.cpp -o CMakeFiles/aruco.dir/glui_list.cpp.s
 
-src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires:
-.PHONY : src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
+src/CMakeFiles/aruco.dir/glui_list.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_list.cpp.o.requires
 
-src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides: src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides.build
-.PHONY : src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides
+src/CMakeFiles/aruco.dir/glui_list.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_list.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_list.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_list.cpp.o.provides
 
-src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides.build: src/CMakeFiles/aruco.dir/boarddetector.cpp.o
-
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.o: src/CMakeFiles/aruco.dir/flags.make
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.o: ../src/cameraparameters.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_3)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/cameraparameters.cpp.o"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cameraparameters.cpp.o -c /home/ischool/Documents/MathMAR/src/cameraparameters.cpp
-
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/cameraparameters.cpp.i"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/cameraparameters.cpp > CMakeFiles/aruco.dir/cameraparameters.cpp.i
-
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/cameraparameters.cpp.s"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/cameraparameters.cpp -o CMakeFiles/aruco.dir/cameraparameters.cpp.s
-
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires:
-.PHONY : src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
-
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides.build
-.PHONY : src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides
-
-src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides.build: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o
-
-src/CMakeFiles/aruco.dir/marker.cpp.o: src/CMakeFiles/aruco.dir/flags.make
-src/CMakeFiles/aruco.dir/marker.cpp.o: ../src/marker.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_4)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/marker.cpp.o"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/marker.cpp.o -c /home/ischool/Documents/MathMAR/src/marker.cpp
-
-src/CMakeFiles/aruco.dir/marker.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/marker.cpp.i"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/marker.cpp > CMakeFiles/aruco.dir/marker.cpp.i
-
-src/CMakeFiles/aruco.dir/marker.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/marker.cpp.s"
-	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/marker.cpp -o CMakeFiles/aruco.dir/marker.cpp.s
-
-src/CMakeFiles/aruco.dir/marker.cpp.o.requires:
-.PHONY : src/CMakeFiles/aruco.dir/marker.cpp.o.requires
-
-src/CMakeFiles/aruco.dir/marker.cpp.o.provides: src/CMakeFiles/aruco.dir/marker.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/marker.cpp.o.provides.build
-.PHONY : src/CMakeFiles/aruco.dir/marker.cpp.o.provides
-
-src/CMakeFiles/aruco.dir/marker.cpp.o.provides.build: src/CMakeFiles/aruco.dir/marker.cpp.o
+src/CMakeFiles/aruco.dir/glui_list.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_list.cpp.o
 
 src/CMakeFiles/aruco.dir/board.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/board.cpp.o: ../src/board.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/board.cpp.o"
 	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/board.cpp.o -c /home/ischool/Documents/MathMAR/src/board.cpp
 
@@ -161,9 +115,561 @@ src/CMakeFiles/aruco.dir/board.cpp.o.provides: src/CMakeFiles/aruco.dir/board.cp
 
 src/CMakeFiles/aruco.dir/board.cpp.o.provides.build: src/CMakeFiles/aruco.dir/board.cpp.o
 
+src/CMakeFiles/aruco.dir/glui_button.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_button.cpp.o: ../src/glui_button.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_button.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_button.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_button.cpp
+
+src/CMakeFiles/aruco.dir/glui_button.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_button.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_button.cpp > CMakeFiles/aruco.dir/glui_button.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_button.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_button.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_button.cpp -o CMakeFiles/aruco.dir/glui_button.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_button.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_button.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_button.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_button.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_button.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_button.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_button.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_button.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_separator.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_separator.cpp.o: ../src/glui_separator.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_separator.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_separator.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_separator.cpp
+
+src/CMakeFiles/aruco.dir/glui_separator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_separator.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_separator.cpp > CMakeFiles/aruco.dir/glui_separator.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_separator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_separator.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_separator.cpp -o CMakeFiles/aruco.dir/glui_separator.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_separator.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_separator.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_separator.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_separator.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_separator.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_separator.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_separator.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_separator.cpp.o
+
+src/CMakeFiles/aruco.dir/algebra3.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/algebra3.cpp.o: ../src/algebra3.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/algebra3.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/algebra3.cpp.o -c /home/ischool/Documents/MathMAR/src/algebra3.cpp
+
+src/CMakeFiles/aruco.dir/algebra3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/algebra3.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/algebra3.cpp > CMakeFiles/aruco.dir/algebra3.cpp.i
+
+src/CMakeFiles/aruco.dir/algebra3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/algebra3.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/algebra3.cpp -o CMakeFiles/aruco.dir/algebra3.cpp.s
+
+src/CMakeFiles/aruco.dir/algebra3.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/algebra3.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/algebra3.cpp.o.provides: src/CMakeFiles/aruco.dir/algebra3.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/algebra3.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/algebra3.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/algebra3.cpp.o.provides.build: src/CMakeFiles/aruco.dir/algebra3.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o: ../src/glui_checkbox.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_checkbox.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_checkbox.cpp
+
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_checkbox.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_checkbox.cpp > CMakeFiles/aruco.dir/glui_checkbox.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_checkbox.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_checkbox.cpp -o CMakeFiles/aruco.dir/glui_checkbox.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o: ../src/glui_add_controls.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_add_controls.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_add_controls.cpp
+
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_add_controls.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_add_controls.cpp > CMakeFiles/aruco.dir/glui_add_controls.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_add_controls.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_add_controls.cpp -o CMakeFiles/aruco.dir/glui_add_controls.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_node.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_node.cpp.o: ../src/glui_node.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_node.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_node.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_node.cpp
+
+src/CMakeFiles/aruco.dir/glui_node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_node.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_node.cpp > CMakeFiles/aruco.dir/glui_node.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_node.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_node.cpp -o CMakeFiles/aruco.dir/glui_node.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_node.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_node.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_node.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_node.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_node.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_node.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_node.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_node.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_tree.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_tree.cpp.o: ../src/glui_tree.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_tree.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_tree.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_tree.cpp
+
+src/CMakeFiles/aruco.dir/glui_tree.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_tree.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_tree.cpp > CMakeFiles/aruco.dir/glui_tree.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_tree.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_tree.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_tree.cpp -o CMakeFiles/aruco.dir/glui_tree.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_tree.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_tree.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_tree.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_tree.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_tree.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_tree.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_tree.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_tree.cpp.o
+
+src/CMakeFiles/aruco.dir/glui.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui.cpp.o: ../src/glui.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_11)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui.cpp.o -c /home/ischool/Documents/MathMAR/src/glui.cpp
+
+src/CMakeFiles/aruco.dir/glui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui.cpp > CMakeFiles/aruco.dir/glui.cpp.i
+
+src/CMakeFiles/aruco.dir/glui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui.cpp -o CMakeFiles/aruco.dir/glui.cpp.s
+
+src/CMakeFiles/aruco.dir/glui.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui.cpp.o.provides: src/CMakeFiles/aruco.dir/glui.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_radio.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_radio.cpp.o: ../src/glui_radio.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_12)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_radio.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_radio.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_radio.cpp
+
+src/CMakeFiles/aruco.dir/glui_radio.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_radio.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_radio.cpp > CMakeFiles/aruco.dir/glui_radio.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_radio.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_radio.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_radio.cpp -o CMakeFiles/aruco.dir/glui_radio.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_radio.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_radio.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_radio.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_radio.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_radio.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_radio.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_radio.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_radio.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.o: ../src/glui_rollout.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_13)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_rollout.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_rollout.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_rollout.cpp
+
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_rollout.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_rollout.cpp > CMakeFiles/aruco.dir/glui_rollout.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_rollout.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_rollout.cpp -o CMakeFiles/aruco.dir/glui_rollout.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_rollout.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o: ../src/glui_bitmap_img_data.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_14)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_bitmap_img_data.cpp
+
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_bitmap_img_data.cpp > CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_bitmap_img_data.cpp -o CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o: ../src/glui_filebrowser.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_15)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_filebrowser.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_filebrowser.cpp
+
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_filebrowser.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_filebrowser.cpp > CMakeFiles/aruco.dir/glui_filebrowser.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_filebrowser.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_filebrowser.cpp -o CMakeFiles/aruco.dir/glui_filebrowser.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.o: ../src/glui_commandline.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_16)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_commandline.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_commandline.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_commandline.cpp
+
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_commandline.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_commandline.cpp > CMakeFiles/aruco.dir/glui_commandline.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_commandline.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_commandline.cpp -o CMakeFiles/aruco.dir/glui_commandline.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_commandline.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o: ../src/glui_bitmaps.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_17)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_bitmaps.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_bitmaps.cpp
+
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_bitmaps.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_bitmaps.cpp > CMakeFiles/aruco.dir/glui_bitmaps.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_bitmaps.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_bitmaps.cpp -o CMakeFiles/aruco.dir/glui_bitmaps.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o
+
+src/CMakeFiles/aruco.dir/boarddetector.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/boarddetector.cpp.o: ../src/boarddetector.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_18)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/boarddetector.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/boarddetector.cpp.o -c /home/ischool/Documents/MathMAR/src/boarddetector.cpp
+
+src/CMakeFiles/aruco.dir/boarddetector.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/boarddetector.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/boarddetector.cpp > CMakeFiles/aruco.dir/boarddetector.cpp.i
+
+src/CMakeFiles/aruco.dir/boarddetector.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/boarddetector.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/boarddetector.cpp -o CMakeFiles/aruco.dir/boarddetector.cpp.s
+
+src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides: src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/boarddetector.cpp.o.provides.build: src/CMakeFiles/aruco.dir/boarddetector.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_string.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_string.cpp.o: ../src/glui_string.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_19)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_string.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_string.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_string.cpp
+
+src/CMakeFiles/aruco.dir/glui_string.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_string.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_string.cpp > CMakeFiles/aruco.dir/glui_string.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_string.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_string.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_string.cpp -o CMakeFiles/aruco.dir/glui_string.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_string.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_string.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_string.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_string.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_string.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_string.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_string.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_string.cpp.o
+
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.o: ../src/cameraparameters.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_20)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/cameraparameters.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cameraparameters.cpp.o -c /home/ischool/Documents/MathMAR/src/cameraparameters.cpp
+
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/cameraparameters.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/cameraparameters.cpp > CMakeFiles/aruco.dir/cameraparameters.cpp.i
+
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/cameraparameters.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/cameraparameters.cpp -o CMakeFiles/aruco.dir/cameraparameters.cpp.s
+
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.provides.build: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o: ../src/glui_mouse_iaction.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_21)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_mouse_iaction.cpp
+
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_mouse_iaction.cpp > CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_mouse_iaction.cpp -o CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_translation.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_translation.cpp.o: ../src/glui_translation.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_22)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_translation.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_translation.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_translation.cpp
+
+src/CMakeFiles/aruco.dir/glui_translation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_translation.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_translation.cpp > CMakeFiles/aruco.dir/glui_translation.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_translation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_translation.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_translation.cpp -o CMakeFiles/aruco.dir/glui_translation.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_translation.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_translation.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_translation.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_translation.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_translation.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_translation.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_translation.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_translation.cpp.o
+
+src/CMakeFiles/aruco.dir/arcball.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/arcball.cpp.o: ../src/arcball.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_23)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/arcball.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/arcball.cpp.o -c /home/ischool/Documents/MathMAR/src/arcball.cpp
+
+src/CMakeFiles/aruco.dir/arcball.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/arcball.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/arcball.cpp > CMakeFiles/aruco.dir/arcball.cpp.i
+
+src/CMakeFiles/aruco.dir/arcball.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/arcball.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/arcball.cpp -o CMakeFiles/aruco.dir/arcball.cpp.s
+
+src/CMakeFiles/aruco.dir/arcball.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/arcball.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/arcball.cpp.o.provides: src/CMakeFiles/aruco.dir/arcball.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/arcball.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/arcball.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/arcball.cpp.o.provides.build: src/CMakeFiles/aruco.dir/arcball.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.o: ../src/glui_listbox.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_24)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_listbox.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_listbox.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_listbox.cpp
+
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_listbox.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_listbox.cpp > CMakeFiles/aruco.dir/glui_listbox.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_listbox.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_listbox.cpp -o CMakeFiles/aruco.dir/glui_listbox.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_listbox.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.o: ../src/glui_textbox.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_25)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_textbox.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_textbox.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_textbox.cpp
+
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_textbox.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_textbox.cpp > CMakeFiles/aruco.dir/glui_textbox.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_textbox.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_textbox.cpp -o CMakeFiles/aruco.dir/glui_textbox.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_textbox.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.o: ../src/glui_rotation.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_26)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_rotation.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_rotation.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_rotation.cpp
+
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_rotation.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_rotation.cpp > CMakeFiles/aruco.dir/glui_rotation.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_rotation.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_rotation.cpp -o CMakeFiles/aruco.dir/glui_rotation.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_rotation.cpp.o
+
+src/CMakeFiles/aruco.dir/quaternion.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/quaternion.cpp.o: ../src/quaternion.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_27)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/quaternion.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/quaternion.cpp.o -c /home/ischool/Documents/MathMAR/src/quaternion.cpp
+
+src/CMakeFiles/aruco.dir/quaternion.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/quaternion.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/quaternion.cpp > CMakeFiles/aruco.dir/quaternion.cpp.i
+
+src/CMakeFiles/aruco.dir/quaternion.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/quaternion.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/quaternion.cpp -o CMakeFiles/aruco.dir/quaternion.cpp.s
+
+src/CMakeFiles/aruco.dir/quaternion.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/quaternion.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/quaternion.cpp.o.provides: src/CMakeFiles/aruco.dir/quaternion.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/quaternion.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/quaternion.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/quaternion.cpp.o.provides.build: src/CMakeFiles/aruco.dir/quaternion.cpp.o
+
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o: ../src/cvdrawingutils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_28)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o"
 	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/cvdrawingutils.cpp.o -c /home/ischool/Documents/MathMAR/src/cvdrawingutils.cpp
 
@@ -184,9 +690,101 @@ src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o.provides: src/CMakeFiles/aruco.dir
 
 src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o.provides.build: src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o
 
+src/CMakeFiles/aruco.dir/glui_panel.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_panel.cpp.o: ../src/glui_panel.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_29)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_panel.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_panel.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_panel.cpp
+
+src/CMakeFiles/aruco.dir/glui_panel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_panel.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_panel.cpp > CMakeFiles/aruco.dir/glui_panel.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_panel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_panel.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_panel.cpp -o CMakeFiles/aruco.dir/glui_panel.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_panel.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_panel.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_panel.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_panel.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_panel.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_panel.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_panel.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_panel.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_window.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_window.cpp.o: ../src/glui_window.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_30)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_window.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_window.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_window.cpp
+
+src/CMakeFiles/aruco.dir/glui_window.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_window.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_window.cpp > CMakeFiles/aruco.dir/glui_window.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_window.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_window.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_window.cpp -o CMakeFiles/aruco.dir/glui_window.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_window.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_window.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_window.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_window.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_window.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_window.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_window.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_window.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.o: ../src/glui_statictext.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_31)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_statictext.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_statictext.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_statictext.cpp
+
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_statictext.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_statictext.cpp > CMakeFiles/aruco.dir/glui_statictext.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_statictext.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_statictext.cpp -o CMakeFiles/aruco.dir/glui_statictext.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_statictext.cpp.o
+
+src/CMakeFiles/aruco.dir/viewmodel.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/viewmodel.cpp.o: ../src/viewmodel.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_32)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/viewmodel.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/viewmodel.cpp.o -c /home/ischool/Documents/MathMAR/src/viewmodel.cpp
+
+src/CMakeFiles/aruco.dir/viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/viewmodel.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/viewmodel.cpp > CMakeFiles/aruco.dir/viewmodel.cpp.i
+
+src/CMakeFiles/aruco.dir/viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/viewmodel.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/viewmodel.cpp -o CMakeFiles/aruco.dir/viewmodel.cpp.s
+
+src/CMakeFiles/aruco.dir/viewmodel.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/viewmodel.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/viewmodel.cpp.o.provides: src/CMakeFiles/aruco.dir/viewmodel.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/viewmodel.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/viewmodel.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/viewmodel.cpp.o.provides.build: src/CMakeFiles/aruco.dir/viewmodel.cpp.o
+
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o: src/CMakeFiles/aruco.dir/flags.make
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o: ../src/arucofidmarkers.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_33)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o"
 	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/arucofidmarkers.cpp.o -c /home/ischool/Documents/MathMAR/src/arucofidmarkers.cpp
 
@@ -207,44 +805,292 @@ src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o.provides: src/CMakeFiles/aruco.di
 
 src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o.provides.build: src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o
 
+src/CMakeFiles/aruco.dir/markerdetector.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/markerdetector.cpp.o: ../src/markerdetector.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_34)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/markerdetector.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/markerdetector.cpp.o -c /home/ischool/Documents/MathMAR/src/markerdetector.cpp
+
+src/CMakeFiles/aruco.dir/markerdetector.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/markerdetector.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/markerdetector.cpp > CMakeFiles/aruco.dir/markerdetector.cpp.i
+
+src/CMakeFiles/aruco.dir/markerdetector.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/markerdetector.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/markerdetector.cpp -o CMakeFiles/aruco.dir/markerdetector.cpp.s
+
+src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides: src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/markerdetector.cpp.o.provides.build: src/CMakeFiles/aruco.dir/markerdetector.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.o: ../src/glui_spinner.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_35)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_spinner.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_spinner.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_spinner.cpp
+
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_spinner.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_spinner.cpp > CMakeFiles/aruco.dir/glui_spinner.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_spinner.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_spinner.cpp -o CMakeFiles/aruco.dir/glui_spinner.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_spinner.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_control.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_control.cpp.o: ../src/glui_control.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_36)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_control.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_control.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_control.cpp
+
+src/CMakeFiles/aruco.dir/glui_control.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_control.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_control.cpp > CMakeFiles/aruco.dir/glui_control.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_control.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_control.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_control.cpp -o CMakeFiles/aruco.dir/glui_control.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_control.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_control.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_control.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_control.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_control.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_control.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_control.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_control.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_column.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_column.cpp.o: ../src/glui_column.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_37)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_column.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_column.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_column.cpp
+
+src/CMakeFiles/aruco.dir/glui_column.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_column.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_column.cpp > CMakeFiles/aruco.dir/glui_column.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_column.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_column.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_column.cpp -o CMakeFiles/aruco.dir/glui_column.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_column.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_column.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_column.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_column.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_column.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_column.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_column.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_column.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o: ../src/glui_scrollbar.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_38)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_scrollbar.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_scrollbar.cpp
+
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_scrollbar.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_scrollbar.cpp > CMakeFiles/aruco.dir/glui_scrollbar.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_scrollbar.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_scrollbar.cpp -o CMakeFiles/aruco.dir/glui_scrollbar.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o
+
+src/CMakeFiles/aruco.dir/marker.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/marker.cpp.o: ../src/marker.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_39)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/marker.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/marker.cpp.o -c /home/ischool/Documents/MathMAR/src/marker.cpp
+
+src/CMakeFiles/aruco.dir/marker.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/marker.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/marker.cpp > CMakeFiles/aruco.dir/marker.cpp.i
+
+src/CMakeFiles/aruco.dir/marker.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/marker.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/marker.cpp -o CMakeFiles/aruco.dir/marker.cpp.s
+
+src/CMakeFiles/aruco.dir/marker.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/marker.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/marker.cpp.o.provides: src/CMakeFiles/aruco.dir/marker.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/marker.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/marker.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/marker.cpp.o.provides.build: src/CMakeFiles/aruco.dir/marker.cpp.o
+
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.o: src/CMakeFiles/aruco.dir/flags.make
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.o: ../src/glui_edittext.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ischool/Documents/MathMAR/build/CMakeFiles $(CMAKE_PROGRESS_40)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/aruco.dir/glui_edittext.cpp.o"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/aruco.dir/glui_edittext.cpp.o -c /home/ischool/Documents/MathMAR/src/glui_edittext.cpp
+
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/aruco.dir/glui_edittext.cpp.i"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ischool/Documents/MathMAR/src/glui_edittext.cpp > CMakeFiles/aruco.dir/glui_edittext.cpp.i
+
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/aruco.dir/glui_edittext.cpp.s"
+	cd /home/ischool/Documents/MathMAR/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ischool/Documents/MathMAR/src/glui_edittext.cpp -o CMakeFiles/aruco.dir/glui_edittext.cpp.s
+
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.requires:
+.PHONY : src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.requires
+
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.provides: src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/aruco.dir/build.make src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.provides.build
+.PHONY : src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.provides
+
+src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.provides.build: src/CMakeFiles/aruco.dir/glui_edittext.cpp.o
+
 # Object files for target aruco
 aruco_OBJECTS = \
-"CMakeFiles/aruco.dir/markerdetector.cpp.o" \
-"CMakeFiles/aruco.dir/boarddetector.cpp.o" \
-"CMakeFiles/aruco.dir/cameraparameters.cpp.o" \
-"CMakeFiles/aruco.dir/marker.cpp.o" \
+"CMakeFiles/aruco.dir/glui_treepanel.cpp.o" \
+"CMakeFiles/aruco.dir/glui_list.cpp.o" \
 "CMakeFiles/aruco.dir/board.cpp.o" \
+"CMakeFiles/aruco.dir/glui_button.cpp.o" \
+"CMakeFiles/aruco.dir/glui_separator.cpp.o" \
+"CMakeFiles/aruco.dir/algebra3.cpp.o" \
+"CMakeFiles/aruco.dir/glui_checkbox.cpp.o" \
+"CMakeFiles/aruco.dir/glui_add_controls.cpp.o" \
+"CMakeFiles/aruco.dir/glui_node.cpp.o" \
+"CMakeFiles/aruco.dir/glui_tree.cpp.o" \
+"CMakeFiles/aruco.dir/glui.cpp.o" \
+"CMakeFiles/aruco.dir/glui_radio.cpp.o" \
+"CMakeFiles/aruco.dir/glui_rollout.cpp.o" \
+"CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o" \
+"CMakeFiles/aruco.dir/glui_filebrowser.cpp.o" \
+"CMakeFiles/aruco.dir/glui_commandline.cpp.o" \
+"CMakeFiles/aruco.dir/glui_bitmaps.cpp.o" \
+"CMakeFiles/aruco.dir/boarddetector.cpp.o" \
+"CMakeFiles/aruco.dir/glui_string.cpp.o" \
+"CMakeFiles/aruco.dir/cameraparameters.cpp.o" \
+"CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o" \
+"CMakeFiles/aruco.dir/glui_translation.cpp.o" \
+"CMakeFiles/aruco.dir/arcball.cpp.o" \
+"CMakeFiles/aruco.dir/glui_listbox.cpp.o" \
+"CMakeFiles/aruco.dir/glui_textbox.cpp.o" \
+"CMakeFiles/aruco.dir/glui_rotation.cpp.o" \
+"CMakeFiles/aruco.dir/quaternion.cpp.o" \
 "CMakeFiles/aruco.dir/cvdrawingutils.cpp.o" \
-"CMakeFiles/aruco.dir/arucofidmarkers.cpp.o"
+"CMakeFiles/aruco.dir/glui_panel.cpp.o" \
+"CMakeFiles/aruco.dir/glui_window.cpp.o" \
+"CMakeFiles/aruco.dir/glui_statictext.cpp.o" \
+"CMakeFiles/aruco.dir/viewmodel.cpp.o" \
+"CMakeFiles/aruco.dir/arucofidmarkers.cpp.o" \
+"CMakeFiles/aruco.dir/markerdetector.cpp.o" \
+"CMakeFiles/aruco.dir/glui_spinner.cpp.o" \
+"CMakeFiles/aruco.dir/glui_control.cpp.o" \
+"CMakeFiles/aruco.dir/glui_column.cpp.o" \
+"CMakeFiles/aruco.dir/glui_scrollbar.cpp.o" \
+"CMakeFiles/aruco.dir/marker.cpp.o" \
+"CMakeFiles/aruco.dir/glui_edittext.cpp.o"
 
 # External object files for target aruco
 aruco_EXTERNAL_OBJECTS =
 
-src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/markerdetector.cpp.o
-src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/boarddetector.cpp.o
-src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o
-src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/marker.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_list.cpp.o
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/board.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_button.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_separator.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/algebra3.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_node.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_tree.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_radio.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_rollout.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_commandline.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/boarddetector.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_string.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_translation.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/arcball.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_listbox.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_textbox.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_rotation.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/quaternion.cpp.o
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_panel.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_window.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_statictext.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/viewmodel.cpp.o
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_calib3d.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_contrib.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_core.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_features2d.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_flann.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_gpu.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_highgui.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_imgproc.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_legacy.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ml.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_nonfree.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_objdetect.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_photo.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_stitching.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_superres.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ts.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_video.so
-src/libaruco.so.1.2.4: /usr/local/lib/libopencv_videostab.so
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/markerdetector.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_spinner.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_control.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_column.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/marker.cpp.o
+src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/glui_edittext.cpp.o
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_videostab.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_video.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ts.a
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_superres.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_stitching.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_photo.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ocl.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_objdetect.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_nonfree.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ml.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_legacy.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_imgproc.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_highgui.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_gpu.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_flann.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_features2d.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_core.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_contrib.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_calib3d.so.2.4.8
+src/libaruco.so.1.2.4: /usr/lib/x86_64-linux-gnu/libGLU.so
+src/libaruco.so.1.2.4: /usr/lib/x86_64-linux-gnu/libGL.so
+src/libaruco.so.1.2.4: /usr/lib/x86_64-linux-gnu/libSM.so
+src/libaruco.so.1.2.4: /usr/lib/x86_64-linux-gnu/libICE.so
+src/libaruco.so.1.2.4: /usr/lib/x86_64-linux-gnu/libX11.so
+src/libaruco.so.1.2.4: /usr/lib/x86_64-linux-gnu/libXext.so
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_nonfree.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ocl.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_gpu.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_photo.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_objdetect.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_legacy.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_video.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_ml.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_calib3d.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_features2d.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_highgui.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_imgproc.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_flann.so.2.4.8
+src/libaruco.so.1.2.4: /usr/local/lib/libopencv_core.so.2.4.8
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/build.make
 src/libaruco.so.1.2.4: src/CMakeFiles/aruco.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library libaruco.so"
@@ -259,13 +1105,46 @@ src/libaruco.so: src/libaruco.so.1.2.4
 src/CMakeFiles/aruco.dir/build: src/libaruco.so
 .PHONY : src/CMakeFiles/aruco.dir/build
 
-src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
-src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
-src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
-src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/marker.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_treepanel.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_list.cpp.o.requires
 src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/board.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_button.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_separator.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/algebra3.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_checkbox.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_add_controls.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_node.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_tree.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_radio.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_rollout.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_bitmap_img_data.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_filebrowser.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_commandline.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_bitmaps.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/boarddetector.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_string.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/cameraparameters.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_mouse_iaction.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_translation.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/arcball.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_listbox.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_textbox.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_rotation.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/quaternion.cpp.o.requires
 src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/cvdrawingutils.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_panel.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_window.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_statictext.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/viewmodel.cpp.o.requires
 src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/arucofidmarkers.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/markerdetector.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_spinner.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_control.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_column.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_scrollbar.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/marker.cpp.o.requires
+src/CMakeFiles/aruco.dir/requires: src/CMakeFiles/aruco.dir/glui_edittext.cpp.o.requires
 .PHONY : src/CMakeFiles/aruco.dir/requires
 
 src/CMakeFiles/aruco.dir/clean:

@@ -13,11 +13,12 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/CMakeSystem.cmake"
   "../cmake_uninstall.cmake.in"
   "../config.cmake.in"
-  "../glui/CMakeLists.txt"
   "../src/CMakeLists.txt"
   "../utils/CMakeLists.txt"
   "/usr/local/share/OpenCV/OpenCVConfig-version.cmake"
   "/usr/local/share/OpenCV/OpenCVConfig.cmake"
+  "/usr/local/share/OpenCV/OpenCVModules-release.cmake"
+  "/usr/local/share/OpenCV/OpenCVModules.cmake"
   "/usr/share/cmake-2.8/Modules/CMakeCCompiler.cmake.in"
   "/usr/share/cmake-2.8/Modules/CMakeCCompilerABI.c"
   "/usr/share/cmake-2.8/Modules/CMakeCInformation.cmake"
@@ -71,7 +72,6 @@ SET(CMAKE_MAKEFILE_OUTPUTS
 SET(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "glui/CMakeFiles/CMakeDirectoryInformation.cmake"
   "utils/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
@@ -79,6 +79,5 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 SET(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/uninstall.dir/DependInfo.cmake"
   "src/CMakeFiles/aruco.dir/DependInfo.cmake"
-  "glui/CMakeFiles/GLUI.dir/DependInfo.cmake"
   "utils/CMakeFiles/MATHMAR.dir/DependInfo.cmake"
   )
