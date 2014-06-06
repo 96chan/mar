@@ -259,7 +259,7 @@ void    GLUI_RadioButton::draw( int x, int y )
 
   draw_active_area();
 
-  draw_name( text_x_offset, 13); //12 );
+  draw_name( text_x_offset+10, 16); //12 );
 }
 
 
@@ -317,7 +317,7 @@ void   GLUI_RadioButton::update_size( void )
   text_size = _glutBitmapWidthString( glui->font, name.c_str() );
 
   /*  if ( w < text_x_offset + text_size + 6 )              */
-  w = 120; //text_x_offset + text_size + 16 ;
+  w = 110; //text_x_offset + text_size + 16 ;
   h = 20;
 }
 
@@ -330,7 +330,8 @@ void    GLUI_RadioButton::draw_active_area( void )
   int text_width, left, right;
 
   text_width = _glutBitmapWidthString( glui->font, name.c_str() );
-  left       = text_x_offset-3;
+  left       = text_x_offset+7;
+// modify width
   right      = 110;//left + 7 + text_width; //7
 
   if ( active ) {

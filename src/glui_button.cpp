@@ -179,8 +179,7 @@ void   GLUI_Button::update_size( void )
   if ( NOT glui )
     return;
 
-  text_size = string_width( name );
-
+  text_size = string_width( name ); 
   if ( w < text_size + 16 )
     w = text_size + 16 ;
   h = 30;

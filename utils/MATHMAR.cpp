@@ -2500,7 +2500,7 @@ void vDrawScene()
       glClear(GL_COLOR_BUFFER_BIT);
       sleep(0.1); 
       capture_flag = false;
-      system("mplayer ~/Documents/MathMAR1/camera1.mp3");
+      system("mplayer ~/Documents/MathMAR/camera1.mp3");
     }
  
     glutSwapBuffers();
@@ -2646,11 +2646,11 @@ int main(int argc,char **argv)
         glui_subwin->add_separator();
 
         glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("Simulation");
+        glui_subwin->add_statictext("Simulate");
         simulate_rg = new GLUI_RadioGroup(glui_subwin,&simulate_type,-1,vMenu);
-            new GLUI_RadioButton( simulate_rg, "A-type" );
-            new GLUI_RadioButton( simulate_rg, "B-type" );
-            new GLUI_RadioButton( simulate_rg, "C-type" );
+            new GLUI_RadioButton( simulate_rg, "A" );
+            new GLUI_RadioButton( simulate_rg, "B" );
+            new GLUI_RadioButton( simulate_rg, "C" );
             new GLUI_RadioButton( simulate_rg, "None" );
 //        glui_subwin->add_statictext("");
         glui_subwin->add_separator();

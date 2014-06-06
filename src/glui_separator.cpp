@@ -59,18 +59,22 @@ void    GLUI_Separator::draw( int x, int y )
   else {
     width = this->w;
 }
- 
-  indent = (int) floor(width * .05);
+//  indent = (int) floor(width * .05);
 
   glLineWidth( .3 );
   glBegin( GL_LINES );
   glColor3f( .5, .5, .5 );
-  glVertex2i( indent,       GLUI_SEPARATOR_HEIGHT/2-2 );    
-  glVertex2i( width-indent, GLUI_SEPARATOR_HEIGHT/2-2 );    
+
+  glVertex2i( 0,       GLUI_SEPARATOR_HEIGHT/2-2 );    
+  glVertex2i( width, GLUI_SEPARATOR_HEIGHT/2-2 );    
+//  glVertex2i( indent,       GLUI_SEPARATOR_HEIGHT/2-2 );    
+//  glVertex2i( width-indent, GLUI_SEPARATOR_HEIGHT/2-2 );    
 
   glColor3f( 1., 1., 1. );
-  glVertex2i( indent,       GLUI_SEPARATOR_HEIGHT/2-1 );    
-  glVertex2i( width-indent, GLUI_SEPARATOR_HEIGHT/2-1 );    
+  glVertex2i( 0,       GLUI_SEPARATOR_HEIGHT/2-1 );    
+//  glVertex2i( indent,       GLUI_SEPARATOR_HEIGHT/2-1 );    
+  glVertex2i( width, GLUI_SEPARATOR_HEIGHT/2-1 );    
+//  glVertex2i( width-indent, GLUI_SEPARATOR_HEIGHT/2-1 );    
   glEnd();
 }
 
