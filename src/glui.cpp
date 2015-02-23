@@ -1544,7 +1544,8 @@ void   GLUI_Main::check_subwindow_position( void )
     glutSetWindow( glut_window_id );
 
     if ( TEST_AND(this->flags,GLUI_SUBWINDOW_RIGHT )) {
-      new_x = parent_w - this->w;
+      /*** ADD 40 by CHAN ***/
+      new_x = parent_w - this->w+40;
       new_y = 0;
     } 
     else if ( TEST_AND(this->flags,GLUI_SUBWINDOW_LEFT )) {

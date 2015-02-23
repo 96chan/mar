@@ -84,6 +84,7 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "main")
     "/home/ischool/Documents/MathMAR/src/glui_internal_control.h"
     "/home/ischool/Documents/MathMAR/src/exports.h"
     "/home/ischool/Documents/MathMAR/src/algebra3.h"
+    "/home/ischool/Documents/MathMAR/src/.glui.h.swp"
     )
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "main")
 

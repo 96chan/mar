@@ -106,6 +106,8 @@ bool cflag = false;
 bool coin_flag = false;
 bool outline_flag = false;
 bool capture_flag = false;
+bool sound_flag = false;
+bool sound2_flag = false;
 bool line_flag =false;
 bool grid_flag =false;
 bool simulate_flag = false;
@@ -179,10 +181,10 @@ void vMenu(int value){
         case 1:
             mode = Free;
             if(line_flag){
-            if(linear_type==0){xflag =true;yflag=false;zflag=false;}
-            else if(linear_type==1){xflag =false;yflag=true;zflag=false;}
-            else if(linear_type==2){xflag =false;yflag=false;zflag=true;}
-            else if(linear_type==3){xflag =false;yflag=false;zflag=false;}
+              if(linear_type==0){xflag =true;yflag=false;zflag=false;}
+              else if(linear_type==1){xflag =false;yflag=true;zflag=false;}
+              else if(linear_type==2){xflag =false;yflag=false;zflag=true;}
+              else if(linear_type==3){xflag =false;yflag=false;zflag=false;}
             }
            cout << "I am in the default free mode" << endl;
            break;
@@ -243,7 +245,14 @@ void ScreenCapture(){
  cvSaveImage(file_name,srcimg_R);
 */
 }
-
+void ShutterSound(bool flag){
+    
+   if(flag){
+   cout << flag << " Sound"<<endl;   
+      system("mplayer ~/Documents/MathMAR/camera1.mp3");
+      sound_flag = false;
+    }
+}
 /************************************
  *
  ************************************/
@@ -373,15 +382,60 @@ void drawString(char* string, int sub=0){
   for (c=string; *c != '\0'; c++) 
     {
       if (!sub) {
-      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
-//HELVETICA_18, *c);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
       }
       else {
-      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
-//HELVETICA_12, *c);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
       }
     }
  
+}
+
+bool checkParallel(cv::Mat t1, cv::Mat t2, cv::Mat t3, cv::Mat t4){
+
+  float cos1,cos2;
+  cos1 = abs(getCos(t1, t2));
+  cos2 = abs(getCos(t3, t4));
+  cout << "cos1 : " << cos1 << "  cos2 : " << cos2 <<endl;
+  if(max(cos1,cos2)-min(cos1,cos2)<0.005){
+    cout << "pararrel" <<endl; 
+    return true;
+  }else{
+    return false;
+  } 
+}
+
+bool drawParallel(vector<cv::Point2f> centers){ 
+ bool parallel_flag=false;
+ int cnt =0;
+ switch(centers.size()){
+      case 4:
+          if(checkParallel(mA,mB,mD,mC)==true){
+                glColor4ub(255,0,0,200);
+                glLineWidth(10);
+                glBegin(GL_LINES);      
+                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                glEnd();
+		cnt ++;
+          }
+          if(checkParallel(mA,mD,mB,mC)){
+                glColor4ub(255,0,0,200);
+                glLineWidth(10);
+                glBegin(GL_LINES);      
+                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
+                glVertex3f(mD.at<float>(0,0),mD.at<float>(1,0) ,-mD.at<float>(2,0));
+                glVertex3f(mB.at<float>(0,0),mB.at<float>(1,0) ,-mB.at<float>(2,0));
+                glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
+                glEnd();
+		cnt ++;
+          }  
+      break;
+ }
+ if(cnt == 2){parallel_flag =true;}
+ return parallel_flag; 
 }
 
 void drawStringLetter(std::string sstring){
@@ -478,20 +532,22 @@ void drawSideText(cv::Mat t3,cv::Mat t2){
   glTranslatef(x_bmid,y_bmid,z_bmid);
   glRasterPos3f( 0.0f, 0.0f, 0.0f );
   drawString(buffer);
- glPopMatrix();
+  glPopMatrix();
 }
+
 void drawSideTextTranslate(cv::Mat t3,cv::Mat t2, float unit){
-    
+//************************* 
+// !!! need to check (xflag, yflag, zflag)
+//*************************
   float s = calculateDistance(t2,t3);//; + calculateDistance(t25, t3);
   char buffer[50];
   if (!zflag) {
-  if (imperialUnitFlag){
-    int n = sprintf(buffer,"%.0f in\n",floor(s+0.5));
-  } else{
-    int n = sprintf(buffer,"%.0f cm\n",floor(s+0.5));
-  }
-  }
-  else {
+    if (imperialUnitFlag){
+      int n = sprintf(buffer,"%.0f in\n",floor(s+0.5));
+    } else{
+      int n = sprintf(buffer,"%.0f cm\n",floor(s+0.5));
+    }
+  }else {
     int n = sprintf(buffer,"Z");
   }
   float x_bmid = (t3.at<float>(0,0) + t2.at<float>(0,0))/2;
@@ -504,8 +560,6 @@ void drawSideTextTranslate(cv::Mat t3,cv::Mat t2, float unit){
   glTranslatef(x_bmid,y_bmid + unit,z_bmid);
   glRasterPos3f( 0.0f, 0.0f, 0.0f );
   drawString(buffer);
-  drawLetter(TheMarkers[0].Tvec, lettermap[TheMarkers[0].id]);
-  drawLetter(TheMarkers[1].Tvec, lettermap[TheMarkers[1].id]);
   glPopMatrix();
 }
 void drawLetterOnXTranslate(cv::Mat tnaught, std::string letter){
@@ -719,15 +773,17 @@ void simulateMode(vector<cv::Point2f> centers){
     default: break;
   }
 }
-// available mode only for triangle and quadranglie
-void drawHeight(vector<cv::Point2f> centers){
+
+// drawArea for triangle
+void drawTriArea(vector<cv::Point2f> centers){
   float pH[2]; // point for drawing height
   float A[2],B[2],C[2];
   float cos, sin;
   float H1, Area1;
   float AB, AC, BC;
   float v_x; // foot of perpendicular on BC from point A
-  //triangle
+
+// CALCULATE EXACT POSITION
   switch(centers.size()){
     case 3:
        // Bottom line (B-C)
@@ -764,6 +820,7 @@ void drawHeight(vector<cv::Point2f> centers){
            pH[0] = B[0]-cal_bottom_len(AB,H1)*cos;
            pH[1] = B[1]-cal_bottom_len(AB,H1)*sin;
        } 
+  if(outline_flag){
     glColor4ub(255,0,0,255);
     glLineWidth(3);
     glEnable(GL_LINE_STIPPLE);
@@ -780,24 +837,71 @@ void drawHeight(vector<cv::Point2f> centers){
    glVertex3f(pH[0],pH[1],-mA.at<float>(2,0));
    glEnd(); 
    glDisable(GL_LINE_STIPPLE);
- 
-  // for drawing number of the height
-  BC = calculateDistance(mB,mC);
+  } 
+
+  // DISPLAY LENGTH, AREA, PERIMETER ON SCREEN
+  // displaying area according to the length of height on the screen 
+  BC = floor(calculateDistance(mB,mC)+0.5);
   Area1 =calculateArea(centers);
   H1 = floor(2*Area1/BC+0.5);
-  char buffer[50];
+
+  char buffer[51];
+  char buffer1[50];
+  char buffer2[50];
+  char smallbuffer[50];
+  float area = H1*BC*0.5;
+  int perimeter = calculatePerimeter(centers);
+  
   if (imperialUnitFlag){
-    int n = sprintf(buffer,"%.0f in\n",H1);
+    int n = sprintf(buffer1,"Area = %4.1f in",area);
+    int m = sprintf(smallbuffer, "^2\n");
+    int l = sprintf(buffer2,"Perimeter = %i in\n", perimeter);
+    int a = sprintf(buffer,"%.0f in\n",H1);
   } else{
-    int n = sprintf(buffer,"%.0f cm\n",H1);
+    int n = sprintf(buffer1,"Area = %4.1f cm\n",area);
+    int m = sprintf(smallbuffer, "^2\n");
+    int l = sprintf(buffer2,"Perimeter = %i cm\n", perimeter);
+    int a = sprintf(buffer,"%.0f cm\n",H1);
   }
-  cout << "BC : "<< BC << " Area1 : " << Area1 <<" H1 : "<<H1<<endl; 
+  cout << "BC : "<< BC << " Area1 : " << Area1 <<" H1 : "<<H1 << " area : " << area<<endl; 
+  if(outline_flag){
   glPushMatrix();
   glColor3f(0,0,1);
   glLoadIdentity();
   glTranslatef((pH[0]+mA.at<float>(0,0))/2,(pH[1]+mA.at<float>(1,0))/2,-mA.at<float>(2,0));
   glRasterPos3f( 0.0f, 0.0f, 0.0f );
   drawString(buffer);
+  glPopMatrix();
+  }
+  float x_area = 0; 
+  float x_area3 =0;
+  float y_area = 0;
+  float z_area = 0;
+  float y_area2 = 0;
+  float y_area3 = 0;
+  float xtranslateArea = -4*0.015;
+  float ytranslateArea = 2.5*0.015;
+  x_area = mA.at<float>(0,0) + xtranslateArea;
+  y_area = mA.at<float>(1,0) - 0.45*ytranslateArea;
+  z_area = -mA.at<float>(2,0);
+  y_area2 = mA.at<float>(1,0) -0.25*ytranslateArea;
+  y_area3 = mA.at<float>(1,0) -0.30*ytranslateArea;
+
+  glPushMatrix();
+  glColor3f(0,0,1);
+  glLoadIdentity();
+  glTranslatef(x_area,y_area2,z_area);
+  glRasterPos3f( 0.0f, 0.0f, 0.0f);
+  drawString(buffer1);
+  drawString(smallbuffer,1);
+  glPopMatrix();
+
+
+  glPushMatrix();
+  glLoadIdentity();  
+  glTranslatef(x_area,y_area,z_area);
+  glRasterPos3f(0.0f,0.0f,0.0f);
+  drawString(buffer2);
   glPopMatrix();
   break;
    }   
@@ -1516,13 +1620,20 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
             glTranslatef(0.0f,translateDistance,0.0f);
             glEnd();
             glPopMatrix();
-            if (xflag) drawX(mB,mA, 'X');
-            else drawSideText(mB, mA);
-            if (yflag) drawX(mC,mB,'Y');
-            else drawSideText(mC,mB);
+
+            if (xflag){ 
+		drawX(mB,mA, 'X');
+ 		drawSideText(mC,mB);
+	    }else if (yflag){ 
+                drawX(mC,mB,'Y');
+ 		drawSideText(mB,mA);
+            }else{ 
+  		 drawSideText(mC,mB);
+                 drawSideText(mB,mA);
+            } 
             drawSideTextTranslate(mC,mA,translateDistance);
-            drawLetter(mA,lettermap[MarkerID[0]], 1, translateDistance);
-            drawLetter(mC,lettermap[MarkerID[2]], 1, translateDistance);
+            drawLetter(mA,lettermap[MarkerID[0]], 0, translateDistance);
+            drawLetter(mC,lettermap[MarkerID[2]], 0, translateDistance);
           }else{
               linear_rg->disable();
               AB = floor(calculateDistance(mA,mB,true)+0.5);
@@ -1586,8 +1697,7 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
                glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
                glEnd();
              }
-              if(outline_flag){
-                  drawHeight(centers);
+             if(outline_flag){
                   glColor4ub(255,0,0,200);
                   glLineWidth(lineWidth);
                   glBegin(GL_LINES);      
@@ -1599,10 +1709,10 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
                   glVertex3f(mA.at<float>(0,0),mA.at<float>(1,0) ,-mA.at<float>(2,0));
                   glEnd(); 
               }
+              drawTriArea(centers);
               drawSideText(mA,mB);
               drawSideText(mA,mC);
               drawSideText(mB,mC);
-              drawArea(centers);
               if(shape_name!=""){
                   drawLetter(centered,shape_name,2,0.0);
                   drawLetter(centered,"Triangle",2,0.01);
@@ -1687,6 +1797,11 @@ void freeMode(vector<cv::Point2f> centers,bool outline_flag = false){
            glVertex3f(mC.at<float>(0,0),mC.at<float>(1,0) ,-mC.at<float>(2,0));
            glEnd();
          }
+ 	  // check parallel
+	  if(drawParallel(centers)){
+ 	      shape_name = "Parallelogram";
+         }		
+
           if(outline_flag){
               glColor4ub(255,0,0,200);
               glLineWidth(lineWidth);
@@ -2493,14 +2608,22 @@ void vDrawScene()
       drawString(buffer);
       glPopMatrix();
     }
-
+    
+    // Shutter Sound (for timing)
+    if(sound2_flag){
+      ShutterSound(sound2_flag);
+      sound2_flag = false;
+    }
+    if(sound_flag){
+      sound_flag = false;
+      sound2_flag = true;
+    }    
     // when Screen Capturing
     if(capture_flag){
       glClearColor(1.0,1.0,1.0,1.0);
       glClear(GL_COLOR_BUFFER_BIT);
-      sleep(0.1); 
       capture_flag = false;
-      system("mplayer ~/Documents/MathMAR/camera1.mp3");
+      sound_flag = true;
     }
  
     glutSwapBuffers();
@@ -2622,7 +2745,7 @@ int main(int argc,char **argv)
 //        glui_subwin->add_statictext("");
         glui_subwin->add_separator();
         glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("Linear");
+        glui_subwin->add_statictext("Line");
         linear_cb = new GLUI_Checkbox(glui_subwin,"On",&mode_linear,-1,vMenu);
         linear_rg = new GLUI_RadioGroup(glui_subwin,&linear_type,-1,vMenu);
             new GLUI_RadioButton( linear_rg, "X" );
@@ -2657,10 +2780,10 @@ int main(int argc,char **argv)
           
         glui_subwin->add_statictext("");
         glui_subwin->add_statictext("Screen");
-        capture_btn = new GLUI_Button(glui_subwin,"Capture",1,vButton);
+        capture_btn = new GLUI_Button(glui_subwin,"Grab",1,vButton);
         glui_subwin->add_separator();
-        glui_subwin->add_statictext("");
-        glui_subwin->add_statictext("");
+//        glui_subwin->add_statictext("");
+//        glui_subwin->add_statictext("");
         glui_subwin->add_statictext("");
         quit_btn = new GLUI_Button(glui_subwin,"Quit",0,exit);
 

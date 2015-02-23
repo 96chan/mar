@@ -42,6 +42,7 @@ float calcSlope(cv::Mat t0, cv::Mat t1);
 
 // Draw Func.
 void drawArea(vector<cv::Point2f> centers);
+void drawTriArea(vector<cv::Point2f> centers);
 void drawString(char* string, int sub);
 void drawStringLetter(std::string sstring);
 void drawX(cv::Mat t3,cv::Mat t2, char xchar);

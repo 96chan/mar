@@ -121,12 +121,12 @@ enum GLUI_Glut_CB_Types
 #define GLUI_XOFF                       6
 #define GLUI_YOFF                       6
 #define GLUI_ITEMSPACING                3
-#define GLUI_CHECKBOX_SIZE             13
-#define GLUI_RADIOBUTTON_SIZE          13
+#define GLUI_CHECKBOX_SIZE             20 //13 
+#define GLUI_RADIOBUTTON_SIZE          20 //13
 #define GLUI_BUTTON_SIZE               20
 #define GLUI_STATICTEXT_SIZE           13
 #define GLUI_SEPARATOR_HEIGHT           8
-#define GLUI_DEFAULT_CONTROL_WIDTH    100
+#define GLUI_DEFAULT_CONTROL_WIDTH     70 //100
 #define GLUI_DEFAULT_CONTROL_HEIGHT    13 
 #define GLUI_EDITTEXT_BOXINNERMARGINX   3
 #define GLUI_EDITTEXT_HEIGHT           20

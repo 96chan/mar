@@ -18,4 +18,5 @@
 /usr/local/include/aruco/glui_internal_control.h
 /usr/local/include/aruco/exports.h
 /usr/local/include/aruco/algebra3.h
+/usr/local/include/aruco/.glui.h.swp
 /usr/local/bin/MATHMAR
